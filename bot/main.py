@@ -153,6 +153,7 @@ async def rafflecreate(ctx):
 			return
 		channel = discord.utils.get(ctx.guild.text_channels, name = channelname.content.lstrip("<#").rstrip(">"))
 		await channelname.delete()
+		await Message.delete()
 
 
 		bankEmbed = discord.Embed(
@@ -160,7 +161,7 @@ async def rafflecreate(ctx):
 			description = "Mention the bank id",
 			color = lgd.hexConvertor(mn.colorCollection.find({},{"_id":0,"Hex":1}))
 		)
-		await Message.edit(embed = bankEmbed)
+		bankMessage = await ctx.send(embed = bankEmbed)
 		try:
 			bankname = await client.wait_for("message", check = authorcheck, timeout = 30)
 		except asyncio.exceptions.TimeoutError:
@@ -170,9 +171,9 @@ async def rafflecreate(ctx):
 		raffledetails = {"_id":"Raffle","RaffleName":name.content,"Ticket Cost":int(tixcost.content),"Channel":channel.id, "bank":int(bankname.content.lstrip("<@!").rstrip(">")), "info":"Just a plain raffle."}
 		guild = mn.raffledbase[str(ctx.guild.id)]
 		guild.insert_one(raffledetails)
-		await Message.edit(embed = discord.Embed(
+		await bankMessage.edit(embed = discord.Embed(
 			title = "Raffle created!!",
-			description = f"Raffle named {name.content} created successfully!", 
+			description = f"Raffle named {name.content} created successfully!",
 			color = lgd.hexConvertor(mn.colorCollection.find({},{"_id":0,"Hex":1}))
 		))
 
@@ -389,6 +390,7 @@ async def raffleinfoedit(ctx):
 				cost = await client.wait_for("message", check = authorcheck, timeout = 30)
 			except asyncio.exceptions.TimeoutError:
 				await editing.edit(content = "timed out", delete_after = 10)
+				return
 			guild.find_one_and_update({"_id":"Raffle"},{"$set":{"Ticket Cost":int(cost.clean_content)}})
 			await editing.edit(embed = discord.Embed(
 				title = "Cost edited", 
@@ -408,6 +410,7 @@ async def raffleinfoedit(ctx):
 				bank = await client.wait_for("message", check = authorcheck, timeout = 30)
 			except asyncio.exceptions.TimeoutError:
 				await editing.edit(content = "timed out", delete_after = 10)
+				return
 			print(int(bank.content.lstrip("<@!").rstrip(">")))
 			id = int(bank.content.lstrip("<@!").rstrip(">"))
 			guild.find_one_and_update({"_id":"Raffle"},{"$set":{"bank":id}})
@@ -428,6 +431,7 @@ async def raffleinfoedit(ctx):
 				channel = await client.wait_for("message", check = authorcheck, timeout = 30)
 			except asyncio.exceptions.TimeoutError:
 				await editing.edit(content = "timed out", delete_after = 10)
+				return
 			guild.find_one_and_replace({"_id":"Raffle"},{"$set":{"Channel":channel.clean_content.lstrip("#")}})
 			await editing.edit(embed = discord.Embed(
 				title = "Payment Channel edited",
