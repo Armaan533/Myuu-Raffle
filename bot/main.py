@@ -50,7 +50,8 @@ async def help(ctx):
 	helpEmbed.add_field(name="`ping`", value="Shows the latency of the bot | Bot Utility\n Aliases | pong", inline = False)
 	helpEmbed.add_field(name = "`rafflecreate`", value = "Creates a raffle for the guild \nRaffle Utility\n Aliases | CreateRaffle, RafCreate, CreateRaf, RC", inline = False)
 	helpEmbed.add_field(name = "`raffledelete`", value = "Deletes the server's raffle | Raffle Utility\n Aliases | DeleteRaffle, DelRaf, RafDel, RD", inline = False)
-	helpEmbed.add_field(name = "`rafflelist`", value = "Shows the tickets for the raffle | Raffle Utility\n Aliases | ", inline = False)
+	helpEmbed.add_field(name = "`rafflelist`", value = "Shows the tickets for the raffle | Raffle Info\n Aliases | None", inline = False)
+	helpEmbed.add_field(name = "`raffleinfo`", value = "Shows info of the raffle | Raffle Info\n Aliases | None", inline = False)
 	helpEmbed.set_footer(text=f"Requested by {ctx.author.name}", icon_url = ctx.author.avatar_url)
 
 	await ctx.send(embed = helpEmbed)
