@@ -1,3 +1,4 @@
+from msilib.schema import Error
 import os
 import discord
 from discord.ext import commands
@@ -184,6 +185,8 @@ async def rafflecreate_error(ctx, error):
 		await ctx.send(embed = discord.Embed(description = "Get the damn admin first, Noob!\n then try to use this command", 
 											 color = lgd.hexConvertor(mn.colorCollection.find({},{"_id":0,"Hex":1}))
 											))
+	else:
+		await ctx.send(error)
 	
 @client.command(aliases = ["RaffleDelete","DeleteRaffle","deleteraffle","delraf", "DelRaf","rafdel","RafDel", "RD", "rd"])
 @commands.has_permissions(administrator = True)
