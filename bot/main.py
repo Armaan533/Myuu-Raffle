@@ -151,7 +151,7 @@ async def rafflecreate(ctx):
 		except asyncio.exceptions.TimeoutError:
 			await Message.edit(content = "timed out", delete_after = 10)
 			return
-		channel = discord.utils.get(ctx.guild.text_channels, name = channelname.content.lstrip("<#").rstrip(">"))
+		channel = discord.utils.get(ctx.guild.text_channels, id = channelname.content.lstrip("<#").rstrip(">"))
 		await channelname.delete()
 		await Message.delete()
 
