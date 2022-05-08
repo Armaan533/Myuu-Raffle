@@ -5,7 +5,6 @@ import asyncio
 import mongo_declarations as mn
 import logical_definitions as lgd
 
-raffleguilds = mn.raffledbase.list_collection_names()
 
 intents = discord.Intents.default()
 intents.members = True
@@ -206,7 +205,7 @@ async def raffledelete(ctx):
 
 @client.command(aliases = [])
 async def rafflelist(ctx):
-	if not str(ctx.guild.id) in raffleguilds:
+	if not str(ctx.guild.id) in mn.raffledbase.list_collection_names():
 		noRaffleEmbed = discord.Embed(
 			title = "No Raffles Found", 
 			description = "There are no raffles in this guild going on\nIf you wanna create new raffle then try ``rafflecreate`` command", 
@@ -240,7 +239,7 @@ async def on_message(message):
 	if message.guild == None:
 		pass
 
-	elif str(message.guild.id) in raffleguilds:
+	elif str(message.guild.id) in mn.raffledbase.list_collection_names():
 		guild = mn.raffledbase[str(message.guild.id)]
 		if message.channel.id == guild.find_one({"_id":"Raffle"},{"_id":0,"Channel":1})["Channel"] and message.author.id!= 945301514946244629 and message.author.id == 438057969251254293:
 			bankid = guild.find_one({"_id":"Raffle"},{"_id":0,"bank":1})["bank"]
@@ -281,7 +280,7 @@ async def on_message(message):
 
 @client.command()
 async def raffleinfo(ctx):
-	if str(ctx.guild.id) not in raffleguilds:
+	if str(ctx.guild.id) not in mn.raffledbase.list_collection_names():
 		await ctx.send(embed = discord.Embed(
 			title = "Raffle Not Found", 
 			description = "There is no raffle made for this server",
@@ -305,7 +304,7 @@ async def raffleinfo(ctx):
 		
 @client.command()
 async def raffleinfoedit(ctx):
-	if not str(ctx.guild.id) in raffleguilds:
+	if not str(ctx.guild.id) in mn.raffledbase.list_collection_names():
 		noRaffleEmbed = discord.Embed(
 			title = "No Raffles Found", 
 			description = "There are no raffles in this guild going on\nIf you wanna create new raffle then try ``rafflecreate`` command", 
