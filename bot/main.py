@@ -151,7 +151,7 @@ async def rafflecreate(ctx):
 		except asyncio.exceptions.TimeoutError:
 			await Message.edit(content = "timed out", delete_after = 10)
 			return
-		channel = discord.utils.get(ctx.guild.text_channels, id = channelname.content.lstrip("<#").rstrip(">"))
+		channelid = channelname.content.lstrip("<#").rstrip(">")
 		await channelname.delete()
 		await Message.delete()
 
@@ -168,7 +168,7 @@ async def rafflecreate(ctx):
 			await Message.edit(content = "time out", delete_after = 10)
 			return
 		await bankname.delete()
-		raffledetails = {"_id":"Raffle","RaffleName":name.content,"Ticket Cost":int(tixcost.content),"Channel":channel.id, "bank":int(bankname.content.lstrip("<@!").rstrip(">")), "info":"Just a plain raffle."}
+		raffledetails = {"_id":"Raffle","RaffleName":name.content,"Ticket Cost":int(tixcost.content),"Channel":int(channelid), "bank":int(bankname.content.lstrip("<@!").rstrip(">")), "info":"Just a plain raffle."}
 		guild = mn.raffledbase[str(ctx.guild.id)]
 		guild.insert_one(raffledetails)
 		await bankMessage.edit(embed = discord.Embed(
