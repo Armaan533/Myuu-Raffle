@@ -226,9 +226,9 @@ async def rafflelist(ctx):
 			for i in find:
 				member = discord.utils.get(ctx.guild.members, id = i["_id"])
 				raffles.add_field(
-					name = member.name+member.discriminator, 
+					name = member.name+"#"+member.discriminator, 
 					value = i["tickets"], 
-					inline = False
+					inline = True
 				)
 	
 		await ctx.send(embed = raffles)
