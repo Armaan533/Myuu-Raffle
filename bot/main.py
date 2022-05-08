@@ -507,5 +507,5 @@ async def disable(ctx,*, cogname = None):
 		await ctx.send('Disabled Commands Successfully')
 
 
-
+client.load_extension("cogs.invite")
 client.run("OTQ1MzAxNTE0OTQ2MjQ0NjI5.YhOKpA.0Ze-mC3F1YzzOoB_M4DFWFxPsgg")
