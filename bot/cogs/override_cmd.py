@@ -45,12 +45,12 @@ class override_cmd(commands.Cog):
 						buyers.append(i["_id"])
 
 					if memberid not in buyers:
-						ticketlog = {"_id":int(memberid),"type":"buyer","tickets":value}
+						ticketlog = {"_id":int(memberid),"type":"buyer","tickets":int(value)}
 						guild.insert_one(ticketlog)
-						currenttix = value
+						currenttix = int(value)
 					else:
 						prevtix = guild.find_one({"_id":int(memberid)},{"_id":0,"tickets":1})["tickets"]
-						currenttix = prevtix + value
+						currenttix = prevtix + int(value)
 						guild.find_one_and_update({"_id":int(memberid)},{"$set":{"tickets":prevtix}})
 					
 					tixboughtEmbed = discord.Embed(
@@ -88,7 +88,7 @@ class override_cmd(commands.Cog):
 						))
 					else:
 						prevtix = guild.find_one({"_id":int(memberid)},{"_id":0,"tickets":1})["tickets"]
-						currenttix = prevtix - value
+						currenttix = prevtix - int(value)
 						guild.find_one_and_update({"_id":int(memberid)},{"$set":{"tickets":prevtix}})
 					
 						tixdeletedEmbed = discord.Embed(
