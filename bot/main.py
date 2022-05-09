@@ -253,11 +253,6 @@ async def on_message(message):
 						pkc = int(splitList[6])
 						tickets = pkc // tixcost
 						buyerid = int(splitList[9][2:-2])
-			# if message.clean_content.startswith(f".gift @{bank}"):
-			# 	stringEnding = len(f".gift @{bank}")
-			# 	pkc = int(message.clean_content[stringEnding:])
-			# 	tickets = pkc // tixcost
-			# 	buyerid = message.author.id
 						if tickets > 0:
 							buyersCursor = guild.find({"type":"buyer"})
 							buyers = []
@@ -266,13 +261,16 @@ async def on_message(message):
 							if buyerid not in buyers:
 								ticketlog = {"_id":buyerid,"type":"buyer","tickets":tickets}
 								guild.insert_one(ticketlog)
+								currenttix = tickets
 							else:
 								prevtix = guild.find_one({"_id":buyerid},{"_id":0,"tickets":1})["tickets"]
-								prevtix+= tickets
+								# prevtix+= tickets
+								currenttix = prevtix + tickets
 								guild.find_one_and_update({"_id":buyerid},{"$set":{"tickets":prevtix}})
 							tixboughtEmbed = discord.Embed(
 							title = "Tickets bought", 
-							description = f"Yay! {tickets} tickets bought!", 
+							description = f"""Yay! {tickets} tickets bought by <@{buyerid}>!
+							Total tickets bought by <@{buyerid}>: ``{currenttix}``""",
 							color = lgd.hexConvertor(iterator = mn.colorCollection.find({},{"_id":0,"Hex":1}))
 							)
 							await message.channel.send(embed = tixboughtEmbed, delete_after = 30)
