@@ -10,6 +10,7 @@ class override_cmd(commands.Cog):
 	@commands.command()
 	@commands.has_guild_permissions(administrator = True)
 	async def tickets(self, ctx, operation = None, member = None, value = None):
+		print(member)
 		if str(ctx.guild.id) in mn.raffledbase.list_collection_names():
 			if operation == None and member == None and value == None:
 				await ctx.send(embed = discord.Embed(
