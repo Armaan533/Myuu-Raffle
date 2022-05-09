@@ -80,12 +80,20 @@ class override_cmd(commands.Cog):
 					for i in buyersCursor:
 						buyers.append(i["_id"])
 
-					if int(memberid) not in buyers:
+					if guild.find_one({"_id":int(memberid)},{"_id":0,"tickets":1})["tickets"] == 0:
 						await ctx.send(embed = discord.Embed(
 							title = "Hold Up!",
 							description = "This user has no tickets yet so you can't delete his/her tickets",
 							color = lgd.hexConvertor(mn.colorCollection.find({},{"_id":0,"Hex":1}))
 						))
+
+					elif guild.find_one({"_id":int(memberid)},{"_id":0,"tickets":1})["tickets"] - int(value) < 0:
+						await ctx.send(embed = discord.Embed(
+							title = "Hold Up!",
+							description = f"Enter valid number of tickets to delete from <@{memberid}>",
+							color = lgd.hexConvertor(mn.colorCollection.find({},{"_id":0,"Hex":1}))
+						))
+
 					else:
 						prevtix = guild.find_one({"_id":int(memberid)},{"_id":0,"tickets":1})["tickets"]
 						currenttix = prevtix - int(value)
@@ -98,6 +106,8 @@ class override_cmd(commands.Cog):
 								color = lgd.hexConvertor(iterator = mn.colorCollection.find({},{"_id":0,"Hex":1}))
 								)
 						await ctx.send(embed = tixdeletedEmbed, delete_after = 30)
+						if currenttix == 0:
+							guild.delete_one({"_id":int(memberid)})
 
 			elif operation != None and member != None and value == None:
 				memberid = member.lstrip("<@").rstrip(">")
