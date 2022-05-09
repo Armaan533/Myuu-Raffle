@@ -237,7 +237,7 @@ async def rafflelist(ctx):
 
 		raffles.add_field(
 			name = "Total Tickets",
-			description = f"`{totaltickets}`",
+			value = f"`{totaltickets}`",
 			inline = False
 		)
 		await ctx.send(embed = raffles)
