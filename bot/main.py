@@ -30,7 +30,7 @@ async def on_ready():
 
 @client.event
 async def on_guild_join(guild):
-	guildDetails = {"_id": str(guild.id), "Prefix": "!", "Logs": False}
+	guildDetails = {"_id": str(guild.id), "Prefix": "!"}
 	mn.guildpref.insert_one(guildDetails)
 
 @client.event
