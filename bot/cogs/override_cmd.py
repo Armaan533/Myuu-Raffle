@@ -10,7 +10,6 @@ class override_cmd(commands.Cog):
 	@commands.command()
 	@commands.has_guild_permissions(administrator = True)
 	async def tickets(self, ctx, operation = None, member = None, value = None):
-		print(member)
 		if str(ctx.guild.id) in mn.raffledbase.list_collection_names():
 			if operation == None and member == None and value == None:
 				await ctx.send(embed = discord.Embed(
@@ -38,25 +37,26 @@ class override_cmd(commands.Cog):
 						color = lgd.hexConvertor(mn.colorCollection.find({},{"_id":0,"Hex":1}))),
 								delete_after = 10)
 				else:
+					memberid = member.lstrip("<@").rstrip(">")
 					guild = mn.raffledbase[str(ctx.guild.id)]
 					buyersCursor = guild.find({"type":"buyer"})
 					buyers = []
 					for i in buyersCursor:
 						buyers.append(i["_id"])
 
-					if member.id not in buyers:
-						ticketlog = {"_id":member.id,"type":"buyer","tickets":value}
+					if memberid not in buyers:
+						ticketlog = {"_id":memberid,"type":"buyer","tickets":value}
 						guild.insert_one(ticketlog)
 						currenttix = value
 					else:
-						prevtix = guild.find_one({"_id":member.id},{"_id":0,"tickets":1})["tickets"]
+						prevtix = guild.find_one({"_id":memberid},{"_id":0,"tickets":1})["tickets"]
 						currenttix = prevtix + value
-						guild.find_one_and_update({"_id":member.id},{"$set":{"tickets":prevtix}})
+						guild.find_one_and_update({"_id":memberid},{"$set":{"tickets":prevtix}})
 					
 					tixboughtEmbed = discord.Embed(
 							title = "Tickets bought", 
-							description = f"""Yay! {value} tickets bought for {member.mention} by {ctx.author.mention}!
-							Total tickets bought by {member.mention}: ``{currenttix}``""",
+							description = f"""Yay! {value} tickets bought for <@{memberid}> by {ctx.author.mention}!
+							Total tickets bought by <@{memberid}>: ``{currenttix}``""",
 							color = lgd.hexConvertor(iterator = mn.colorCollection.find({},{"_id":0,"Hex":1}))
 							)
 					await ctx.send(embed = tixboughtEmbed, delete_after = 30)
@@ -76,30 +76,32 @@ class override_cmd(commands.Cog):
 					guild = mn.raffledbase[str(ctx.guild.id)]
 					buyersCursor = guild.find({"type":"buyer"})
 					buyers = []
+					memberid = member.lstrip("<@").rstrip(">")
 					for i in buyersCursor:
 						buyers.append(i["_id"])
 
-					if member.id not in buyers:
+					if memberid not in buyers:
 						await ctx.send(embed = discord.Embed(
 							title = "Hold Up!",
 							description = "This user has no tickets yet so you can't delete his/her tickets",
 							color = lgd.hexConvertor(mn.colorCollection.find({},{"_id":0,"Hex":1}))
 						))
 					else:
-						prevtix = guild.find_one({"_id":member.id},{"_id":0,"tickets":1})["tickets"]
+						prevtix = guild.find_one({"_id":memberid},{"_id":0,"tickets":1})["tickets"]
 						currenttix = prevtix - value
-						guild.find_one_and_update({"_id":member.id},{"$set":{"tickets":prevtix}})
+						guild.find_one_and_update({"_id":memberid},{"$set":{"tickets":prevtix}})
 					
 						tixdeletedEmbed = discord.Embed(
 								title = "Ticket(s) deleted", 
-								description = f"""{value} tickets deleted for {member.mention} by {ctx.author.mention}!
-								Total tickets left for {member.mention}: ``{currenttix}``""",
+								description = f"""{value} tickets deleted for <@{memberid}> by {ctx.author.mention}!
+								Total tickets left for <@{memberid}>: ``{currenttix}``""",
 								color = lgd.hexConvertor(iterator = mn.colorCollection.find({},{"_id":0,"Hex":1}))
 								)
 						await ctx.send(embed = tixdeletedEmbed, delete_after = 30)
 
 			elif operation != None and member != None and value == None:
-				await ctx.send(f"Please mention the number of tickets to give/take from {member.name}")
+				memberid = member.lstrip("<@").rstrip(">")
+				await ctx.send(f"Please mention the number of tickets to give/take from <@{memberid}>")
 
 			else:
 				pass
