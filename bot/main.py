@@ -229,7 +229,7 @@ async def rafflelist(ctx):
 				raffles.add_field(
 					name = member.name+"#"+member.discriminator, 
 					value = i["tickets"], 
-					inline = True
+					inline = False
 				)
 	
 		await ctx.send(embed = raffles)

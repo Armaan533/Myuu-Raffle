@@ -45,16 +45,16 @@ class override_cmd(commands.Cog):
 						buyers.append(i["_id"])
 
 					if memberid not in buyers:
-						ticketlog = {"_id":memberid,"type":"buyer","tickets":value}
+						ticketlog = {"_id":int(memberid),"type":"buyer","tickets":value}
 						guild.insert_one(ticketlog)
 						currenttix = value
 					else:
-						prevtix = guild.find_one({"_id":memberid},{"_id":0,"tickets":1})["tickets"]
+						prevtix = guild.find_one({"_id":int(memberid)},{"_id":0,"tickets":1})["tickets"]
 						currenttix = prevtix + value
-						guild.find_one_and_update({"_id":memberid},{"$set":{"tickets":prevtix}})
+						guild.find_one_and_update({"_id":int(memberid)},{"$set":{"tickets":prevtix}})
 					
 					tixboughtEmbed = discord.Embed(
-							title = "Tickets bought", 
+							title = "Tickets bought",
 							description = f"""Yay! {value} tickets bought for <@{memberid}> by {ctx.author.mention}!
 							Total tickets bought by <@{memberid}>: ``{currenttix}``""",
 							color = lgd.hexConvertor(iterator = mn.colorCollection.find({},{"_id":0,"Hex":1}))
@@ -87,9 +87,9 @@ class override_cmd(commands.Cog):
 							color = lgd.hexConvertor(mn.colorCollection.find({},{"_id":0,"Hex":1}))
 						))
 					else:
-						prevtix = guild.find_one({"_id":memberid},{"_id":0,"tickets":1})["tickets"]
+						prevtix = guild.find_one({"_id":int(memberid)},{"_id":0,"tickets":1})["tickets"]
 						currenttix = prevtix - value
-						guild.find_one_and_update({"_id":memberid},{"$set":{"tickets":prevtix}})
+						guild.find_one_and_update({"_id":int(memberid)},{"$set":{"tickets":prevtix}})
 					
 						tixdeletedEmbed = discord.Embed(
 								title = "Ticket(s) deleted", 
