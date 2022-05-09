@@ -80,7 +80,7 @@ class override_cmd(commands.Cog):
 					for i in buyersCursor:
 						buyers.append(i["_id"])
 
-					if memberid not in buyers:
+					if int(memberid) not in buyers:
 						await ctx.send(embed = discord.Embed(
 							title = "Hold Up!",
 							description = "This user has no tickets yet so you can't delete his/her tickets",
