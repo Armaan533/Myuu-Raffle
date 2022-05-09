@@ -223,15 +223,23 @@ async def rafflelist(ctx):
 	    
 		if guild.count_documents({"type":"buyer"}) == 0:
 			raffles.add_field(name = "No One bought tickets yet", value = "<:lol:878270233754869811>")
+			totaltickets = 0
 		else:
+			totaltickets = 0
 			for i in find:
 				member = discord.utils.get(ctx.guild.members, id = i["_id"])
+				totaltickets += i["tickets"]
 				raffles.add_field(
 					name = member.name+"#"+member.discriminator, 
 					value = i["tickets"], 
 					inline = False
 				)
-	
+
+		raffles.add_field(
+			name = "Total Tickets",
+			description = f"`{totaltickets}`",
+			inline = False
+		)
 		await ctx.send(embed = raffles)
 
 @client.listen("on_message")
