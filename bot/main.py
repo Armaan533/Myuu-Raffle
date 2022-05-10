@@ -317,6 +317,7 @@ async def raffleinfo(ctx):
 # 		await ctx.send(embed = unknownEmbed)
 
 @client.command()
+@commands.has_guild_permissions(administrator = True)
 async def choose_winner(ctx):
 	guildcollection = mn.raffledbase[str(ctx.guild.id)]
 	userlist = []
@@ -347,6 +348,7 @@ async def testing(ctx):
 
 
 @client.command()
+@commands.has_guild_permissions(administrator = True)
 async def enable(ctx, *, cogname = None):
 	if cogname == None:
 		return
@@ -362,6 +364,7 @@ async def enable(ctx, *, cogname = None):
 
 
 @client.command()
+@commands.has_guild_permissions(administrator = True)
 async def disable(ctx,*, cogname = None):
 	if cogname == None:
 		return
