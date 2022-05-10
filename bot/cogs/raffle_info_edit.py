@@ -140,7 +140,7 @@ class raffle_info_edit(commands.Cog):
                 except asyncio.exceptions.TimeoutError:
                     await editing.edit(content = "timed out", delete_after = 10)
                     return
-                guild.find_one_and_replace({"_id":"Raffle"},{"$set":{"Channel":channel.clean_content.lstrip("#")}})
+                guild.find_one_and_update({"_id":"Raffle"},{"$set":{"Channel":channel.clean_content.lstrip("#")}})
                 await editing.edit(embed = discord.Embed(
                     title = "Payment Channel edited",
                     description = "Payment Channel edited successfully!",
