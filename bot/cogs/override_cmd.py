@@ -51,7 +51,7 @@ class override_cmd(commands.Cog):
 					else:
 						prevtix = guild.find_one({"_id":int(memberid)},{"_id":0,"tickets":1})["tickets"]
 						currenttix = prevtix + int(value)
-						guild.find_one_and_update({"_id":int(memberid)},{"$set":{"tickets":prevtix}})
+						guild.find_one_and_update({"_id":int(memberid)},{"$set":{"tickets":currenttix}})
 					
 					tixboughtEmbed = discord.Embed(
 							title = "Tickets bought",
