@@ -44,7 +44,7 @@ class override_cmd(commands.Cog):
 					for i in buyersCursor:
 						buyers.append(i["_id"])
 
-					if memberid not in buyers:
+					if int(memberid) not in buyers:
 						ticketlog = {"_id":int(memberid),"type":"buyer","tickets":int(value)}
 						guild.insert_one(ticketlog)
 						currenttix = int(value)
