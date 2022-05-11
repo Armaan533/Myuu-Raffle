@@ -8,7 +8,7 @@ class raffle_info_edit(commands.Cog):
     def __init__(self, client):
         self.client = client
 
-    @commands.command()
+    @commands.command(aliases = ["RaffleInfoEdit","RIE","rie","raffleeditinfo","RaffleEditInfo","REI","rei"])
     @commands.has_guild_permissions(administrator = True)
     async def raffleinfoedit(self,ctx):
         if not str(ctx.guild.id) in mn.raffledbase.list_collection_names():

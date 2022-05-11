@@ -1,4 +1,5 @@
 import os
+from unicodedata import name
 import discord
 from discord.ext import commands
 import asyncio
@@ -47,11 +48,12 @@ async def help(ctx):
 	)
 	#	Add more commands here
 
-	helpEmbed.add_field(name="`ping`", value="Shows the latency of the bot | Bot Utility\n Aliases | pong", inline = False)
-	helpEmbed.add_field(name = "`rafflecreate`", value = "Creates a raffle for the guild \nRaffle Utility\n Aliases | CreateRaffle, RafCreate, CreateRaf, RC", inline = False)
-	helpEmbed.add_field(name = "`raffledelete`", value = "Deletes the server's raffle | Raffle Utility\n Aliases | DeleteRaffle, DelRaf, RafDel, RD", inline = False)
-	helpEmbed.add_field(name = "`rafflelist`", value = "Shows the tickets for the raffle | Raffle Info\n Aliases | None", inline = False)
-	helpEmbed.add_field(name = "`raffleinfo`", value = "Shows info of the raffle | Raffle Info\n Aliases | None", inline = False)
+	helpEmbed.add_field(name="`ping`", value=">>> Shows the latency of the bot | Bot Utility\n Aliases | pong", inline = False)
+	helpEmbed.add_field(name = "`rafflecreate`", value = ">>> Creates a raffle for the guild \nRaffle Utility\n Aliases | CreateRaffle, RafCreate, CreateRaf, RC", inline = False)
+	helpEmbed.add_field(name = "`raffledelete`", value = ">>> Deletes the server's raffle | Raffle Utility\n Aliases | DeleteRaffle, DelRaf, RafDel, RD", inline = False)
+	helpEmbed.add_field(name = "`rafflelist`", value = ">>> Shows the tickets for the raffle | Raffle Info\n Aliases | None", inline = False)
+	helpEmbed.add_field(name = "`raffleinfo`", value = ">>> Shows info of the raffle | Raffle Info\n Aliases | None", inline = False)
+	helpEmbed.add_field(name = "`raffleinfoedit`", value = ">>> To edit info of the raffle | Raffle Info\n Aliases | RaffleEditInfo, ")
 	helpEmbed.set_footer(text=f"Requested by {ctx.author.name}", icon_url = ctx.author.avatar_url)
 
 	await ctx.send(embed = helpEmbed)
@@ -204,7 +206,7 @@ async def raffledelete(ctx):
 			description = f"Error:- {error}"
 		))
 
-@client.command(aliases = [])
+@client.command(aliases = ["Rafflelist","RaffleList","rl","RL","Rl"])
 async def rafflelist(ctx):
 	if not str(ctx.guild.id) in mn.raffledbase.list_collection_names():
 		noRaffleEmbed = discord.Embed(
@@ -274,7 +276,7 @@ async def on_message(message):
 								prevtix = guild.find_one({"_id":buyerid},{"_id":0,"tickets":1})["tickets"]
 								# prevtix+= tickets
 								currenttix = prevtix + tickets
-								guild.find_one_and_update({"_id":buyerid},{"$set":{"tickets":prevtix}})
+								guild.find_one_and_update({"_id":buyerid},{"$set":{"tickets":currenttix}})
 							tixboughtEmbed = discord.Embed(
 							title = "Tickets bought", 
 							description = f"""Yay! {tickets} tickets bought by <@{buyerid}>!
@@ -285,7 +287,7 @@ async def on_message(message):
 						else:
 							await message.channel.send(f"Dude, <@{buyerid}> hold up! the ticket cost is {tixcost} pkc")
 
-@client.command()
+@client.command(aliases = ["Raffleinfo","RaffleInfo","RI","ri","Ri"])
 async def raffleinfo(ctx):
 	if str(ctx.guild.id) not in mn.raffledbase.list_collection_names():
 		await ctx.send(embed = discord.Embed(
@@ -316,7 +318,7 @@ async def raffleinfo(ctx):
 # 		unknownEmbed = discord.Embed(title = "Command not found",description = "What command are you trying to use?\n``Protip:`` Use ``!help`` to see all the available commands!", color = lgd.hexConvertor(colorCollection.find({},{"_id":0,"Hex":1})))
 # 		await ctx.send(embed = unknownEmbed)
 
-@client.command()
+@client.command(aliases = ["Raffleroll","raffleroll","choosewinner","ChooseWinner","Choosewinner","cw","CW","Cw"])
 @commands.has_guild_permissions(administrator = True)
 async def choose_winner(ctx):
 	guildcollection = mn.raffledbase[str(ctx.guild.id)]

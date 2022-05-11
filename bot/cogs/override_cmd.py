@@ -7,7 +7,7 @@ class override_cmd(commands.Cog):
 	def __init__(self, client):
 		self.client = client
 
-	@commands.command()
+	@commands.command(aliases = ["Tickets","ticket","Ticket","T","t"])
 	@commands.has_guild_permissions(administrator = True)
 	async def tickets(self, ctx, operation = None, member = None, value = None):
 		if str(ctx.guild.id) in mn.raffledbase.list_collection_names():
