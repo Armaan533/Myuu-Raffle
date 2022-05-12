@@ -7,7 +7,7 @@ class mytickets(commands.Cog):
     def __init__(self, client):
         self.client = client
 
-    @commands.command
+    @commands.command(name = "mytickets")
     async def mytickets(self, ctx):
         if str(ctx.guild.id) not in mn.raffledbase.list_collection_names():
             await ctx.send(embed = discord.Embed(
