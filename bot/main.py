@@ -333,7 +333,7 @@ async def choose_winner(ctx):
 	winner = discord.utils.get(ctx.guild.members,id = winnerId)
 	winnerEmbed = discord.Embed(
 		title = "Winner Chosen",
-		description = f"Congractulations {winner.mention}, You won {rafflename}",
+		description = f"Congratulations {winner.mention}, You won {rafflename}",
 		color = lgd.hexConvertor(mn.colorCollection.find({},{"_id":0,"Hex":1}))
 	)
 	await ctx.send(embed = winnerEmbed)
