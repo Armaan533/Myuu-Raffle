@@ -382,4 +382,5 @@ async def disable(ctx,*, cogname = None):
 client.load_extension("cogs.raffle_info_edit")
 client.load_extension("cogs.override_cmd")
 client.load_extension("cogs.invite")
+client.load_extension("cogs.mytickets")
 client.run("OTQ1MzAxNTE0OTQ2MjQ0NjI5.YhOKpA.0Ze-mC3F1YzzOoB_M4DFWFxPsgg")
