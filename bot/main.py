@@ -229,11 +229,15 @@ async def rafflelist(ctx):
 		else:
 			totaltickets = 0
 			for i in find:
-				member = discord.utils.get(ctx.guild.members, id = i["_id"])
+				try:
+					member = await client.fetch_user(i["_id"])
+				except discord.NotFound:
+					member = None
+					return
 				if member != None:
 					totaltickets += i["tickets"]
 					raffles.add_field(
-						name = member.name+"#"+member.discriminator, 
+						name = member.name+"#"+member.discriminator,
 						value = i["tickets"], 
 						inline = False
 					)
