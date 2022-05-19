@@ -1,5 +1,4 @@
 import os
-from unicodedata import name
 import discord
 from discord.ext import commands
 import asyncio
@@ -218,6 +217,7 @@ async def rafflelist(ctx):
 	else:
 		guild = mn.raffledbase[str(ctx.guild.id)]
 		rafflename = guild.find_one({"_id": "Raffle"},{"_id":0,"RaffleName":1})["RaffleName"]
+		ticketcost = guild.find_one({"_id":"Raffle"},{"_id":0,"Ticket Cost":1})["Ticket Cost"]
 		find = guild.find({"type":"buyer"},{"type":0})
 		raffles = discord.Embed(
 			title = f"{rafflename}", 
@@ -230,18 +230,26 @@ async def rafflelist(ctx):
 			totaltickets = 0
 			for i in find:
 				member = discord.utils.get(ctx.guild.members, id = i["_id"])
-				totaltickets += i["tickets"]
-				raffles.add_field(
-					name = member.name+"#"+member.discriminator, 
-					value = i["tickets"], 
-					inline = False
-				)
+				if member != None:
+					totaltickets += i["tickets"]
+					raffles.add_field(
+						name = member.name+"#"+member.discriminator, 
+						value = i["tickets"], 
+						inline = False
+					)
 
 		raffles.add_field(
 			name = "Total Tickets",
 			value = f"`{totaltickets}`",
 			inline = False
 		)
+
+		raffles.add_field(
+			name = "Total pkc gained",
+			value = f"{totaltickets*ticketcost}",
+			inline = False
+		)
+
 		await ctx.send(embed = raffles)
 
 @client.listen("on_message")
