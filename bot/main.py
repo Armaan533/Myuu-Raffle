@@ -4,7 +4,8 @@ from discord.ext import commands
 import asyncio
 import mongo_declarations as mn
 import logical_definitions as lgd
-
+from keep_alive import keep_alive
+from pathlib import Path
 
 intents = discord.Intents.default()
 intents.members = True
@@ -395,4 +396,12 @@ client.load_extension("cogs.raffle_info_edit")
 client.load_extension("cogs.override_cmd")
 client.load_extension("cogs.invite")
 client.load_extension("cogs.mytickets")
-client.run("OTQ1MzAxNTE0OTQ2MjQ0NjI5.YhOKpA.0Ze-mC3F1YzzOoB_M4DFWFxPsgg")
+
+current = Path(os.getcwd())
+parentFiles = os.listdir(current.parent)
+
+if ".replit" in parentFiles:
+	keep_alive()
+	client.run(os.getenv('token'))
+else:
+	pass
