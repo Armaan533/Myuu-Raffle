@@ -397,10 +397,7 @@ client.load_extension("cogs.override_cmd")
 client.load_extension("cogs.invite")
 client.load_extension("cogs.mytickets")
 
-current = Path(os.getcwd())
-parentFiles = os.listdir(current.parent)
-
-if ".replit" in parentFiles:
+if ".replit" in os.listdir():
 	keep_alive()
 	client.run(os.getenv('token'))
 else:
