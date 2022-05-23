@@ -399,6 +399,7 @@ client.load_extension("cogs.mytickets")
 
 if ".replit" in os.listdir():
 	keep_alive()
-	client.run(os.getenv('token'))
+	my_secret = os.environ['bot_token']
+	client.run(my_secret)
 else:
 	pass

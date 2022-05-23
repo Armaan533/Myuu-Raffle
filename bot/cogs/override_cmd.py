@@ -27,7 +27,7 @@ class override_cmd(commands.Cog):
 				
 			elif operation.lower() == "add":
 				if value in [None,0] or member == None:
-					await ctx.send(embed = discord.embed(
+					await ctx.send(embed = discord.Embed(
 						title = "Ticket Addition Override Command",
 						description = """This command is used for manually giving the 
 						tickets to a user
@@ -63,7 +63,7 @@ class override_cmd(commands.Cog):
 				
 			elif operation.lower() == "del":
 				if value in [None,0] or member == None:
-					await ctx.send(embed = discord.embed(
+					await ctx.send(embed = discord.Embed(
 						title = "Ticket Addition Override Command",
 						description = """This command is used for manually taking the 
 						tickets from a user
