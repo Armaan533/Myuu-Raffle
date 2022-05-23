@@ -10,7 +10,7 @@ class mytickets(commands.Cog):
     @commands.command(name = "mytickets")
     async def mytickets(self, ctx):
         if str(ctx.guild.id) not in mn.raffledbase.list_collection_names():
-            await ctx.send(embed = discord.Embed(
+            await ctx.reply(embed = discord.Embed(
                 title = "No raffle found",
                 description = "No raffle has been created for this guild",
                 color = lgd.hexConvertor(mn.colorCollection.find({},{"_id":0,"Hex":1}))
@@ -21,7 +21,7 @@ class mytickets(commands.Cog):
             guildraffle = mn.raffledbase[str(ctx.guild.id)]
             tickets = guildraffle.find_one({"_id":authorid},{"_id":0,"tickets":1})["tickets"]
             rafflename = guildraffle.find_one({"_id":"Raffle"},{"_id":0,"RaffleName":1})["RaffleName"]
-            await ctx.send(embed = discord.Embed(
+            await ctx.reply(embed = discord.Embed(
                 title = "Tickets",
                 description = f"You have bought {tickets} ticket(s) for raffle {rafflename}",
                 color = lgd.hexConvertor(mn.colorCollection.find({},{"_id":0,"Hex":1}))
