@@ -34,5 +34,5 @@ class total_earning(commands.Cog):
             )
             await ctx.reply(content = earningEmbed)
 
-def setup(self, client):
+def setup(client):
     client.add_cog(mytickets(client))
