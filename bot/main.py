@@ -343,10 +343,11 @@ async def choose_winner(ctx):
 		ticketlist.append(i["tickets"])
 
 	winnerId = lgd.random_chooser(userlist,ticketlist)
+	winnerTickets = guildcollection.find_one({"_id":winnerId},{"_id":0,"tickets":1})["tickets"]
 	winner = discord.utils.get(ctx.guild.members,id = winnerId)
 	winnerEmbed = discord.Embed(
 		title = "Winner Chosen",
-		description = f"Congratulations {winner.mention}, You won {rafflename}",
+		description = f"Congratulations {winner.mention}, You won {rafflename} with {winnerTickets} ticket(s)",
 		color = lgd.hexConvertor(mn.colorCollection.find({},{"_id":0,"Hex":1}))
 	)
 	await ctx.send(embed = winnerEmbed)
