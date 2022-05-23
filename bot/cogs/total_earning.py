@@ -17,7 +17,7 @@ class total_earning(commands.Cog):
 			    description = "There are no raffles in this guild going on\nIf you wanna create new raffle then try ``rafflecreate`` command", 
 			    color = lgd.hexConvertor(mn.colorCollection.find({},{"_id":0,"Hex":1}))
 		    )
-            await ctx.reply(content = noRaffleEmbed)
+            await ctx.reply(embed = noRaffleEmbed)
         else:
             guild = mn.raffledbase[str(ctx.guild.id)]
             total_tickets = 0
@@ -32,7 +32,7 @@ class total_earning(commands.Cog):
                 description = f"Raffle ``{raffleName}`` earned {pkcEarned} pkc",
                 color = lgd.hexConvertor(mn.colorCollection.find({},{"_id":0,"Hex":1}))
             )
-            await ctx.reply(content = earningEmbed)
+            await ctx.reply(embed = earningEmbed)
 
 def setup(client):
     client.add_cog(total_earning(client))
