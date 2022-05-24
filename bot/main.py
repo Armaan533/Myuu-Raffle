@@ -403,4 +403,4 @@ if ".replit" in os.listdir():
 	my_secret = os.environ['bot_token']
 	client.run(my_secret)
 else:
-	pass
+	client.run(os.environ.get('token'))
