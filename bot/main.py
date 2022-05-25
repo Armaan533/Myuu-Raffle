@@ -50,7 +50,7 @@ async def help(ctx):
 		color = 0xF8C8DC
 	)
 
-	help1Embed.add_field(name="**__ping__**", value=">>>` Shows my latency` | Bot Utility\n Aliases | `pong`", inline = False)
+	help1Embed.add_field(name="**__ping__**", value=">>> `Shows my latency` | Bot Utility\n Aliases | `pong`", inline = False)
 	help1Embed.add_field(name = "**__prefix__**", value = ">>> `For changing the my prefix to the required prefix` | Bot Utility\n Aliases | None", inline = False)
 	help1Embed.add_field(name = "**__rafflecreate__**", value = ">>> `Creates a raffle for the guild` \nRaffle Utility\n Aliases | `CreateRaffle`, `RafCreate`, `CreateRaf`, `RC`", inline = False)
 	help1Embed.add_field(name = "**__raffledelete__**", value = ">>> `Deletes the server's raffle` | Raffle Utility\n Aliases | `DeleteRaffle`, `DelRaf`, `RafDel`, `RD`", inline = False)
