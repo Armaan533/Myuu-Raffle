@@ -68,7 +68,7 @@ async def help(ctx):
 	help2Embed.add_field(name = "`invite`", value = ">>> Invite me to your own server | Bot Utility \n Aliases | None", inline = False)
 	help2Embed.add_field(name = "`tickets`", value = ">>> For manually adding or subtracting tickets | Raffle Utility \n Aliases | `t`", inline = False)
 
-	help1Embed.set_footer(text=f"Requested by {ctx.author.name}\t\tPage 2 of 2 | Type `Prev` to go to previous page", icon_url = ctx.author.avatar_url)
+	help2Embed.set_footer(text=f"Requested by {ctx.author.name}\t\tPage 2 of 2 | Type `Prev` to go to previous page", icon_url = ctx.author.avatar_url)
 
 	page1msg = await ctx.send(embed = help1Embed)
 
