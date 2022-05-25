@@ -42,45 +42,64 @@ async def on_guild_remove(guild):
 
 @client.command(aliases = ["Help","helpme","Helpme"])
 async def help(ctx):
+
+#==================================================================================================================================
+
 	help1Embed = discord.Embed(
 		title = "Commands (Page 1)", 
 		color = lgd.hexConvertor(mn.colorCollection.find({},{"_id":0,"Hex":1}))
 	)
-	#	Add more commands here
 
 	help1Embed.add_field(name="`ping`", value=">>> Shows my latency | Bot Utility\n Aliases | `pong`", inline = False)
 	help1Embed.add_field(name = "`prefix`", value = ">>> For changing the my prefix to the required prefix | Bot Utility\n Aliases | None", inline = False)
 	help1Embed.add_field(name = "`rafflecreate`", value = ">>> Creates a raffle for the guild \nRaffle Utility\n Aliases | `CreateRaffle`, `RafCreate`, `CreateRaf`, `RC`", inline = False)
 	help1Embed.add_field(name = "`raffledelete`", value = ">>> Deletes the server's raffle | Raffle Utility\n Aliases | `DeleteRaffle`, `DelRaf`, `RafDel`, `RD`", inline = False)
 	help1Embed.add_field(name = "`rafflelist`", value = ">>> Shows the tickets for the raffle | Raffle Info\n Aliases | None", inline = False)
-	help1Embed.add_field(name = "`raffleinfo`", value = ">>> Shows info of the raffle | Raffle Info\n Aliases | None", inline = False)
-	help1Embed.add_field(name = "`raffleinfoedit`", value = ">>> To edit info of the raffle | Raffle Info\n Aliases | `RaffleEditInfo`, ", inline = False)
-	help1Embed.add_field(name = "`mytickets`", value = ">>> Shows the number of tickets bought for the raffle | Ticket Info\n Aliases | `myticket`, `mytix`, `mt`", inline = False)
-	help1Embed.add_field(name = "`totalearning`", value = ">>> Shows how much pkc raffle owner has earned | Raffle Info\n Aliases | None", inline = False)
-	help1Embed.add_field(name = "`choosewinner`", value = ">>> To choose a winner for the raffle | Raffle Utility\n Aliases | `raffleroll`, `CW`", inline = False)
 	
 	help1Embed.set_footer(text=f"Requested by {ctx.author.name}\t\tPage 1 of 2 | Type `Next` to go to next page", icon_url = ctx.author.avatar_url)
+
+#===================================================================================================================================
 
 	help2Embed = discord.Embed(
 		title = "Commands (Page 2)",
 		color = lgd.hexConvertor(mn.colorCollection.find({},{"_id":0,"Hex":1}))
 	)
-	help2Embed.add_field(name = "`invite`", value = ">>> Invite me to your own server | Bot Utility \n Aliases | None", inline = False)
-	help2Embed.add_field(name = "`tickets`", value = ">>> For manually adding or subtracting tickets | Raffle Utility \n Aliases | `t`", inline = False)
+
+	help2Embed.add_field(name = "`raffleinfo`", value = ">>> Shows info of the raffle | Raffle Info\n Aliases | None", inline = False)
+	help2Embed.add_field(name = "`raffleinfoedit`", value = ">>> To edit info of the raffle | Raffle Info\n Aliases | `RaffleEditInfo`, ", inline = False)
+	help2Embed.add_field(name = "`mytickets`", value = ">>> Shows the number of tickets bought for the raffle | Ticket Info\n Aliases | `myticket`, `mytix`, `mt`", inline = False)
+	help2Embed.add_field(name = "`totalearning`", value = ">>> Shows how much pkc raffle owner has earned | Raffle Info\n Aliases | None", inline = False)
+	help2Embed.add_field(name = "`choosewinner`", value = ">>> To choose a winner for the raffle | Raffle Utility\n Aliases | `raffleroll`, `CW`", inline = False)
 
 	help2Embed.set_footer(text=f"Requested by {ctx.author.name}\t\tPage 2 of 2 | Type `Prev` to go to previous page", icon_url = ctx.author.avatar_url)
 
-	page1msg = await ctx.send(embed = help1Embed)
+#==================================================================================================================================
 
-	authorcheck = lambda m: m.author == ctx.author and m.channel == ctx.channel
+	help3Embed = discord.Embed(
+		title = "Commands (Page 3)",
+		color = lgd.hexConvertor(mn.colorCollection.find({},{"_id":0,"Hex":1}))
+	)
+	help3Embed.add_field(name = "`invite`", value = ">>> Invite me to your own server | Bot Utility \n Aliases | None", inline = False)
+	help3Embed.add_field(name = "`tickets`", value = ">>> For manually adding or subtracting tickets | Raffle Utility \n Aliases | `t`", inline = False)
+
+	help3Embed.set_footer(text=f"Requested by {ctx.author.name}\t\tPage 2 of 2 | Type `Prev` to go to previous page", icon_url = ctx.author.avatar_url)
+
+#====================================================================================================================================
+
+	page1msg = await ctx.reply(embed = help1Embed)
+
+	authorcheck = lambda m: m.author == ctx.author and m.channel == ctx.channel and m.content.lower() == "next"
 	try:
-		choice = await client.wait_for("message", check = authorcheck, timeout = 100)
+		nextchoice = await client.wait_for("message", check = authorcheck, timeout = 100)
+		page2msg = await page1msg.edit(embed = help2Embed)
 	except asyncio.exceptions.TimeoutError:
 		return
 	
-	if choice.lower() == "next":
-		await choice.delete()
-		page2msg = await ctx.send(embed = help2Embed)
+	# if choice.content.lower() == "next":
+	# 	page2msg = await page1msg.edit(embed = help2Embed)
+
+	# 	try:
+	# 		choice2 = await client.wait_for("message", check = authorcheck)
 
 
 @client.command(aliases = ["Prefix"])
