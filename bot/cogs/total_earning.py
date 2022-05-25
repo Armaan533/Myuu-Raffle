@@ -8,9 +8,9 @@ class total_earning(commands.Cog):
     def __init__(self, client):
         self.client = client
 
-    @commands.command()
+    @commands.command(name = "totalearning", aliases = ["Totalearning", "TotalEarning"])
     @commands.has_guild_permissions(administrator = True)
-    async def total_earning(self, ctx):
+    async def totalearning(self, ctx):
         if not str(ctx.guild.id) in mn.raffledbase.list_collection_names():
             noRaffleEmbed = discord.Embed(
 			    title = "No Raffles Found", 

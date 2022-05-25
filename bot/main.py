@@ -42,21 +42,46 @@ async def on_guild_remove(guild):
 
 @client.command(aliases = ["Help","helpme","Helpme"])
 async def help(ctx):
-	helpEmbed = discord.Embed(
-		title = "Commands", 
+	help1Embed = discord.Embed(
+		title = "Commands (Page 1)", 
 		color = lgd.hexConvertor(mn.colorCollection.find({},{"_id":0,"Hex":1}))
 	)
 	#	Add more commands here
 
-	helpEmbed.add_field(name="`ping`", value=">>> Shows the latency of the bot | Bot Utility\n Aliases | pong", inline = False)
-	helpEmbed.add_field(name = "`rafflecreate`", value = ">>> Creates a raffle for the guild \nRaffle Utility\n Aliases | CreateRaffle, RafCreate, CreateRaf, RC", inline = False)
-	helpEmbed.add_field(name = "`raffledelete`", value = ">>> Deletes the server's raffle | Raffle Utility\n Aliases | DeleteRaffle, DelRaf, RafDel, RD", inline = False)
-	helpEmbed.add_field(name = "`rafflelist`", value = ">>> Shows the tickets for the raffle | Raffle Info\n Aliases | None", inline = False)
-	helpEmbed.add_field(name = "`raffleinfo`", value = ">>> Shows info of the raffle | Raffle Info\n Aliases | None", inline = False)
-	helpEmbed.add_field(name = "`raffleinfoedit`", value = ">>> To edit info of the raffle | Raffle Info\n Aliases | RaffleEditInfo, ")
-	helpEmbed.set_footer(text=f"Requested by {ctx.author.name}", icon_url = ctx.author.avatar_url)
+	help1Embed.add_field(name="`ping`", value=">>> Shows my latency | Bot Utility\n Aliases | `pong`", inline = False)
+	help1Embed.add_field(name = "`prefix`", value = ">>> For changing the my prefix to the required prefix | Bot Utility\n Aliases | None", inline = False)
+	help1Embed.add_field(name = "`rafflecreate`", value = ">>> Creates a raffle for the guild \nRaffle Utility\n Aliases | `CreateRaffle`, `RafCreate`, `CreateRaf`, `RC`", inline = False)
+	help1Embed.add_field(name = "`raffledelete`", value = ">>> Deletes the server's raffle | Raffle Utility\n Aliases | `DeleteRaffle`, `DelRaf`, `RafDel`, `RD`", inline = False)
+	help1Embed.add_field(name = "`rafflelist`", value = ">>> Shows the tickets for the raffle | Raffle Info\n Aliases | None", inline = False)
+	help1Embed.add_field(name = "`raffleinfo`", value = ">>> Shows info of the raffle | Raffle Info\n Aliases | None", inline = False)
+	help1Embed.add_field(name = "`raffleinfoedit`", value = ">>> To edit info of the raffle | Raffle Info\n Aliases | `RaffleEditInfo`, ", inline = False)
+	help1Embed.add_field(name = "`mytickets`", value = ">>> Shows the number of tickets bought for the raffle | Ticket Info\n Aliases | `myticket`, `mytix`, `mt`", inline = False)
+	help1Embed.add_field(name = "`totalearning`", value = ">>> Shows how much pkc raffle owner has earned | Raffle Info\n Aliases | None", inline = False)
+	help1Embed.add_field(name = "`choosewinner`", value = ">>> To choose a winner for the raffle | Raffle Utility\n Aliases | `raffleroll`, `CW`", inline = False)
+	
+	help1Embed.set_footer(text=f"Requested by {ctx.author.name}\t\tPage 1 of 2 | Type `Next` to go to next page", icon_url = ctx.author.avatar_url)
 
-	await ctx.send(embed = helpEmbed)
+	help2Embed = discord.Embed(
+		title = "Commands (Page 2)",
+		color = lgd.hexConvertor(mn.colorCollection.find({},{"_id":0,"Hex":1}))
+	)
+	help2Embed.add_field(name = "`invite`", value = ">>> Invite me to your own server | Bot Utility \n Aliases | None", inline = False)
+	help2Embed.add_field(name = "`tickets`", value = ">>> For manually adding or subtracting tickets | Raffle Utility \n Aliases | `t`", inline = False)
+
+	help1Embed.set_footer(text=f"Requested by {ctx.author.name}\t\tPage 2 of 2 | Type `Prev` to go to previous page", icon_url = ctx.author.avatar_url)
+
+	page1msg = await ctx.send(embed = help1Embed)
+
+	authorcheck = lambda m: m.author == ctx.author and m.channel == ctx.channel
+	try:
+		choice = await client.wait_for("message", check = authorcheck, timeout = 100)
+	except asyncio.exceptions.TimeoutError:
+		return
+	
+	if choice.lower() == "next":
+		await choice.delete()
+		page2msg = await ctx.send(embed = help2Embed)
+
 
 @client.command(aliases = ["Prefix"])
 @commands.has_guild_permissions(administrator = True)
