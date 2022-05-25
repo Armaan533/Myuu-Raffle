@@ -93,21 +93,20 @@ async def help(ctx):
 		choice1 = await client.wait_for("message", check = check, timeout = 40)
 		
 		if choice1.content.lower() == "next":
-			mainmsg.edit(embed = help2Embed)
+			await mainmsg.edit(embed = help2Embed)
 		else:
 			await ctx.send("There is no previous page", delete_after = 5)
-			mainmsg
 		
 		choice2 = await client.wait_for("message", check = check, timeout = 40)
 
 		if choice2.content.lower() == "next":
 			if choice1.content.lower() == "next":
-				mainmsg.edit(embed = help3Embed)
+				await mainmsg.edit(embed = help3Embed)
 			else:
-				mainmsg.edit(embed = help2Embed)
+				await mainmsg.edit(embed = help2Embed)
 		else:
 			if choice1.content.lower() == "next":
-				mainmsg.edit(embed = help1Embed)
+				await mainmsg.edit(embed = help1Embed)
 			else:
 				await ctx.send("There is no previous page", delete_after = 5)
 
@@ -117,16 +116,16 @@ async def help(ctx):
 			if choice2.content.lower() == "next" and choice1.content.lower() == "next":
 				await ctx.send("There is no next page")
 			elif choice2.content.lower() == "next" and choice1.content.lower() == "prev":
-				mainmsg.edit(embed = help3Embed)
+				await mainmsg.edit(embed = help3Embed)
 			elif choice2.content.lower() == "prev" and choice1.content.lower() == "next":
-				mainmsg.edit(embed = help2Embed)
+				await mainmsg.edit(embed = help2Embed)
 			else:
-				mainmsg.edit(embed = help2Embed)
+				await mainmsg.edit(embed = help2Embed)
 		else:
 			if choice2.content.lower() == "next" and choice1.content.lower() == "next":
-				mainmsg.edit(embed = help2Embed)
+				await mainmsg.edit(embed = help2Embed)
 			elif choice2.content.lower() == "next" and choice1.content.lower() == "prev":
-				mainmsg.edit(embed = help1Embed)
+				await mainmsg.edit(embed = help1Embed)
 			elif choice2.content.lower() == "prev" and choice1.content.lower() == "next":
 				await ctx.send("There is no previous page", delete_after = 5)
 			else:
