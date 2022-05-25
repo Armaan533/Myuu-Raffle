@@ -47,53 +47,103 @@ async def help(ctx):
 
 	help1Embed = discord.Embed(
 		title = "Commands (Page 1)", 
-		color = lgd.hexConvertor(mn.colorCollection.find({},{"_id":0,"Hex":1}))
+		color = 0xF8C8DC
 	)
 
-	help1Embed.add_field(name="`ping`", value=">>> Shows my latency | Bot Utility\n Aliases | `pong`", inline = False)
-	help1Embed.add_field(name = "`prefix`", value = ">>> For changing the my prefix to the required prefix | Bot Utility\n Aliases | None", inline = False)
-	help1Embed.add_field(name = "`rafflecreate`", value = ">>> Creates a raffle for the guild \nRaffle Utility\n Aliases | `CreateRaffle`, `RafCreate`, `CreateRaf`, `RC`", inline = False)
-	help1Embed.add_field(name = "`raffledelete`", value = ">>> Deletes the server's raffle | Raffle Utility\n Aliases | `DeleteRaffle`, `DelRaf`, `RafDel`, `RD`", inline = False)
-	help1Embed.add_field(name = "`rafflelist`", value = ">>> Shows the tickets for the raffle | Raffle Info\n Aliases | None", inline = False)
+	help1Embed.add_field(name="**__ping__**", value=">>>` Shows my latency` | Bot Utility\n Aliases | `pong`", inline = False)
+	help1Embed.add_field(name = "**__prefix__**", value = ">>> `For changing the my prefix to the required prefix` | Bot Utility\n Aliases | None", inline = False)
+	help1Embed.add_field(name = "**__rafflecreate__**", value = ">>> `Creates a raffle for the guild` \nRaffle Utility\n Aliases | `CreateRaffle`, `RafCreate`, `CreateRaf`, `RC`", inline = False)
+	help1Embed.add_field(name = "**__raffledelete__**", value = ">>> `Deletes the server's raffle` | Raffle Utility\n Aliases | `DeleteRaffle`, `DelRaf`, `RafDel`, `RD`", inline = False)
+	help1Embed.add_field(name = "**__rafflelist__**", value = ">>> `Shows the tickets for the raffle` | Raffle Info\n Aliases | None", inline = False)
 	
-	help1Embed.set_footer(text=f"Requested by {ctx.author.name}\t\tPage 1 of 2 | Type `Next` to go to next page", icon_url = ctx.author.avatar_url)
+	help1Embed.set_footer(text=f"Requested by {ctx.author.name}\t\tPage 1 of 3 | Type `Next` to go to next page", icon_url = ctx.author.avatar_url)
 
 #===================================================================================================================================
 
 	help2Embed = discord.Embed(
 		title = "Commands (Page 2)",
-		color = lgd.hexConvertor(mn.colorCollection.find({},{"_id":0,"Hex":1}))
+		color = 0xF8C8DC
 	)
 
-	help2Embed.add_field(name = "`raffleinfo`", value = ">>> Shows info of the raffle | Raffle Info\n Aliases | None", inline = False)
-	help2Embed.add_field(name = "`raffleinfoedit`", value = ">>> To edit info of the raffle | Raffle Info\n Aliases | `RaffleEditInfo`, ", inline = False)
-	help2Embed.add_field(name = "`mytickets`", value = ">>> Shows the number of tickets bought for the raffle | Ticket Info\n Aliases | `myticket`, `mytix`, `mt`", inline = False)
-	help2Embed.add_field(name = "`totalearning`", value = ">>> Shows how much pkc raffle owner has earned | Raffle Info\n Aliases | None", inline = False)
-	help2Embed.add_field(name = "`choosewinner`", value = ">>> To choose a winner for the raffle | Raffle Utility\n Aliases | `raffleroll`, `CW`", inline = False)
+	help2Embed.add_field(name = "**__raffleinfo__**", value = ">>> `Shows info of the raffle` | Raffle Info\n Aliases | None", inline = False)
+	help2Embed.add_field(name = "**__raffleinfoedit__**", value = ">>> `To edit info of the raffle` | Raffle Info\n Aliases | `RaffleEditInfo`, ", inline = False)
+	help2Embed.add_field(name = "**__mytickets__**", value = ">>> `Shows the number of tickets bought for the raffle` | Ticket Info\n Aliases | `myticket`, `mytix`, `mt`", inline = False)
+	help2Embed.add_field(name = "**__totalearning__**", value = ">>> `Shows how much pkc raffle owner has earned` | Raffle Info\n Aliases | None", inline = False)
+	help2Embed.add_field(name = "**__choosewinner__**", value = ">>> `To choose a winner for the raffle` | Raffle Utility\n Aliases | `raffleroll`, `CW`", inline = False)
 
-	help2Embed.set_footer(text=f"Requested by {ctx.author.name}\t\tPage 2 of 2 | Type `Prev` to go to previous page", icon_url = ctx.author.avatar_url)
+	help2Embed.set_footer(text=f"Requested by {ctx.author.name}\t\tPage 2 of 3 | Type `Prev` to go to previous page", icon_url = ctx.author.avatar_url)
 
 #==================================================================================================================================
 
 	help3Embed = discord.Embed(
 		title = "Commands (Page 3)",
-		color = lgd.hexConvertor(mn.colorCollection.find({},{"_id":0,"Hex":1}))
+		color = 0xF8C8DC
 	)
-	help3Embed.add_field(name = "`invite`", value = ">>> Invite me to your own server | Bot Utility \n Aliases | None", inline = False)
-	help3Embed.add_field(name = "`tickets`", value = ">>> For manually adding or subtracting tickets | Raffle Utility \n Aliases | `t`", inline = False)
+	help3Embed.add_field(name = "**__invite__**", value = ">>> `Invite me to your own server` | Bot Utility \n Aliases | None", inline = False)
+	help3Embed.add_field(name = "**__tickets__**", value = ">>> `For manually adding or subtracting tickets` | Raffle Utility \n Aliases | `t`", inline = False)
 
-	help3Embed.set_footer(text=f"Requested by {ctx.author.name}\t\tPage 2 of 2 | Type `Prev` to go to previous page", icon_url = ctx.author.avatar_url)
+	help3Embed.set_footer(text=f"Requested by {ctx.author.name}\t\tPage 3 of 3 | Type `Prev` to go to previous page", icon_url = ctx.author.avatar_url)
 
 #====================================================================================================================================
 
-	page1msg = await ctx.reply(embed = help1Embed)
+	mainmsg = await ctx.reply(embed = help1Embed)
 
-	authorcheck = lambda m: m.author == ctx.author and m.channel == ctx.channel and m.content.lower() == "next"
+	check = lambda m: m.author == ctx.author and m.channel == ctx.channel and m.content.lower() in ["next","prev"]
 	try:
-		nextchoice = await client.wait_for("message", check = authorcheck, timeout = 100)
-		page2msg = await page1msg.edit(embed = help2Embed)
+		choice1 = await client.wait_for("message", check = check, timeout = 40)
+		
+		if choice1.content.lower() == "next":
+			msg1 = await mainmsg.edit(embed = help2Embed)
+		else:
+			await ctx.send("There is no previous page", delete_after = 5)
+			msg1 = mainmsg
+		
+		choice2 = await client.wait_for("message", check = check, timeout = 40)
+
+		if choice2.content.lower() == "next":
+			if choice1.content.lower() == "next":
+				msg2 = await msg1.edit(embed = help3Embed)
+			else:
+				msg2 = await msg1.edit(embed = help2Embed)
+		else:
+			if choice1.content.lower() == "next":
+				msg2 = await msg1.edit(embed = help1Embed)
+			else:
+				await ctx.send("There is no previous page", delete_after = 5)
+				msg2 = msg1
+
+		choice3 = await client.wait_for("message", check = check, timeout = 40)
+
+		if choice3.content.lower() == "next":
+			if choice2.content.lower() == "next" and choice1.content.lower() == "next":
+				await ctx.send("There is no next page")
+				msg3 = msg2
+			elif choice2.content.lower() == "next" and choice1.content.lower() == "prev":
+				msg3 = await msg2.edit(embed = help3Embed)
+			elif choice2.content.lower() == "prev" and choice1.content.lower() == "next":
+				msg3 = await msg2.edit(embed = help2Embed)
+			else:
+				msg3 = await msg2.edit(embed = help2Embed)
+		else:
+			if choice2.content.lower() == "next" and choice1.content.lower() == "next":
+				msg3 = await msg2.edit(embed = help2Embed)
+			elif choice2.content.lower() == "next" and choice1.content.lower() == "prev":
+				msg3 = await msg2.edit(embed = help1Embed)
+			elif choice2.content.lower() == "prev" and choice1.content.lower() == "next":
+				await ctx.send("There is no previous page", delete_after = 5)
+				msg3 = msg2
+			else:
+				await ctx.send("There is no previous page", delete_after = 5)
+				msg3 = msg2
+			
+
+
+		# page3msg = await page2msg.edit(embed = help2Embed)
 	except asyncio.exceptions.TimeoutError:
 		return
+	
+
+
 	
 	# if choice.content.lower() == "next":
 	# 	page2msg = await page1msg.edit(embed = help2Embed)
