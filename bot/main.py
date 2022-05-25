@@ -93,48 +93,44 @@ async def help(ctx):
 		choice1 = await client.wait_for("message", check = check, timeout = 40)
 		
 		if choice1.content.lower() == "next":
-			msg1 = await mainmsg.edit(embed = help2Embed)
+			mainmsg.edit(embed = help2Embed)
 		else:
 			await ctx.send("There is no previous page", delete_after = 5)
-			msg1 = mainmsg
+			mainmsg
 		
 		choice2 = await client.wait_for("message", check = check, timeout = 40)
 
 		if choice2.content.lower() == "next":
 			if choice1.content.lower() == "next":
-				msg2 = await msg1.edit(embed = help3Embed)
+				mainmsg.edit(embed = help3Embed)
 			else:
-				msg2 = await msg1.edit(embed = help2Embed)
+				mainmsg.edit(embed = help2Embed)
 		else:
 			if choice1.content.lower() == "next":
-				msg2 = await msg1.edit(embed = help1Embed)
+				mainmsg.edit(embed = help1Embed)
 			else:
 				await ctx.send("There is no previous page", delete_after = 5)
-				msg2 = msg1
 
 		choice3 = await client.wait_for("message", check = check, timeout = 40)
 
 		if choice3.content.lower() == "next":
 			if choice2.content.lower() == "next" and choice1.content.lower() == "next":
 				await ctx.send("There is no next page")
-				msg3 = msg2
 			elif choice2.content.lower() == "next" and choice1.content.lower() == "prev":
-				msg3 = await msg2.edit(embed = help3Embed)
+				mainmsg.edit(embed = help3Embed)
 			elif choice2.content.lower() == "prev" and choice1.content.lower() == "next":
-				msg3 = await msg2.edit(embed = help2Embed)
+				mainmsg.edit(embed = help2Embed)
 			else:
-				msg3 = await msg2.edit(embed = help2Embed)
+				mainmsg.edit(embed = help2Embed)
 		else:
 			if choice2.content.lower() == "next" and choice1.content.lower() == "next":
-				msg3 = await msg2.edit(embed = help2Embed)
+				mainmsg.edit(embed = help2Embed)
 			elif choice2.content.lower() == "next" and choice1.content.lower() == "prev":
-				msg3 = await msg2.edit(embed = help1Embed)
+				mainmsg.edit(embed = help1Embed)
 			elif choice2.content.lower() == "prev" and choice1.content.lower() == "next":
 				await ctx.send("There is no previous page", delete_after = 5)
-				msg3 = msg2
 			else:
 				await ctx.send("There is no previous page", delete_after = 5)
-				msg3 = msg2
 			
 
 
