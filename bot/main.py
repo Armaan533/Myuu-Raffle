@@ -385,7 +385,7 @@ async def on_message(message):
 							Total tickets bought by <@{buyerid}>: ``{currenttix}``""",
 							color = lgd.hexConvertor(iterator = mn.colorCollection.find({},{"_id":0,"Hex":1}))
 							)
-							await message.channel.send(embed = tixboughtEmbed, delete_after = 30)
+							await message.channel.send(embed = tixboughtEmbed)
 						else:
 							await message.channel.send(f"Dude, <@{buyerid}> hold up! the ticket cost is {tixcost} pkc")
 
