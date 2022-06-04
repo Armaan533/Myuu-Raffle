@@ -472,6 +472,7 @@ client.load_extension("cogs.raffle_info_edit")
 client.load_extension("cogs.override_cmd")
 client.load_extension("cogs.invite")
 client.load_extension("cogs.mytickets")
+client.load_extension("cogs.rafflelist")
 
 if ".replit" in os.listdir():
 	keep_alive()
