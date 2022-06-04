@@ -295,56 +295,35 @@ async def raffledelete(ctx):
 			description = f"Error:- {error}"
 		))
 
-@client.command(aliases = ["Rafflelist","RaffleList","rl","RL","Rl"])
-async def rafflelist(ctx):
-	if not str(ctx.guild.id) in mn.raffledbase.list_collection_names():
-		noRaffleEmbed = discord.Embed(
-			title = "No Raffles Found", 
-			description = "There are no raffles in this guild going on\nIf you wanna create new raffle then try ``rafflecreate`` command", 
-			color = lgd.hexConvertor(mn.colorCollection.find({},{"_id":0,"Hex":1}))
-		)
-		await ctx.send(embed = noRaffleEmbed)
-	else:
-		guild = mn.raffledbase[str(ctx.guild.id)]
-		rafflename = guild.find_one({"_id": "Raffle"},{"_id":0,"RaffleName":1})["RaffleName"]
-		ticketcost = guild.find_one({"_id":"Raffle"},{"_id":0,"Ticket Cost":1})["Ticket Cost"]
-		find = guild.find({"type":"buyer"},{"type":0})
-		raffles = discord.Embed(
-			title = f"{rafflename}", 
-			color = lgd.hexConvertor(iterator = mn.colorCollection.find({},{"_id":0,"Hex":1})))
-	    
-		if guild.count_documents({"type":"buyer"}) == 0:
-			raffles.add_field(name = "No One bought tickets yet", value = "<:lol:878270233754869811>")
-			totaltickets = 0
-		else:
-			totaltickets = 0
-			for i in find:
-				try:
-					member = await client.fetch_user(i["_id"])
-				except discord.NotFound:
-					member = None
-					return
-				if member != None:
-					totaltickets += i["tickets"]
-					raffles.add_field(
-						name = member.name+"#"+member.discriminator,
-						value = i["tickets"], 
-						inline = False
-					)
+						
 
-		raffles.add_field(
-			name = "Total Tickets",
-			value = f"`{totaltickets}`",
-			inline = False
-		)
+		# 	for i in find:
+		# 		try:
+		# 			member = await client.fetch_user(i["_id"])
+		# 		except discord.NotFound:
+		# 			member = None
+		# 			return
+		# 		if member != None:
+		# 			totaltickets += i["tickets"]
+		# 			raffles.add_field(
+		# 				name = member.name+"#"+member.discriminator,
+		# 				value = i["tickets"], 
+		# 				inline = False
+		# 			)
 
-		raffles.add_field(
-			name = "Total pkc gained",
-			value = f"{totaltickets*ticketcost}",
-			inline = False
-		)
+		# raffles.add_field(
+		# 	name = "Total Tickets",
+		# 	value = f"`{totaltickets}`",
+		# 	inline = False
+		# )
 
-		await ctx.send(embed = raffles)
+		# raffles.add_field(
+		# 	name = "Total pkc gained",
+		# 	value = f"{totaltickets*ticketcost}",
+		# 	inline = False
+		# )
+
+		# await ctx.send(embed = raffles)
 
 @client.listen("on_message")
 async def on_message(message):
@@ -402,6 +381,12 @@ async def raffleinfo(ctx):
 		info = 	guild.find_one({"_id":"Raffle"},{"_id":0})
 		bank = discord.utils.get(ctx.guild.members, id = info["bank"])
 		channel = str(info["Channel"])
+		totaltickets = 0
+		ticketcursor = guild.aggregate([{"$group":{"_id":"$type","tickets":{"$sum":"$tickets"}}}])
+		for i in ticketcursor:
+			if i["_id"] != None:
+				totaltickets = i
+
 		infoEmbed = discord.Embed(
 			title = "Raffle Info", 
 			color = lgd.hexConvertor(mn.colorCollection.find({},{"_id":0,"Hex":1}))
@@ -411,6 +396,7 @@ async def raffleinfo(ctx):
 		infoEmbed.add_field(name = "Ticket Cost", value = info["Ticket Cost"])
 		infoEmbed.add_field(name = "Bank of Raffle", value = bank.mention)
 		infoEmbed.add_field(name = "Payment Channel", value = f"<#{channel}>")
+		infoEmbed.add_field(name = "Total Tickets Bought", value = f"{totaltickets} tickets")
 		await ctx.send(embed = infoEmbed)		
 			
 
