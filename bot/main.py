@@ -385,7 +385,7 @@ async def raffleinfo(ctx):
 		ticketcursor = guild.aggregate([{"$group":{"_id":"$type","tickets":{"$sum":"$tickets"}}}])
 		for i in ticketcursor:
 			if i["_id"] != None:
-				totaltickets = i
+				totaltickets = i["tickets"]
 
 		infoEmbed = discord.Embed(
 			title = "Raffle Info", 
