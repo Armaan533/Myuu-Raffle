@@ -124,6 +124,7 @@ class rafflelist(commands.Cog):
                                 value = i["tickets"],
                                 inline = False
                             )
+                    a += 1
 
                 msg = await ctx.reply(embed = rafflelist1)
                 currentpage = 1
