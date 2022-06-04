@@ -295,35 +295,6 @@ async def raffledelete(ctx):
 			description = f"Error:- {error}"
 		))
 
-						
-
-		# 	for i in find:
-		# 		try:
-		# 			member = await client.fetch_user(i["_id"])
-		# 		except discord.NotFound:
-		# 			member = None
-		# 			return
-		# 		if member != None:
-		# 			totaltickets += i["tickets"]
-		# 			raffles.add_field(
-		# 				name = member.name+"#"+member.discriminator,
-		# 				value = i["tickets"], 
-		# 				inline = False
-		# 			)
-
-		# raffles.add_field(
-		# 	name = "Total Tickets",
-		# 	value = f"`{totaltickets}`",
-		# 	inline = False
-		# )
-
-		# raffles.add_field(
-		# 	name = "Total pkc gained",
-		# 	value = f"{totaltickets*ticketcost}",
-		# 	inline = False
-		# )
-
-		# await ctx.send(embed = raffles)
 
 @client.listen("on_message")
 async def on_message(message):
