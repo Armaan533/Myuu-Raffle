@@ -62,13 +62,13 @@ class rafflelist(commands.Cog):
 			    )
 
                 
-                rafflelist1.set_footer(text= f"Requested by {ctx.author.name+ctx.author.discriminator} | Page 1 of {Embeds} | Type `next` or `prev` to switch between pages", icon_url=self.client.user.avatar_url)
-                rafflelist2.set_footer(text= f"Requested by {ctx.author.name+ctx.author.discriminator} | Page 2 of {Embeds} | Type `next` or `prev` to switch between pages", icon_url=self.client.user.avatar_url)
-                rafflelist3.set_footer(text= f"Requested by {ctx.author.name+ctx.author.discriminator} | Page 3 of {Embeds} | Type `next` or `prev` to switch between pages", icon_url=self.client.user.avatar_url)
-                rafflelist4.set_footer(text= f"Requested by {ctx.author.name+ctx.author.discriminator} | Page 4 of {Embeds} | Type `next` or `prev` to switch between pages", icon_url=self.client.user.avatar_url)
-                rafflelist5.set_footer(text= f"Requested by {ctx.author.name+ctx.author.discriminator} | Page 5 of {Embeds} | Type `next` or `prev` to switch between pages ", icon_url=self.client.user.avatar_url)
-                rafflelist6.set_footer(text= f"Requested by {ctx.author.name+ctx.author.discriminator} | Page 6 of {Embeds} | Type `next` or `prev` to switch between pages", icon_url=self.client.user.avatar_url)
-                rafflelist7.set_footer(text= f"Requested by {ctx.author.name+ctx.author.discriminator} | Page 7 of {Embeds} | Type `next` or `prev` to switch between pages", icon_url=self.client.user.avatar_url)
+                rafflelist1.set_footer(text= f"Requested by {ctx.author.name+ctx.author.discriminator} | Page 1 of {Embeds} | Type next or prev to switch between pages", icon_url=ctx.author.avatar_url)
+                rafflelist2.set_footer(text= f"Requested by {ctx.author.name+ctx.author.discriminator} | Page 2 of {Embeds} | Type next or prev to switch between pages", icon_url=ctx.author.avatar_url)
+                rafflelist3.set_footer(text= f"Requested by {ctx.author.name+ctx.author.discriminator} | Page 3 of {Embeds} | Type next or prev to switch between pages", icon_url=ctx.author.avatar_url)
+                rafflelist4.set_footer(text= f"Requested by {ctx.author.name+ctx.author.discriminator} | Page 4 of {Embeds} | Type next or prev to switch between pages", icon_url=ctx.author.avatar_url)
+                rafflelist5.set_footer(text= f"Requested by {ctx.author.name+ctx.author.discriminator} | Page 5 of {Embeds} | Type next or prev to switch between pages", icon_url=ctx.author.avatar_url)
+                rafflelist6.set_footer(text= f"Requested by {ctx.author.name+ctx.author.discriminator} | Page 6 of {Embeds} | Type next or prev to switch between pages", icon_url=ctx.author.avatar_url)
+                rafflelist7.set_footer(text= f"Requested by {ctx.author.name+ctx.author.discriminator} | Page 7 of {Embeds} | Type next or prev to switch between pages", icon_url=ctx.author.avatar_url)
                 
                 membercursor = guild.find({"type":"buyer"},{"tickets":1}).sort("tickets",-1)
 
@@ -153,13 +153,13 @@ class rafflelist(commands.Cog):
                     
                         if choice.content.lower() == "next":
                             if currentpage == Embeds:
-                                await choice.reply("You can't go to next page because there is no next page")
+                                await choice.reply("You can't go to next page because there is no next page", delete_after = 10)
                             else:
                                 currentpage += 1
                                 await msg.edit(embed = embedprovider(currentpage))
                         else:
                             if currentpage < 1:
-                                await choice.reply("You can't go to previous page because there is no previous page")
+                                await choice.reply("You can't go to previous page because there is no previous page", delete_after = 10)
                             else:
                                 currentpage -= 1
                                 await msg.edit(embed = embedprovider(currentpage))
