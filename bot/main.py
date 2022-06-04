@@ -139,14 +139,6 @@ async def help(ctx):
 	
 
 
-	
-	# if choice.content.lower() == "next":
-	# 	page2msg = await page1msg.edit(embed = help2Embed)
-
-	# 	try:
-	# 		choice2 = await client.wait_for("message", check = authorcheck)
-
-
 @client.command(aliases = ["Prefix"])
 @commands.has_guild_permissions(administrator = True)
 async def prefix(ctx, newPrefix: str):
