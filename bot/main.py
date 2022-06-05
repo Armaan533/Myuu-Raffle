@@ -359,7 +359,7 @@ async def raffleinfo(ctx):
 		)
 		infoEmbed.add_field(name = "Raffle Name", value = RaffleName)
 
-		if f"info{RaffleName}.png" not in os.listdir(path="/Images/") and info["info"] != "Just a plain raffle":
+		if f"info{RaffleName}.png" not in os.listdir(path="/Images") and info["info"] != "Just a plain raffle":
 			aboutimg = Image.open(io.BytesIO(info["info"]))
 			aboutimg.save(f"/Images/info{RaffleName}.png")
 			Imgfile = discord.file(f"/Images/info{RaffleName}.png", filename=f"info{RaffleName}.png")
@@ -367,7 +367,7 @@ async def raffleinfo(ctx):
 		
 		else:
 			infoEmbed.add_field(name = "About Raffle", value = info["info"])
-			
+
 		infoEmbed.add_field(name = "Ticket Cost", value = info["Ticket Cost"])
 		infoEmbed.add_field(name = "Bank of Raffle", value = bank.mention)
 		infoEmbed.add_field(name = "Payment Channel", value = f"<#{channel}>")
