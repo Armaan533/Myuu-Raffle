@@ -365,7 +365,7 @@ async def raffleinfo(ctx):
 
 				aboutimg = Image.open(io.BytesIO(info["info"]))
 				buffer = io.BytesIO()
-				aboutimg.save(f"app/bot/Images/info{RaffleName}.png", format="png")
+				aboutimg.save(f"bot/Images/info{RaffleName}.png", format="png")
 				# await lgd.save_image(f"app/bot/Images/info{RaffleName}.png", buffer.getbuffer())
 
 				Imgfile = discord.file(f"/Images/info{RaffleName}.png", filename=f"info{RaffleName}.png")
