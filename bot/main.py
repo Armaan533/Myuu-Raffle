@@ -372,7 +372,7 @@ async def raffleinfo(ctx):
 		infoEmbed.add_field(name = "Bank of Raffle", value = bank.mention)
 		infoEmbed.add_field(name = "Payment Channel", value = f"<#{channel}>")
 		infoEmbed.add_field(name = "Total Tickets Bought", value = f"{totaltickets} tickets")
-		await ctx.send(embed = infoEmbed)		
+		await ctx.reply(embed = infoEmbed)		
 			
 
 # @client.event
@@ -405,7 +405,7 @@ async def choose_winner(ctx):
 
 @client.command()
 async def testing(ctx):
-	await ctx.send(os.listdir("/app/Bot/Images"))
+	await ctx.send(os.listdir("/app/bot/Images"))
 
 
 
