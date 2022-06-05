@@ -365,13 +365,13 @@ async def raffleinfo(ctx):
 
 				aboutimg = Image.open(io.BytesIO(info["info"]))
 				buffer = io.BytesIO()
-				aboutimg.save(f"bot/Images/info{RaffleName}.png", format="png")
+				aboutimg.save(f"bot/Images/info{ctx.guild.id}.png", format="png")
 				# await lgd.save_image(f"app/bot/Images/info{RaffleName}.png", buffer.getbuffer())
 
-				Imgfile = discord.file(f"/Images/info{RaffleName}.png", filename=f"info{RaffleName}.png")
-				infoEmbed.set_image(url=f"attachment://info{RaffleName}.png")
+				Imgfile = discord.file(f"/Images/info{ctx.guild.id}.png", filename=f"info{ctx.guild.id}.png")
+				infoEmbed.set_image(url= f"attachment://info{ctx.guild.id}.png")
 			else:
-				infoEmbed.set_image(f"attachment://info{RaffleName}.png")		
+				infoEmbed.set_image(url = f"attachment://info{ctx.guild.id}.png")
 		else:
 			infoEmbed.add_field(name = "About Raffle", value = info["info"])
 
