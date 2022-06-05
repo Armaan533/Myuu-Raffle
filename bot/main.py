@@ -368,8 +368,8 @@ async def raffleinfo(ctx):
 				aboutimg.save(f"bot/Images/info{ctx.guild.id}.png", format="png")
 				# await lgd.save_image(f"app/bot/Images/info{RaffleName}.png", buffer.getbuffer())
 
-				Imgfile = discord.file(f"/Images/info{ctx.guild.id}.png", filename=f"info{ctx.guild.id}.png")
-				infoEmbed.set_image(url= f"attachment://info{ctx.guild.id}.png")
+				Imgfile = discord.file(path = f"bot/Images/info{ctx.guild.id}.png", filename = f"info{ctx.guild.id}.png")
+				infoEmbed.set_image(url = f"attachment://info{ctx.guild.id}.png")
 			else:
 				infoEmbed.set_image(url = f"attachment://info{ctx.guild.id}.png")
 		else:
