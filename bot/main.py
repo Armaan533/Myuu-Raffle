@@ -359,12 +359,19 @@ async def raffleinfo(ctx):
 		)
 		infoEmbed.add_field(name = "Raffle Name", value = RaffleName)
 
-		if (f"info{RaffleName}.png" not in os.listdir(path="/app/bot/Images/")) and (type(info["info"]) != str):
-			aboutimg = Image.open(io.BytesIO(info["info"]))
-			aboutimg.save(f"/Images/info{RaffleName}.png")
-			Imgfile = discord.file(f"/Images/info{RaffleName}.png", filename=f"info{RaffleName}.png")
-			infoEmbed.set_image(url=f"attachment://info{RaffleName}.png")
-		
+		if type(info["info"]) != str:
+
+			if f"info{RaffleName}.png" not in os.listdir(path="/app/bot/Images/"):
+
+				aboutimg = Image.open(io.BytesIO(info["info"]))
+				buffer = io.BytesIO()
+				aboutimg.save(f"app/bot/Images/info{RaffleName}.png")
+				await lgd.save_image(f"app/bot/Images/info{RaffleName}.png", buffer.getbuffer())
+				
+				Imgfile = discord.file(f"/Images/info{RaffleName}.png", filename=f"info{RaffleName}.png")
+				infoEmbed.set_image(url=f"attachment://info{RaffleName}.png")
+			else:
+				infoEmbed.set_image(f"attachment://info{RaffleName}.png")		
 		else:
 			infoEmbed.add_field(name = "About Raffle", value = info["info"])
 
@@ -444,6 +451,7 @@ client.load_extension("cogs.override_cmd")
 client.load_extension("cogs.invite")
 client.load_extension("cogs.mytickets")
 client.load_extension("cogs.rafflelist")
+client.load_extension("cogs.total_earning")
 
 if ".replit" in os.listdir():
 	keep_alive()

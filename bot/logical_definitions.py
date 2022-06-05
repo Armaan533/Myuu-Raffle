@@ -1,4 +1,6 @@
 import random
+
+import aiofiles
 # from discord.ext import commands
 
 #for checking admin perms for future reference
@@ -20,3 +22,7 @@ def hexConvertor(iterator):
 	hex = random.choice(hexlist)
 	intcol = int(hex, 16)
 	return intcol
+
+async def save_image(path: str, image: memoryview):
+	async with aiofiles.open(path, "wb") as file:
+		await file.write(image)
