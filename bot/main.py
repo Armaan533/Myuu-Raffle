@@ -358,7 +358,7 @@ async def raffleinfo(ctx):
 			color = lgd.hexConvertor(mn.colorCollection.find({},{"_id":0,"Hex":1}))
 		)
 		infoEmbed.add_field(name = "Raffle Name", value = RaffleName)
-
+		print(os.getcwd())
 		if f"info{RaffleName}.png" not in os.listdir(path="Bot/Images/") and info["info"] != "Just a plain raffle":
 			aboutimg = Image.open(io.BytesIO(info["info"]))
 			aboutimg.save(f"/Images/info{RaffleName}.png")
