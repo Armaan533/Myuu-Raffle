@@ -15,7 +15,7 @@ class total_earning(commands.Cog):
             noRaffleEmbed = discord.Embed(
 			    title = "No Raffles Found", 
 			    description = "There are no raffles in this guild going on\nIf you wanna create new raffle then try ``rafflecreate`` command", 
-			    color = lgd.hexConvertor(mn.colorCollection.find({},{"_id":0,"Hex":1}))
+			    color = 0xf08080
 		    )
             await ctx.reply(embed = noRaffleEmbed)
         else:
@@ -30,7 +30,7 @@ class total_earning(commands.Cog):
             earningEmbed = discord.Embed(
                 title = "Total Earnings",
                 description = f"Raffle ``{raffleName}`` earned {pkcEarned} pkc",
-                color = lgd.hexConvertor(mn.colorCollection.find({},{"_id":0,"Hex":1}))
+                color = 0xf08080
             )
             await ctx.reply(embed = earningEmbed)
 

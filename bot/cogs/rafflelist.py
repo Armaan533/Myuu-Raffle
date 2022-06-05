@@ -17,7 +17,7 @@ class rafflelist(commands.Cog):
             noRaffleEmbed = discord.Embed(
                 title = "No Raffles Found", 
                 description = "There are no raffles in this guild going on\nIf you wanna create new raffle then try ``rafflecreate`` command", 
-                color = lgd.hexConvertor(mn.colorCollection.find({},{"_id":0,"Hex":1}))
+                color = 0xf08080
             )
             await ctx.send(embed = noRaffleEmbed)
         else:
@@ -38,27 +38,27 @@ class rafflelist(commands.Cog):
 
                 rafflelist2 = discord.Embed(
                     title = rafflename,
-                    color = lgd.hexConvertor(mn.colorCollection.find({},{"_id":0,"Hex":1}))
+                    color = 0xf08080
                 )
                 rafflelist3 = discord.Embed(
                     title = rafflename,
-                    color = lgd.hexConvertor(mn.colorCollection.find({},{"_id":0,"Hex":1}))
+                    color = 0xf08080
                 )
                 rafflelist4 = discord.Embed(
                     title = rafflename,
-                    color = lgd.hexConvertor(mn.colorCollection.find({},{"_id":0,"Hex":1}))
+                    color = 0xf08080
                 )
                 rafflelist5 = discord.Embed(
                     title = rafflename,
-                    color = lgd.hexConvertor(mn.colorCollection.find({},{"_id":0,"Hex":1}))
+                    color = 0xf08080
                 )
                 rafflelist6 = discord.Embed(
                     title = rafflename,
-                    color = lgd.hexConvertor(mn.colorCollection.find({},{"_id":0,"Hex":1}))
+                    color = 0xf08080
                 )
                 rafflelist7 = discord.Embed(
 				title = rafflename,
-				color = lgd.hexConvertor(mn.colorCollection.find({},{"_id":0,"Hex":1}))
+				color = 0xf08080
 			    )
 
                 

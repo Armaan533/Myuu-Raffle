@@ -13,7 +13,7 @@ class mytickets(commands.Cog):
             await ctx.reply(embed = discord.Embed(
                 title = "No raffle found",
                 description = "No raffle has been created for this guild",
-                color = lgd.hexConvertor(mn.colorCollection.find({},{"_id":0,"Hex":1}))
+                color = 0xf08080
             ))
 
         else:
@@ -24,7 +24,7 @@ class mytickets(commands.Cog):
             await ctx.reply(embed = discord.Embed(
                 title = "Tickets",
                 description = f"You have bought {tickets} ticket(s) for raffle {rafflename}",
-                color = lgd.hexConvertor(mn.colorCollection.find({},{"_id":0,"Hex":1}))
+                color = 0xf08080
             ))
 
 def setup(client):

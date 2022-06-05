@@ -15,7 +15,7 @@ class raffle_info_edit(commands.Cog):
             noRaffleEmbed = discord.Embed(
                 title = "No Raffles Found", 
                 description = "There are no raffles in this guild going on\nIf you wanna create new raffle then try ``rafflecreate`` command", 
-                color = lgd.hexConvertor(mn.colorCollection.find({},{"_id":0,"Hex":1}))
+                color = 0xf08080
             )
             await ctx.send(embed = noRaffleEmbed)
         else:
@@ -28,7 +28,7 @@ class raffle_info_edit(commands.Cog):
                                         Ticket Cost- :regional_indicator_t:
                                         Bank- :regional_indicator_b:
                                         Payment Channel- :regional_indicator_p:""", 
-                                    color = lgd.hexConvertor(mn.colorCollection.find({},{"_id":0,"Hex":1})))
+                                    color = 0xf08080)
             editEmojis = [
                 "🇳",
                 "🇦",
@@ -51,7 +51,7 @@ class raffle_info_edit(commands.Cog):
                 await editing.edit(embed = discord.Embed(
                     title = "Editing Name",
                     description = "Choose a wise name for the Raffle",
-                    color = lgd.hexConvertor(mn.colorCollection.find({},{"_id":0,"Hex":1}))
+                    color = 0xf08080
                 ))
                 await editing.clear_reactions()
                 try:
@@ -63,7 +63,7 @@ class raffle_info_edit(commands.Cog):
                 await editing.edit(embed = discord.Embed(
                     title = "Raffle edited",
                     description = "Raffle Name edited successfully!",
-                    color = lgd.hexConvertor(mn.colorCollection.find({},{"_id":0,"Hex":1}))
+                    color = 0xf08080
                 ),delete_after = 10)
                 await name.delete()
 
@@ -71,7 +71,7 @@ class raffle_info_edit(commands.Cog):
                 await editing.edit(embed = discord.Embed(
                     title = "Editing About Raffle",
                     description = "Do .mypkinfo or .boxpk to edit the about",
-                    color = lgd.hexConvertor(mn.colorCollection.find({},{"_id":0,"Hex":1}))
+                    color = 0xf08080
                 ))
                 await editing.clear_reactions()
                 
@@ -90,7 +90,7 @@ class raffle_info_edit(commands.Cog):
                 await editing.edit(embed = discord.Embed(
                     title = "About Raffle edited",
                     description = "About Raffle edited successfully!",
-                    color = lgd.hexConvertor(mn.colorCollection.find({},{"_id":0,"Hex":1}))),
+                    color = 0xf08080),
                                 delate_after = 10)
                 await about.delete()
 
@@ -98,7 +98,7 @@ class raffle_info_edit(commands.Cog):
                 await editing.edit(embed = discord.Embed(
                     title = "Editing Ticket Cost", 		   
                     description = "Choose the price of tickets wisely", 
-                    color = lgd.hexConvertor(mn.colorCollection.find({},{"_id":0,"Hex":1}))
+                    color = 0xf08080
                 ))
                 await editing.clear_reactions()
                 try:
@@ -110,7 +110,7 @@ class raffle_info_edit(commands.Cog):
                 await editing.edit(embed = discord.Embed(
                     title = "Cost edited", 
                     description = "Ticket Cost edited successfully", 
-                    color = lgd.hexConvertor(iterator = mn.colorCollection.find({},{"_id":0,"Hex":1}))),
+                    color = 0xf08080),
                                     delete_after = 10)
                 await cost.delete()
 
@@ -118,7 +118,7 @@ class raffle_info_edit(commands.Cog):
                 await editing.edit(embed = discord.Embed(
                     title = "Editing Bank ID",
                     description = "Which ID do you want to be as your raffle's bank?\n _Mention it here_",
-                    color = lgd.hexConvertor(iterator = mn.colorCollection.find({},{"_id":0,"Hex":1}))
+                    color = 0xf08080
                 ))
                 await editing.clear_reactions()
                 try:
@@ -132,7 +132,7 @@ class raffle_info_edit(commands.Cog):
                 await editing.edit(embed = discord.Embed(
                     title = "Bank ID edited", 
                     description = "Bank ID edited successfully", 
-                    color = lgd.hexConvertor(iterator = mn.colorCollection.find({},{"_id":0,"Hex":1}))),
+                    color = 0xf08080),
                                     delete_after = 10)
                 await bank.delete()
 
@@ -140,7 +140,7 @@ class raffle_info_edit(commands.Cog):
                 await editing.edit(embed = discord.Embed(
                     title = "Editing Payment Channel",
                     description = "Which channel do you want to be as your raffle's payment channel?\nMention the channel here:",
-                    color = lgd.hexConvertor(mn.colorCollection.find({},{"_id":0,"Hex":1}))))
+                    color = 0xf08080))
                 await editing.clear_reactions()
                 try:
                     channel = await self.client.wait_for("message", check = authorcheck, timeout = 30)
@@ -151,7 +151,7 @@ class raffle_info_edit(commands.Cog):
                 await editing.edit(embed = discord.Embed(
                     title = "Payment Channel edited",
                     description = "Payment Channel edited successfully!",
-                    color = lgd.hexConvertor(mn.colorCollection.find({},{"_id":0,"Hex":1}))
+                    color = 0xf08080
                 ), delete_after = 10)
                 await channel.delete()
 

@@ -49,7 +49,7 @@ async def help(ctx):
 
 	help1Embed = discord.Embed(
 		title = "Commands (Page 1)", 
-		color = 0xF8C8DC
+		color = 0xf08080
 	)
 
 	help1Embed.add_field(name="**__ping__**", value=">>> `Shows my latency` | Bot Utility\n Aliases | `pong`", inline = False)
@@ -64,7 +64,7 @@ async def help(ctx):
 
 	help2Embed = discord.Embed(
 		title = "Commands (Page 2)",
-		color = 0xF8C8DC
+		color = 0xf08080
 	)
 
 	help2Embed.add_field(name = "**__raffleinfo__**", value = ">>> `Shows info of the raffle` | Raffle Info\n Aliases | None", inline = False)
@@ -79,7 +79,7 @@ async def help(ctx):
 
 	help3Embed = discord.Embed(
 		title = "Commands (Page 3)",
-		color = 0xF8C8DC
+		color = 0xf08080
 	)
 	help3Embed.add_field(name = "**__invite__**", value = ">>> `Invite me to your own server` | Bot Utility \n Aliases | None", inline = False)
 	help3Embed.add_field(name = "**__tickets__**", value = ">>> `For manually adding or subtracting tickets` | Raffle Utility \n Aliases | `t`", inline = False)
@@ -147,14 +147,14 @@ async def prefix(ctx, newPrefix: str):
 	if len(newPrefix) >= 5:
 		await ctx.send(embed = discord.embed(title = "Prefix too long.",
 											 description = "Please choose a shorter prefix!\nMaximum length of Prefix is 5 characters.",
-											 color = lgd.hexConvertor(iterator = mn.colorCollection.find({},{"_id":0,"Hex":1}))))
+											 color = 0xf08080))
 	else:
 		prev = {"_id":str(ctx.guild.id)} 
 		next = {"$set":{"Prefix": newPrefix}}
 		mn.guildpref.update_one(prev, next)
 		prefixSuccess = discord.Embed(title = "Prefix changed!",
 									  description = f"Prefix changed successfully to ``{newPrefix}``",
-									  color = lgd.hexConvertor(mn.colorCollection.find({},{"_id":0,"Hex":1})))
+									  color = 0xf08080)
 		await ctx.send(embed = prefixSuccess)
 
 @prefix.error
@@ -163,14 +163,14 @@ async def prefix_error(ctx: commands.Context, error: commands.errors):
 		missingPermsEmbed = discord.Embed(
 			title = "Hold Up!",
 			description = "You need ``Administrator`` Permissions to use this command!",
-			color = lgd.hexConvertor(iterator = mn.colorCollection.find({},{"_id":0,"Hex":1}))
+			color = 0xf08080
 		)
 		await ctx.send(embed = missingPermsEmbed , delete_after = 20)
 	elif isinstance(error, commands.MissingRequiredArgument):
 		missingArgEmbed = discord.Embed(
 			title = "Prefix needed",
 			description = "You need to give prefix with command\n For example:- ``+prefix {newprefix}\n Put the new prefix in place of {newprefix}``",
-			color = lgd.hexConvertor(iterator = mn.colorCollection.find({},{"_id":0,"Hex":1}))
+			color = 0xf08080
 		)
 		await ctx.send(embed = missingArgEmbed)
 
@@ -178,7 +178,7 @@ async def prefix_error(ctx: commands.Context, error: commands.errors):
 @client.command(aliases = ["Ping","pong","Pong"])
 async def ping(ctx):
 	pingem = discord.Embed(description = f"Pong! In {round(client.latency * 1000)}ms",
-						   color = lgd.hexConvertor(mn.colorCollection.find({},{"_id":0,"Hex":1})))
+						   color = 0xf08080)
 	await ctx.send(embed=pingem)
 
 
@@ -191,14 +191,14 @@ async def rafflecreate(ctx):
 		existsEmbed = discord.Embed(
 			title = "Raffle exists",
 			description = "Raffle for this guild exists\n you can make only one raffle in a guild", 
-			colour = lgd.hexConvertor(mn.colorCollection.find({},{"_id":0,"Hex":1}))
+			colour = 0xf08080
 		)
 		await ctx.send(embed = existsEmbed)
 	else:
 		NameEmbed = discord.Embed(
 			title = "Raffle Name", 
 			description = "Enter the name for Raffle!", 
-			color  = lgd.hexConvertor(mn.colorCollection.find({},{"_id":0,"Hex":1}))
+			color  = 0xf08080
 		)
 
 		Message = await ctx.send(embed = NameEmbed)
@@ -214,7 +214,7 @@ async def rafflecreate(ctx):
 		CostEmbed = discord.Embed(
 			title = "Ticket Cost", 
 			description = f"Enter the cost for {name.content}!", 
-			color = lgd.hexConvertor(mn.colorCollection.find({},{"_id":0,"Hex":1}))
+			color = 0xf08080
 		)
 		await Message.edit(embed = CostEmbed)
 		try:
@@ -228,7 +228,7 @@ async def rafflecreate(ctx):
 		ChannelEmbed = discord.Embed(
 			title = "Payments Channel",
 			description = "Mention the channel", 
-			color  = lgd.hexConvertor(mn.colorCollection.find({},{"_id":0,"Hex":1}))
+			color  = 0xf08080
 		)
 		await Message.edit(embed = ChannelEmbed)
 		try:
@@ -244,7 +244,7 @@ async def rafflecreate(ctx):
 		bankEmbed = discord.Embed(
 			title = "Raffle Bank",
 			description = "Mention the bank id",
-			color = lgd.hexConvertor(mn.colorCollection.find({},{"_id":0,"Hex":1}))
+			color = 0xf08080
 		)
 		bankMessage = await ctx.send(embed = bankEmbed)
 		try:
@@ -259,7 +259,7 @@ async def rafflecreate(ctx):
 		await bankMessage.edit(embed = discord.Embed(
 			title = "Raffle created!!",
 			description = f"Raffle named {name.content} created successfully!",
-			color = lgd.hexConvertor(mn.colorCollection.find({},{"_id":0,"Hex":1}))
+			color = 0xf08080
 		))
 
 
@@ -267,7 +267,7 @@ async def rafflecreate(ctx):
 async def rafflecreate_error(ctx, error):
 	if isinstance(error, commands.errors.MissingPermissions):
 		await ctx.send(embed = discord.Embed(description = "Get the damn admin first, Noob!\n then try to use this command", 
-											 color = lgd.hexConvertor(mn.colorCollection.find({},{"_id":0,"Hex":1}))
+											 color = 0xf08080
 											))
 	else:
 		await ctx.send(error)
@@ -280,7 +280,7 @@ async def raffledelete(ctx):
 	response = mn.raffledbase.drop_collection(str(ctx.guild.id))
 	if "ns" in response:
 		await ctx.send(embed = discord.Embed(description = f"Raffle {rafflename} deleted successfully", 
-											 color = lgd.hexConvertor(mn.colorCollection.find({},{"_id":0,"Hex":1}))
+											 color = 0xf08080
 											))
 	else:
 		error = response["errmsg"]
@@ -327,7 +327,7 @@ async def on_message(message):
 							title = "Tickets bought", 
 							description = f"""Yay! {tickets} tickets bought by <@{buyerid}>!
 							Total tickets bought by <@{buyerid}>: ``{currenttix}``""",
-							color = lgd.hexConvertor(iterator = mn.colorCollection.find({},{"_id":0,"Hex":1}))
+							color = 0xf08080
 							)
 							await message.channel.send(embed = tixboughtEmbed)
 						else:
@@ -339,7 +339,7 @@ async def raffleinfo(ctx):
 		await ctx.send(embed = discord.Embed(
 			title = "Raffle Not Found", 
 			description = "There is no raffle made for this server",
-			color = lgd.hexConvertor(iterator = mn.colorCollection.find({},{"_id":0,"Hex":1}))
+			color = 0xf08080
 		))
 	else:
 		guild = mn.raffledbase[str(ctx.guild.id)]
@@ -355,7 +355,7 @@ async def raffleinfo(ctx):
 
 		infoEmbed = discord.Embed(
 			title = "Raffle Info", 
-			color = lgd.hexConvertor(mn.colorCollection.find({},{"_id":0,"Hex":1}))
+			color = 0xf08080
 		)
 		infoEmbed.add_field(name = "Raffle Name", value = RaffleName)
 		infoEmbed.add_field(name = "Ticket Cost", value = info["Ticket Cost"])
@@ -406,7 +406,7 @@ async def choose_winner(ctx):
 	winnerEmbed = discord.Embed(
 		title = "Winner Chosen",
 		description = f"Congratulations {winner.mention}, You won {rafflename} with {winnerTickets} ticket(s)",
-		color = lgd.hexConvertor(mn.colorCollection.find({},{"_id":0,"Hex":1}))
+		color = 0xf08080
 	)
 	await ctx.send(embed = winnerEmbed)
 	

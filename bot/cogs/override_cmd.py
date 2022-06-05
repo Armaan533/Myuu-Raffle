@@ -22,7 +22,7 @@ class override_cmd(commands.Cog):
 					
 					Example 2: ``!tickets del @someone 5``
 					This will _subtract_ 5 tickets from the user mentioned""",
-					color = lgd.hexConvertor(mn.colorCollection.find({},{"_id":0,"Hex":1}))),
+					color = 0xf08080),
 							delete_after = 10)
 				
 			elif operation.lower() == "add":
@@ -34,7 +34,7 @@ class override_cmd(commands.Cog):
 
 						For Example: ``!tickets add @someone 5``
 						This will _add_ 5 tickets to the user mentioned""",
-						color = lgd.hexConvertor(mn.colorCollection.find({},{"_id":0,"Hex":1}))),
+						color = 0xf08080),
 								delete_after = 10)
 				else:
 					memberid = member.lstrip("<@").rstrip(">")
@@ -57,7 +57,7 @@ class override_cmd(commands.Cog):
 							title = "Tickets bought",
 							description = f"""Yay! {value} tickets bought for <@{memberid}> by {ctx.author.mention}!
 							Total tickets bought by <@{memberid}>: ``{currenttix}``""",
-							color = lgd.hexConvertor(iterator = mn.colorCollection.find({},{"_id":0,"Hex":1}))
+							color = 0xf08080
 							)
 					await ctx.send(embed = tixboughtEmbed, delete_after = 30)
 				
@@ -70,7 +70,7 @@ class override_cmd(commands.Cog):
 
 						For Example: ``!tickets add @someone 5``
 						This will _subtract_ 5 tickets from the user mentioned""",
-					color = lgd.hexConvertor(mn.colorCollection.find({},{"_id":0,"Hex":1}))),
+					color = 0xf08080),
 								delete_after = 10)
 				else:
 					guild = mn.raffledbase[str(ctx.guild.id)]
@@ -84,14 +84,14 @@ class override_cmd(commands.Cog):
 						await ctx.send(embed = discord.Embed(
 							title = "Hold Up!",
 							description = "This user has no tickets yet so you can't delete his/her tickets",
-							color = lgd.hexConvertor(mn.colorCollection.find({},{"_id":0,"Hex":1}))
+							color = 0xf08080
 						))
 
 					elif guild.find_one({"_id":int(memberid)},{"_id":0,"tickets":1})["tickets"] - int(value) < 0:
 						await ctx.send(embed = discord.Embed(
 							title = "Hold Up!",
 							description = f"Enter valid number of tickets to delete from <@{memberid}>",
-							color = lgd.hexConvertor(mn.colorCollection.find({},{"_id":0,"Hex":1}))
+							color = 0xf08080
 						))
 
 					else:
@@ -103,7 +103,7 @@ class override_cmd(commands.Cog):
 								title = "Ticket(s) deleted", 
 								description = f"""{value} tickets deleted for <@{memberid}> by {ctx.author.mention}!
 								Total tickets left for <@{memberid}>: ``{currenttix}``""",
-								color = lgd.hexConvertor(iterator = mn.colorCollection.find({},{"_id":0,"Hex":1}))
+								color = 0xf08080
 								)
 						await ctx.send(embed = tixdeletedEmbed, delete_after = 30)
 						if currenttix == 0:
@@ -119,7 +119,7 @@ class override_cmd(commands.Cog):
 			await ctx.send(embed = discord.Embed(
 				title = "No Raffle Created",
 				description = "Create a raffle for this guild using ``rafflecreate`` command",
-				color = lgd.hexConvertor(mn.colorCollection.find({},{"_id":0,"Hex":1}))
+				color = 0xf08080
 			))
 
 def setup(client):
