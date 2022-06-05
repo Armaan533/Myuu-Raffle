@@ -358,6 +358,10 @@ async def raffleinfo(ctx):
 			color = lgd.hexConvertor(mn.colorCollection.find({},{"_id":0,"Hex":1}))
 		)
 		infoEmbed.add_field(name = "Raffle Name", value = RaffleName)
+		infoEmbed.add_field(name = "Ticket Cost", value = info["Ticket Cost"])
+		infoEmbed.add_field(name = "Bank of Raffle", value = bank.mention)
+		infoEmbed.add_field(name = "Payment Channel", value = f"<#{channel}>")
+		infoEmbed.add_field(name = "Total Tickets Bought", value = f"{totaltickets} tickets")
 
 		if type(info["info"]) != str:
 
@@ -372,14 +376,11 @@ async def raffleinfo(ctx):
 				infoEmbed.set_thumbnail(url = f"attachment://info{ctx.guild.id}.png")
 			else:
 				infoEmbed.set_thumbnail(url = f"attachment://info{ctx.guild.id}.png")
+			await ctx.reply(file = Imgfile, embed = infoEmbed)
 		else:
 			infoEmbed.add_field(name = "About Raffle", value = info["info"])
-
-		infoEmbed.add_field(name = "Ticket Cost", value = info["Ticket Cost"])
-		infoEmbed.add_field(name = "Bank of Raffle", value = bank.mention)
-		infoEmbed.add_field(name = "Payment Channel", value = f"<#{channel}>")
-		infoEmbed.add_field(name = "Total Tickets Bought", value = f"{totaltickets} tickets")
-		await ctx.reply(embed = infoEmbed)		
+			await ctx.reply(embed = infoEmbed)
+		
 			
 
 # @client.event
