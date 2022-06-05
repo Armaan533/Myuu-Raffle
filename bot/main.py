@@ -357,14 +357,17 @@ async def raffleinfo(ctx):
 			title = "Raffle Info", 
 			color = lgd.hexConvertor(mn.colorCollection.find({},{"_id":0,"Hex":1}))
 		)
-		if f"info{RaffleName}.png" not in os.listdir(path="/Images/"):
+		infoEmbed.add_field(name = "Raffle Name", value = RaffleName)
+
+		if f"info{RaffleName}.png" not in os.listdir(path="/Images/") and info["info"] != "Just a plain raffle":
 			aboutimg = Image.open(io.BytesIO(info["info"]))
 			aboutimg.save(f"/Images/info{RaffleName}.png")
 			Imgfile = discord.file(f"/Images/info{RaffleName}.png", filename=f"info{RaffleName}.png")
-
-		infoEmbed.add_field(name = "Raffle Name", value = RaffleName)
-		infoEmbed.set_image(url=f"attachment://info{RaffleName}.png")
-		# infoEmbed.add_field(name = "About Raffle", value = info["info"])
+			infoEmbed.set_image(url=f"attachment://info{RaffleName}.png")
+		
+		else:
+			infoEmbed.add_field(name = "About Raffle", value = info["info"])
+			
 		infoEmbed.add_field(name = "Ticket Cost", value = info["Ticket Cost"])
 		infoEmbed.add_field(name = "Bank of Raffle", value = bank.mention)
 		infoEmbed.add_field(name = "Payment Channel", value = f"<#{channel}>")
