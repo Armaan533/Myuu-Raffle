@@ -70,16 +70,23 @@ class raffle_info_edit(commands.Cog):
             elif str(reaction.emoji) == editEmojis[1]:
                 await editing.edit(embed = discord.Embed(
                     title = "Editing About Raffle",
-                    description = "Edit info about raffle",
+                    description = "Do .mypkinfo or .boxpk to edit the about",
                     color = lgd.hexConvertor(mn.colorCollection.find({},{"_id":0,"Hex":1}))
                 ))
                 await editing.clear_reactions()
+                
                 try:
-                    about = await self.client.wait_for("message", check = authorcheck, timeout = 30)
+                    myuucheck = lambda m: m.author.id == 438057969251254293 and m.channel == ctx.channel
+                    about = await self.client.wait_for("message", check = myuucheck, timeout = 30)
                 except asyncio.exceptions.TimeoutError:
                     await editing.edit(content = "timed out", delete_after = 10)
                     return
-                guild.find_one_and_update({"_id":"Raffle"},{"$set":{"info":about.content}})
+                
+                for attachment in about.attachments:
+                    infoimg = await attachment.read()
+
+                guild.find_one_and_update({"_id":"Raffle"},{"$set":{"info":infoimg}})
+
                 await editing.edit(embed = discord.Embed(
                     title = "About Raffle edited",
                     description = "About Raffle edited successfully!",

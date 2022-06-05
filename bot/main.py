@@ -1,4 +1,5 @@
 import os
+import io
 import discord
 from discord.ext import commands
 import asyncio
@@ -6,6 +7,7 @@ import mongo_declarations as mn
 import logical_definitions as lgd
 from keep_alive import keep_alive
 from pathlib import Path
+from PIL import Image
 
 intents = discord.Intents.default()
 intents.members = True
@@ -344,6 +346,7 @@ async def raffleinfo(ctx):
 		info = 	guild.find_one({"_id":"Raffle"},{"_id":0})
 		bank = discord.utils.get(ctx.guild.members, id = info["bank"])
 		channel = str(info["Channel"])
+		RaffleName = info["RaffleName"]
 		totaltickets = 0
 		ticketcursor = guild.aggregate([{"$group":{"_id":"$type","tickets":{"$sum":"$tickets"}}}])
 		for i in ticketcursor:
@@ -354,8 +357,14 @@ async def raffleinfo(ctx):
 			title = "Raffle Info", 
 			color = lgd.hexConvertor(mn.colorCollection.find({},{"_id":0,"Hex":1}))
 		)
-		infoEmbed.add_field(name = "Raffle Name", value = info["RaffleName"])
-		infoEmbed.add_field(name = "About Raffle", value = info["info"])
+		if f"info{RaffleName}.png" not in os.listdir(path="/Images/"):
+			aboutimg = Image.open(io.BytesIO(info["info"]))
+			aboutimg.save(f"/Images/info{RaffleName}.png")
+			Imgfile = discord.file(f"/Images/info{RaffleName}.png", filename=f"info{RaffleName}.png")
+
+		infoEmbed.add_field(name = "Raffle Name", value = RaffleName)
+		infoEmbed.set_image(url=f"attachment://info{RaffleName}.png")
+		# infoEmbed.add_field(name = "About Raffle", value = info["info"])
 		infoEmbed.add_field(name = "Ticket Cost", value = info["Ticket Cost"])
 		infoEmbed.add_field(name = "Bank of Raffle", value = bank.mention)
 		infoEmbed.add_field(name = "Payment Channel", value = f"<#{channel}>")
