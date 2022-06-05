@@ -359,7 +359,7 @@ async def raffleinfo(ctx):
 		)
 		infoEmbed.add_field(name = "Raffle Name", value = RaffleName)
 
-		if f"info{RaffleName}.png" not in os.listdir(path="app/bot/Images/") and info["info"] != "Just a plain raffle":
+		if f"info{RaffleName}.png" not in os.listdir(path="/app/bot/Images/") and info["info"] != "Just a plain raffle":
 			aboutimg = Image.open(io.BytesIO(info["info"]))
 			aboutimg.save(f"/Images/info{RaffleName}.png")
 			Imgfile = discord.file(f"/Images/info{RaffleName}.png", filename=f"info{RaffleName}.png")
@@ -405,7 +405,7 @@ async def choose_winner(ctx):
 
 @client.command()
 async def testing(ctx):
-	await ctx.send(os.listdir("app/Bot/Images"))
+	await ctx.send(os.listdir("/app/Bot/Images"))
 
 
 
