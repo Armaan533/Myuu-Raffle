@@ -426,18 +426,21 @@ async def raffleinfo(ctx):
 
 @client.command(aliases = ["Raffleroll","raffleroll","choosewinner","ChooseWinner","Choosewinner","cw","CW","Cw"])
 @commands.has_guild_permissions(administrator = True)
-async def choose_winner(ctx):
-	guildcollection = mn.raffledbase[str(ctx.guild.id)]
-	userlist = []
-	ticketlist = []
-	rafflename = guildcollection.find_one({"_id":"Raffle"},{"_id":0,"RaffleName":1})["RaffleName"]
-	for i in guildcollection.find({"type":"buyer"},{"tickets":1}):
-		userlist.append(i["_id"])
-		ticketlist.append(i["tickets"])
+async def choose_winner(ctx, chosenwinner: discord.Member = None):
+	if chosenwinner != None:
+		guildcollection = mn.raffledbase[str(ctx.guild.id)]
+		userlist = []
+		ticketlist = []
+		rafflename = guildcollection.find_one({"_id":"Raffle"},{"_id":0,"RaffleName":1})["RaffleName"]
+		for i in guildcollection.find({"type":"buyer"},{"tickets":1}):
+			userlist.append(i["_id"])
+			ticketlist.append(i["tickets"])
 
-	winnerId = lgd.random_chooser(userlist,ticketlist)
-	winnerTickets = guildcollection.find_one({"_id":winnerId},{"_id":0,"tickets":1})["tickets"]
-	winner = discord.utils.get(ctx.guild.members,id = winnerId)
+		winnerId = lgd.random_chooser(userlist,ticketlist)
+		winnerTickets = guildcollection.find_one({"_id":winnerId},{"_id":0,"tickets":1})["tickets"]
+		winner = discord.utils.get(ctx.guild.members,id = winnerId)
+	else:
+		winner = chosenwinner
 	winnerEmbed = discord.Embed(
 		title = "Winner Chosen",
 		description = f"Congratulations {winner.mention}, You won {rafflename} with {winnerTickets} ticket(s)",
