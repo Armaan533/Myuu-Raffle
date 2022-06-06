@@ -427,7 +427,7 @@ async def raffleinfo(ctx):
 @client.command(aliases = ["Raffleroll","raffleroll","choosewinner","ChooseWinner","Choosewinner","cw","CW","Cw"])
 @commands.has_guild_permissions(administrator = True)
 async def choose_winner(ctx, chosenwinner: discord.Member = None):
-	if chosenwinner != None:
+	if chosenwinner == None:
 		guildcollection = mn.raffledbase[str(ctx.guild.id)]
 		userlist = []
 		ticketlist = []
