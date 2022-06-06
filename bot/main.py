@@ -447,7 +447,7 @@ async def choose_winner(ctx):
 	
 
 @client.command()
-@commands.has_guild_permissions(administrator = True) or commands.has_role("Raffle Permissions")
+@commands.check(lgd.perms)
 async def testing(ctx):
 	await ctx.send("role works")
 
