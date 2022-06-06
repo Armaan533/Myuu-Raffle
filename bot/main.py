@@ -447,9 +447,9 @@ async def choose_winner(ctx):
 	
 
 @client.command()
-# @commands.check(lgd.perms)
+@commands.check(lgd.perms)
 async def testing(ctx):
-	await ctx.send(ctx.author.roles)
+	await ctx.send("Yay! it works")
 
 
 

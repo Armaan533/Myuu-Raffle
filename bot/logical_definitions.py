@@ -27,5 +27,11 @@ async def save_image(path: str, image: memoryview):
 	async with aiofiles.open(path, "wb") as file:
 		await file.write(image)
 
+
 def perms(ctx):
-	return (ctx.author.guild_permissions.administrator) or ("Raffle Permissions" in ctx.author.roles)
+	role = False
+	for i in ctx.author.roles:
+		if i.endswith("name='Raffle Permissions'>"):
+			role = True
+			break
+	return (ctx.author.guild_permissions.administrator) or role
