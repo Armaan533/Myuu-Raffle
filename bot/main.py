@@ -445,7 +445,7 @@ async def choose_winner(ctx, chosenwinner: discord.Member = None):
 		winnerId = chosenwinner.id
 		winner = chosenwinner
 		winnerTickets = guildcollection.find_one({"_id":winnerId},{"_id":0, "tickets":1})["tickets"]
-	await ctx.delete()
+	await ctx.message.delete()
 	winnerEmbed = discord.Embed(
 		title = "Winner Chosen",
 		description = f"Congratulations {winner.mention}, You won {rafflename} with {winnerTickets} ticket(s)",
