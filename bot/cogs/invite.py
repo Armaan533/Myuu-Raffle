@@ -9,7 +9,7 @@ class invite(commands.Cog):
     
     @commands.command(name = "invite", aliases = ["Invite"])
     async def invite(self, ctx):
-        invite_link = "https://discord.com/api/oauth2/authorize?client_id=945301514946244629&permissions=93248&scope=bot"
+        invite_link = "https://discord.com/api/oauth2/authorize?client_id=945301514946244629&permissions=268528704&scope=bot"
         inviteEmbed = discord.Embed(title = "Invite bot!",
 								description = f"Click [here]({invite_link}) to invite the bot",
 								color = 0xf08080)

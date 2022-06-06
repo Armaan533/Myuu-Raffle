@@ -34,8 +34,16 @@ async def on_ready():
 
 
 @client.event
-async def on_guild_join(guild):
-	guildDetails = {"_id": str(guild.id), "Prefix": "!"}
+async def on_guild_join(guild: discord.Guild):
+	if "Manage Roles" in guild.me.guild_permissions:
+		await guild.create_role(
+			name = "Raffle Permissions",
+			color = 0xf08080,
+			reason = "Created a role to give permissions to handle raffle(s)"
+		)
+		guildDetails = {"_id": str(guild.id), "Prefix": "!", "Role Created": True}
+	else:
+		guildDetails = {"_id": str(guild.id), "Prefix": "!", "Role Created": False}
 	mn.guildpref.insert_one(guildDetails)
 
 @client.event
@@ -439,8 +447,9 @@ async def choose_winner(ctx):
 	
 
 @client.command()
+@commands.has_role("Raffle Permissions")
 async def testing(ctx):
-	await ctx.send(os.listdir("/app/bot/Images"))
+	await ctx.send("role works")
 
 
 
