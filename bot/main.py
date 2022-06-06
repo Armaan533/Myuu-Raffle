@@ -35,7 +35,7 @@ async def on_ready():
 
 @client.event
 async def on_guild_join(guild: discord.Guild):
-	if "Manage Roles" in guild.me.guild_permissions:
+	if guild.me.guild_permissions.manage_roles:
 		await guild.create_role(
 			name = "Raffle Permissions",
 			color = 0xf08080,
