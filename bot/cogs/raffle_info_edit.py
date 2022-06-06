@@ -70,7 +70,7 @@ class raffle_info_edit(commands.Cog):
             elif str(reaction.emoji) == editEmojis[1]:
                 await editing.edit(embed = discord.Embed(
                     title = "Editing About Raffle",
-                    description = "Do .mypkinfo or .boxpk to edit the about",
+                    description = "Do .mypkinfo <pokemon> or .boxpk <box> <position> to select the pokemon for raffle",
                     color = 0xf08080
                 ))
                 await editing.clear_reactions()

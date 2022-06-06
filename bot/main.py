@@ -3,6 +3,8 @@ import io
 import discord
 from discord.ext import commands
 import asyncio
+
+from numpy import delete
 import mongo_declarations as mn
 import logical_definitions as lgd
 from keep_alive import keep_alive
@@ -210,6 +212,23 @@ async def rafflecreate(ctx):
 			return
 		await name.delete()
 
+		InfoEmbed = discord.Embed(
+			title = "Pokemon Info",
+			description = "Do .mypkinfo <pokemon> or .boxpk <box> <postion> to select the pokemon for raffle",
+			color = 0xf08080
+		)
+		await Message.edit(embed = InfoEmbed)
+
+		myuucheck = lambda m: m.author.id == 438057969251254293 and m.channel == ctx.channel
+
+		try:
+			info = await client.wait_for("message", check = myuucheck, timeout = 40)
+		except asyncio.exceptions.TimeoutError:
+			await Message.edit(content = "timed out", delete_after = 10)
+			return
+		for attachment in info.attachments:
+			infoimg = await attachment.read()
+		await info.delete()
 
 		CostEmbed = discord.Embed(
 			title = "Ticket Cost", 
@@ -253,7 +272,15 @@ async def rafflecreate(ctx):
 			await Message.edit(content = "time out", delete_after = 10)
 			return
 		await bankname.delete()
-		raffledetails = {"_id":"Raffle","RaffleName":name.content,"Ticket Cost":int(tixcost.content),"Channel":int(channelid), "bank":int(bankname.content.lstrip("<@!").rstrip(">")), "info":"Just a plain raffle."}
+
+		raffledetails = {
+			"_id": "Raffle",
+			"RaffleName": name.content,
+			"Ticket Cost": int(tixcost.content),
+			"Channel": int(channelid), 
+			"bank": int(bankname.content.lstrip("<@!").rstrip(">")), 
+			"info": infoimg}
+
 		guild = mn.raffledbase[str(ctx.guild.id)]
 		guild.insert_one(raffledetails)
 		await bankMessage.edit(embed = discord.Embed(
