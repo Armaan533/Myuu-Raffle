@@ -441,6 +441,7 @@ async def choose_winner(ctx, chosenwinner: discord.Member = None):
 		winner = discord.utils.get(ctx.guild.members,id = winnerId)
 	else:
 		winner = chosenwinner
+	await ctx.delete()
 	winnerEmbed = discord.Embed(
 		title = "Winner Chosen",
 		description = f"Congratulations {winner.mention}, You won {rafflename} with {winnerTickets} ticket(s)",
