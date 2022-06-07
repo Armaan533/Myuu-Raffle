@@ -31,7 +31,7 @@ async def save_image(path: str, image: memoryview):
 def perms(ctx):
 	role = False
 	for i in ctx.author.roles:
-		if i.endswith("name='Raffle Permissions'>"):
+		if i.name == "Raffle Permissions":
 			role = True
 			break
 	return (ctx.author.guild_permissions.administrator) or role
