@@ -3,8 +3,7 @@ import io
 import discord
 from discord.ext import commands
 import asyncio
-
-from numpy import delete
+import traceback, sys
 import mongo_declarations as mn
 import logical_definitions as lgd
 from keep_alive import keep_alive
@@ -418,11 +417,29 @@ async def raffleinfo(ctx):
 		
 			
 
-# @client.event
-# async def on_command_error(ctx, error):
-# 	if isinstance(error, commands.CommandNotFound):
-# 		unknownEmbed = discord.Embed(title = "Command not found",description = "What command are you trying to use?\n``Protip:`` Use ``!help`` to see all the available commands!", color = lgd.hexConvertor(colorCollection.find({},{"_id":0,"Hex":1})))
-# 		await ctx.send(embed = unknownEmbed)
+@client.event
+async def on_command_error(ctx, error):
+	if isinstance(error, commands.CommandNotFound):
+		unknownEmbed = discord.Embed(
+			title = "Command not found",
+			description = "What command are you trying to use?\n``Protip:`` Use ``!help`` to see all the available commands!", 
+			color = 0xf08080
+			)
+		await ctx.send(embed = unknownEmbed)
+	
+	elif isinstance(error, commands.errors.CheckFailure):
+		nopermsEmbed = discord.Embed(
+			title = "No permissions",
+			description = """Sorry, you can't use this command because you don't have the required permissions
+			Ask the owner/admins for the permissions.
+			_For Owner/Admins: Give the person the role named _`Raffle Permissions`_ created by the bot_""",
+			color = 0xf08080
+		)
+		await ctx.send(embed = nopermsEmbed)
+
+	else:
+		print('Ignoring exception in command {}:'.format(ctx.command), file=sys.stderr)
+		traceback.print_exception(type(error), error, error.__traceback__, file=sys.stderr)
 
 @client.command(aliases = ["Raffleroll","raffleroll","choosewinner","ChooseWinner","Choosewinner","cw","CW","Cw"])
 @commands.has_guild_permissions(administrator = True)
