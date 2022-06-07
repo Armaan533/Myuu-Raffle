@@ -9,7 +9,7 @@ class total_earning(commands.Cog):
         self.client = client
 
     @commands.command(name = "totalearning", aliases = ["Totalearning", "TotalEarning"])
-    @commands.has_guild_permissions(administrator = True)
+    @commands.check(lgd.perms)
     async def totalearning(self, ctx):
         if not str(ctx.guild.id) in mn.raffledbase.list_collection_names():
             noRaffleEmbed = discord.Embed(

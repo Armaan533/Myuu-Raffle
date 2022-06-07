@@ -151,7 +151,7 @@ async def help(ctx):
 
 
 @client.command(aliases = ["Prefix"])
-@commands.has_guild_permissions(administrator = True)
+@commands.check(lgd.perms)
 async def prefix(ctx, newPrefix: str):
 	if len(newPrefix) >= 5:
 		await ctx.send(embed = discord.embed(title = "Prefix too long.",
@@ -192,7 +192,7 @@ async def ping(ctx):
 
 
 @client.command(aliases = ["RaffleCreate","createraffle","CreateRaffle","RafCreate","rafcreate","createraf","CreateRaf","RC","rc"])
-@commands.has_permissions(administrator = True)
+@commands.check(lgd.perms)
 async def rafflecreate(ctx):
 	guilds = mn.raffledbase.list_collection_names()
 	guild = ctx.guild.id
@@ -307,7 +307,7 @@ async def rafflecreate_error(ctx, error):
 		await ctx.send(error)
 	
 @client.command(aliases = ["RaffleDelete","DeleteRaffle","deleteraffle","delraf", "DelRaf","rafdel","RafDel", "RD", "rd"])
-@commands.has_permissions(administrator = True)
+@commands.check(lgd.perms)
 async def raffledelete(ctx):
 	guild = mn.raffledbase[str(ctx.guild.id)]
 	rafflename = guild.find_one({"_id":"Raffle"},{"_id":0,"RaffleName":1})["RaffleName"]
@@ -442,7 +442,7 @@ async def on_command_error(ctx, error):
 		traceback.print_exception(type(error), error, error.__traceback__, file=sys.stderr)
 
 @client.command(aliases = ["Raffleroll","raffleroll","choosewinner","ChooseWinner","Choosewinner","cw","CW","Cw"])
-@commands.has_guild_permissions(administrator = True)
+@commands.check(lgd.perms)
 async def choose_winner(ctx, chosenwinner: discord.Member = None):
 	guildcollection = mn.raffledbase[str(ctx.guild.id)]
 	rafflename = guildcollection.find_one({"_id":"Raffle"},{"_id":0,"RaffleName":1})["RaffleName"]
@@ -479,7 +479,7 @@ async def testing(ctx):
 
 
 @client.command()
-@commands.has_guild_permissions(administrator = True)
+@commands.check(lgd.perms)
 async def enable(ctx, *, cogname = None):
 	if cogname == None:
 		return
@@ -495,7 +495,7 @@ async def enable(ctx, *, cogname = None):
 
 
 @client.command()
-@commands.has_guild_permissions(administrator = True)
+@commands.check(lgd.perms)
 async def disable(ctx,*, cogname = None):
 	if cogname == None:
 		return
