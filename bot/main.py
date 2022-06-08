@@ -1,3 +1,4 @@
+from multiprocessing.dummy import current_process
 import os
 import io
 import discord
@@ -98,55 +99,37 @@ async def help(ctx):
 
 	mainmsg = await ctx.reply(embed = help1Embed)
 
-	check = lambda m: m.author == ctx.author and m.channel == ctx.channel and m.content.lower() in ["next","prev"]
-	try:
-		choice1 = await client.wait_for("message", check = check, timeout = 40)
-		
-		if choice1.content.lower() == "next":
-			await mainmsg.edit(embed = help2Embed)
-		else:
-			await ctx.send("There is no previous page", delete_after = 5)
-		
-		choice2 = await client.wait_for("message", check = check, timeout = 40)
+	currentHelpPage = 1
+	check = lambda m: m.author == ctx.author and m.channel == ctx.channel and m.content.lower() in ["next", "prev"]
 
-		if choice2.content.lower() == "next":
-			if choice1.content.lower() == "next":
-				await mainmsg.edit(embed = help3Embed)
-			else:
-				await mainmsg.edit(embed = help2Embed)
-		else:
-			if choice1.content.lower() == "next":
-				await mainmsg.edit(embed = help1Embed)
-			else:
-				await ctx.send("There is no previous page", delete_after = 5)
-
-		choice3 = await client.wait_for("message", check = check, timeout = 40)
-
-		if choice3.content.lower() == "next":
-			if choice2.content.lower() == "next" and choice1.content.lower() == "next":
-				await ctx.send("There is no next page")
-			elif choice2.content.lower() == "next" and choice1.content.lower() == "prev":
-				await mainmsg.edit(embed = help3Embed)
-			elif choice2.content.lower() == "prev" and choice1.content.lower() == "next":
-				await mainmsg.edit(embed = help2Embed)
-			else:
-				await mainmsg.edit(embed = help2Embed)
-		else:
-			if choice2.content.lower() == "next" and choice1.content.lower() == "next":
-				await mainmsg.edit(embed = help2Embed)
-			elif choice2.content.lower() == "next" and choice1.content.lower() == "prev":
-				await mainmsg.edit(embed = help1Embed)
-			elif choice2.content.lower() == "prev" and choice1.content.lower() == "next":
-				await ctx.send("There is no previous page", delete_after = 5)
-			else:
-				await ctx.send("There is no previous page", delete_after = 5)
-			
-
-
-		# page3msg = await page2msg.edit(embed = help2Embed)
-	except asyncio.exceptions.TimeoutError:
-		return
+	def helpEmbedProvider(page: int):
+		match page:
+			case 1:
+				return help1Embed
+			case 2:
+				return help2Embed
+			case 3:
+				return help3Embed
 	
+	while True:
+		try:
+			choice = await client.wait_for("message", check = check, timeout = 30)
+
+			if choice.content.lower() == "next":
+				if currentHelpPage == 3:
+					await choice.reply("You can't go to next page because there is no next page", delete_after = 10)
+				else:
+					currentHelpPage += 1
+					await mainmsg.edit(embed = helpEmbedProvider(currentHelpPage))
+			else:
+				if currentHelpPage == 1:
+					await choice.reply("You can't go to previous page because there is no previous page", delete_after = 10)
+				else:
+					currentHelpPage -=1
+					await mainmsg.edit(embed = helpEmbedProvider(currentHelpPage))
+		except asyncio.exceptions.TimeoutError:
+			return
+			break
 
 
 @client.command(aliases = ["Prefix"])
