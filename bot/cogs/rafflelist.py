@@ -158,7 +158,7 @@ class rafflelist(commands.Cog):
                                 currentpage += 1
                                 await msg.edit(embed = embedprovider(currentpage))
                         else:
-                            if currentpage < 1:
+                            if currentpage == 1:
                                 await choice.reply("You can't go to previous page because there is no previous page", delete_after = 10)
                             else:
                                 currentpage -= 1
