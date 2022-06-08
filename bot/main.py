@@ -7,7 +7,6 @@ import traceback, sys
 import mongo_declarations as mn
 import logical_definitions as lgd
 from keep_alive import keep_alive
-from pathlib import Path
 from PIL import Image
 
 intents = discord.Intents.default()
@@ -326,46 +325,59 @@ async def raffledelete(ctx):
 
 @client.listen("on_message")
 async def on_message(message):
-	
 	if message.guild == None:
 		pass
 
-	elif str(message.guild.id) in mn.raffledbase.list_collection_names():
-		guild = mn.raffledbase[str(message.guild.id)]
-		if message.channel.id == guild.find_one({"_id":"Raffle"},{"_id":0,"Channel":1})["Channel"] and message.author.id!= 945301514946244629 and message.author.id == 438057969251254293:
-			bankid = guild.find_one({"_id":"Raffle"},{"_id":0,"bank":1})["bank"]
-			# bank = discord.utils.get(message.guild.members, id = bankid)
-			tixcost = guild.find_one({"_id":"Raffle"},{"_id":0,"Ticket Cost":1})["Ticket Cost"]
-			if message.embeds != None:
-				for i in message.embeds:
-					if i.description.startswith(f"<@{bankid}>, you have just been gifted"):
-						splitList = i.description.split()
-						pkc = int(splitList[6])
-						tickets = pkc // tixcost
-						buyerid = int(splitList[9][2:-2])
-						if tickets > 0:
-							buyersCursor = guild.find({"type":"buyer"})
-							buyers = []
-							for i in buyersCursor:
-								buyers.append(i["_id"])
-							if buyerid not in buyers:
-								ticketlog = {"_id":buyerid,"type":"buyer","tickets":tickets}
-								guild.insert_one(ticketlog)
-								currenttix = tickets
+	else:
+		guildID = str(message.guild.id)
+		gprefix = mn.guildpref.find_one({"_id": guildID}, {"_id":0, "Prefix":1})["Prefix"]
+
+		if (message.content == f"<@!{client.user.id}>" or message.content==f"<@{client.user.id}>") and message.author != message.guild.me and message.guild != None:
+			
+			mentionEmbed = discord.Embed(
+				title = "Hello there :wave:",
+				description = f"My prefix is `{gprefix}`",
+				color = lgd.hexConvertor(mn.colorCollection.find({},{"_id":0,"Hex":1})))
+
+			await message.channel.send(embed = mentionEmbed)
+			
+
+		elif guildID in mn.raffledbase.list_collection_names():
+			guild = mn.raffledbase[guildID]
+			if message.channel.id == guild.find_one({"_id":"Raffle"},{"_id":0,"Channel":1})["Channel"] and message.author.id!= 945301514946244629 and message.author.id == 438057969251254293:
+				bankid = guild.find_one({"_id":"Raffle"},{"_id":0,"bank":1})["bank"]
+				# bank = discord.utils.get(message.guild.members, id = bankid)
+				tixcost = guild.find_one({"_id":"Raffle"},{"_id":0,"Ticket Cost":1})["Ticket Cost"]
+				if message.embeds != None:
+					for i in message.embeds:
+						if i.description.startswith(f"<@{bankid}>, you have just been gifted"):
+							splitList = i.description.split()
+							pkc = int(splitList[6])
+							tickets = pkc // tixcost
+							buyerid = int(splitList[9][2:-2])
+							if tickets > 0:
+								buyersCursor = guild.find({"type":"buyer"})
+								buyers = []
+								for i in buyersCursor:
+									buyers.append(i["_id"])
+								if buyerid not in buyers:
+									ticketlog = {"_id":buyerid,"type":"buyer","tickets":tickets}
+									guild.insert_one(ticketlog)
+									currenttix = tickets
+								else:
+									prevtix = guild.find_one({"_id":buyerid},{"_id":0,"tickets":1})["tickets"]
+									# prevtix+= tickets
+									currenttix = prevtix + tickets
+									guild.find_one_and_update({"_id":buyerid},{"$set":{"tickets":currenttix}})
+								tixboughtEmbed = discord.Embed(
+								title = "Tickets bought", 
+								description = f"""Yay! {tickets} tickets bought by <@{buyerid}>!
+								Total tickets bought by <@{buyerid}>: ``{currenttix}``""",
+								color = 0xf08080
+								)
+								await message.channel.send(embed = tixboughtEmbed)
 							else:
-								prevtix = guild.find_one({"_id":buyerid},{"_id":0,"tickets":1})["tickets"]
-								# prevtix+= tickets
-								currenttix = prevtix + tickets
-								guild.find_one_and_update({"_id":buyerid},{"$set":{"tickets":currenttix}})
-							tixboughtEmbed = discord.Embed(
-							title = "Tickets bought", 
-							description = f"""Yay! {tickets} tickets bought by <@{buyerid}>!
-							Total tickets bought by <@{buyerid}>: ``{currenttix}``""",
-							color = 0xf08080
-							)
-							await message.channel.send(embed = tixboughtEmbed)
-						else:
-							await message.channel.send(f"Dude, <@{buyerid}> hold up! the ticket cost is {tixcost} pkc")
+								await message.channel.send(f"Dude, <@{buyerid}> hold up! the ticket cost is {tixcost} pkc")
 
 @client.command(aliases = ["Raffleinfo","RaffleInfo","RI","ri","Ri"])
 async def raffleinfo(ctx):
