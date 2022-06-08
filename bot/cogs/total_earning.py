@@ -1,4 +1,3 @@
-from cogs.mytickets import mytickets
 from discord.ext import commands
 import discord
 import logical_definitions as lgd
