@@ -34,7 +34,11 @@ class rafflelist(commands.Cog):
                 totaltickets = 0
             else:
                 buyers = guild.count_documents({"type":"buyer"})
-                Embeds = (buyers//10)+1
+
+                if type(buyers/10) == float:
+                    Embeds = (buyers//10)+1
+                else:
+                    Embeds = int(buyers/10)
 
                 rafflelist2 = discord.Embed(
                     title = rafflename,
