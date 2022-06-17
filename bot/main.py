@@ -1,4 +1,3 @@
-from multiprocessing.dummy import current_process
 import os
 import io
 import discord
