@@ -62,13 +62,13 @@ class rafflelist(commands.Cog):
 			    )
 
                 
-                rafflelist1.set_footer(text= f"Requested by {ctx.author.name+ctx.author.discriminator} | Page 1 of {Embeds} | Type next or prev to switch between pages", icon_url=ctx.author.avatar_url)
-                rafflelist2.set_footer(text= f"Requested by {ctx.author.name+ctx.author.discriminator} | Page 2 of {Embeds} | Type next or prev to switch between pages", icon_url=ctx.author.avatar_url)
-                rafflelist3.set_footer(text= f"Requested by {ctx.author.name+ctx.author.discriminator} | Page 3 of {Embeds} | Type next or prev to switch between pages", icon_url=ctx.author.avatar_url)
-                rafflelist4.set_footer(text= f"Requested by {ctx.author.name+ctx.author.discriminator} | Page 4 of {Embeds} | Type next or prev to switch between pages", icon_url=ctx.author.avatar_url)
-                rafflelist5.set_footer(text= f"Requested by {ctx.author.name+ctx.author.discriminator} | Page 5 of {Embeds} | Type next or prev to switch between pages", icon_url=ctx.author.avatar_url)
-                rafflelist6.set_footer(text= f"Requested by {ctx.author.name+ctx.author.discriminator} | Page 6 of {Embeds} | Type next or prev to switch between pages", icon_url=ctx.author.avatar_url)
-                rafflelist7.set_footer(text= f"Requested by {ctx.author.name+ctx.author.discriminator} | Page 7 of {Embeds} | Type next or prev to switch between pages", icon_url=ctx.author.avatar_url)
+                rafflelist1.set_footer(text= f"Requested by {ctx.author.name}#{ctx.author.discriminator} | Page 1 of {Embeds} | Type next or prev to switch between pages", icon_url=ctx.author.avatar_url)
+                rafflelist2.set_footer(text= f"Requested by {ctx.author.name}#{ctx.author.discriminator} | Page 2 of {Embeds} | Type next or prev to switch between pages", icon_url=ctx.author.avatar_url)
+                rafflelist3.set_footer(text= f"Requested by {ctx.author.name}#{ctx.author.discriminator} | Page 3 of {Embeds} | Type next or prev to switch between pages", icon_url=ctx.author.avatar_url)
+                rafflelist4.set_footer(text= f"Requested by {ctx.author.name}#{ctx.author.discriminator} | Page 4 of {Embeds} | Type next or prev to switch between pages", icon_url=ctx.author.avatar_url)
+                rafflelist5.set_footer(text= f"Requested by {ctx.author.name}#{ctx.author.discriminator} | Page 5 of {Embeds} | Type next or prev to switch between pages", icon_url=ctx.author.avatar_url)
+                rafflelist6.set_footer(text= f"Requested by {ctx.author.name}#{ctx.author.discriminator} | Page 6 of {Embeds} | Type next or prev to switch between pages", icon_url=ctx.author.avatar_url)
+                rafflelist7.set_footer(text= f"Requested by {ctx.author.name}#{ctx.author.discriminator} | Page 7 of {Embeds} | Type next or prev to switch between pages", icon_url=ctx.author.avatar_url)
                 
                 membercursor = guild.find({"type":"buyer"},{"tickets":1}).sort("tickets",-1)
 
