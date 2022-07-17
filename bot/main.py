@@ -361,6 +361,8 @@ async def on_message(message):
 							else:
 								await message.channel.send(f"Dude, <@{buyerid}> hold up! the ticket cost is {tixcost} pkc")
 
+
+
 @client.command(aliases = ["Raffleinfo","RaffleInfo","RI","ri","Ri"])
 async def raffleinfo(ctx):
 	if str(ctx.guild.id) not in mn.raffledbase.list_collection_names():
