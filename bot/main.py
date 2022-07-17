@@ -23,11 +23,8 @@ client = commands.Bot(command_prefix = get_prefix, intents = intents)
 
 client.remove_command("help")
 
-
 @client.event
 async def on_ready():
-	activity = discord.Game(name="with raffles", type=3)
-	await client.change_presence(status=discord.Status.idle, activity=activity)
 	print("We are online!")
 
 
