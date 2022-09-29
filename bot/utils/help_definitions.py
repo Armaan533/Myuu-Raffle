@@ -2,7 +2,7 @@ import discord, inspect
 from discord.ext import commands, menus
 from typing import Union, Optional, Any, TYPE_CHECKING
 from help_utils.paginator import BotPages
-from help_utils import time
+import help_utils.time as t
 
 # if TYPE_CHECKING:
 #     from main import MyClient
@@ -133,7 +133,7 @@ class FrontPageSource(menus.PageSource):
             inline=False,
         )
 
-        created_at = time.format_dt(menu.ctx.bot.user.created_at, 'F')
+        created_at = t.format_dt(menu.ctx.bot.user.created_at, 'F')
         if self.index == 0:
             embed.add_field(
                 name='Who are you?',

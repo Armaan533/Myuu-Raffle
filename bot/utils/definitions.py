@@ -1,6 +1,6 @@
 import random, discord
 from urllib import response
-import database as db
+import utils.database as db
 from discord.ext import commands, menus
 from discord import app_commands, Interaction, ui
 
