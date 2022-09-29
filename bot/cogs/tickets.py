@@ -10,7 +10,7 @@ class Tickets(commands.Cog):
         self.client = client
 
     @commands.hybrid_group(name = "tickets")
-    async def tickets():
+    async def tickets(self, ctx: commands.Context):
         pass
 
     @tickets.command(name = "add", help = "For adding tickets to a member")

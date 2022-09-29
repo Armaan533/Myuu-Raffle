@@ -18,7 +18,7 @@ class Raffle(commands.Cog):
 
     @commands.hybrid_group()
     @commands.guild_only()
-    async def raffle():
+    async def raffle(self, ctx: commands.Context):
         pass
 
     @raffle.command(name = "create", help = "For creating a raffle")
