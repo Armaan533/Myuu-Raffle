@@ -4,8 +4,8 @@ from typing import Union, Optional, Any, TYPE_CHECKING
 from help_utils.paginator import BotPages
 from help_utils import time
 
-if TYPE_CHECKING:
-    from main import MyClient
+# if TYPE_CHECKING:
+#     from main import MyClient
 
 
 
@@ -55,7 +55,7 @@ class GroupHelpPageSource(menus.ListPageSource):
 
 
 class HelpSelectMenu(discord.ui.Select['HelpMenu']):
-    def __init__(self, commands: dict[commands.Cog, list[commands.Command]], bot: MyClient):
+    def __init__(self, commands: dict[commands.Cog, list[commands.Command]], bot: commands.Bot):
         super().__init__(
             placeholder='Select a category...',
             min_values=1,
@@ -63,7 +63,7 @@ class HelpSelectMenu(discord.ui.Select['HelpMenu']):
             row=0,
         )
         self.commands: dict[commands.Cog, list[commands.Command]] = commands
-        self.bot: MyClient = bot
+        self.bot: commands.Bot = bot
         self.__fill_options()
 
     def __fill_options(self) -> None:
