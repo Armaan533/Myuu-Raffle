@@ -1,4 +1,4 @@
-import discord, itertools
+import discord, itertools, os, asyncio
 from discord.ext import commands
 from typing import Optional, Literal
 from utils import database as db, help_definitions as hd
@@ -387,3 +387,13 @@ async def sync(ctx: commands.Context, guilds: commands.Greedy[discord.Object], s
             ret += 1
 
     await ctx.send(f"Synced the tree to {ret}/{len(guilds)}.")
+
+
+
+
+
+async def start():
+	await client.start(os.environ.get('token'))
+	
+
+asyncio.run(start())
