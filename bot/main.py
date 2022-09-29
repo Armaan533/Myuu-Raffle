@@ -1,7 +1,7 @@
 import discord, itertools, os, asyncio
 from discord.ext import commands
 from typing import Optional, Literal
-from utils import database as db, help_definitions as hd
+import utils.definitions as d, utils.database as db
 from discord import app_commands
 
 intents = discord.Intents.all()

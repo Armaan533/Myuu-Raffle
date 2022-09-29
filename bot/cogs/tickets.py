@@ -2,7 +2,8 @@ import discord
 from discord.app_commands import Transform
 from discord import app_commands
 from discord.ext import commands
-from utils import definitions as d, database as db
+import utils.definitions as d, utils.database as db
+# from utils import definitions as d, database as db
 
 class Tickets(commands.Cog):
     def __init__(self, client) -> None:

@@ -1,7 +1,7 @@
 import io
 import discord, asyncio, os
 from discord.ext import commands
-from utils import database as db, definitions as d
+import utils.database as db, utils.definitions as d
 # from typing import Literal, Optional, Union
 from discord import app_commands
 from PIL import Image
