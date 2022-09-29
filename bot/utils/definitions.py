@@ -23,7 +23,7 @@ def random_chooser(userlist: list, tixlist: list):
 	return random.choices(userlist, weights = tixlist,k=1)[0]
 
 
-class MenuPages(ui.view, menus.MenuPages):
+class MenuPages(ui.View, menus.MenuPages):
 	def __init__(self, source):
 		super().__init__(timeout = 60)
 		self._source = source
