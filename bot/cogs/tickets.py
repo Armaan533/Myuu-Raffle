@@ -128,4 +128,4 @@ class Tickets(commands.Cog):
 
 
 async def setup(client: commands.Bot):
-    client.add_cog(Tickets(client))
+    await client.add_cog(Tickets(client))
