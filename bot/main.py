@@ -287,7 +287,7 @@ async def ping(ctx: commands.Context):
 @client.hybrid_command(name = "prefix", help = "Changes the prefix of the bot for the guild")
 @commands.has_permissions(administrator = True)
 @commands.guild_only()
-@app_commands.rename(newPrefix = "new prefix")
+# @app_commands.rename(newPrefix = "new prefix")
 async def prefix(ctx: commands.Context, newPrefix: str):
     if len(newPrefix) >= 5:
         longPrefix = discord.Embed(

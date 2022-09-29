@@ -178,7 +178,7 @@ class Raffle(commands.Cog):
     @raffle.command(name = "delete", help = "For deleting a raffle")
     @commands.check_any(commands.has_role("Raffle Permissions"),commands.has_permissions(administrator = True))
     @commands.guild_only()
-    @app_commands.rename(raffle_name = "raffle name")
+    # @app_commands.rename(raffle_name = "raffle name")
     async def delete(self, ctx: commands.Context, raffle_name: app_commands.Transform[str, d.ChoiceTransformer]):
         raffledoc = await db.raffles.find_one({"RaffleName": raffle_name})
         if raffledoc:
@@ -216,7 +216,7 @@ class Raffle(commands.Cog):
 
     @raffle.command(name = "info", help = "For checking information about a raffle")
     @commands.guild_only()
-    @app_commands.rename(raffle_name = "raffle name")
+    # @app_commands.rename(raffle_name = "raffle name")
     async def info(self, ctx: commands.Context, raffle_name: app_commands.Transform[str, d.ChoiceTransformer]):
         raffledoc = await db.raffles.find_one({"RaffleName": raffle_name})
         if raffledoc:
@@ -265,7 +265,7 @@ class Raffle(commands.Cog):
     @raffle.command(name = "roll", help = "For determining the winner(s) of the mentioned raffle")
     @commands.check_any(commands.has_role("Raffle Permissions"),commands.has_permissions(administrator = True))
     @commands.guild_only()
-    @app_commands.rename(raffle_name = "raffle name")
+    # @app_commands.rename(raffle_name = "raffle name")
     async def roll(self, ctx: commands.Context, raffle_name = app_commands.Transform[str, d.ChoiceTransformer]):
         raffleDoc = await db.raffles.find_one({"RaffleName": raffle_name})
 
@@ -330,7 +330,7 @@ class Raffle(commands.Cog):
 
     @raffle.command(name = "list", help = "For checking the ticket list of a raffle")
     @commands.guild_only()
-    @app_commands.rename(raffle_name = "raffle name")
+    # @app_commands.rename(raffle_name = "raffle name")
     async def list(self, ctx: commands.Context, raffle_name: app_commands.Transform[str, d.ChoiceTransformer]):
         raffleDoc = await db.raffles.find_one({"RaffleName": raffle_name})
 
@@ -373,7 +373,7 @@ class Raffle(commands.Cog):
     @raffle.command(name = "edit", help = "For editing the information about the raffle")
     @commands.check_any(commands.has_role("Raffle Permissions"),commands.has_permissions(administrator = True))
     @commands.guild_only()
-    @app_commands.rename(raffle_name = "raffle name")
+    # @app_commands.rename(raffle_name = "raffle name")
     async def edit(self, ctx: commands.Context, raffle_name: app_commands.Transform[str, d.ChoiceTransformer]):
         raffleDoc = await db.raffles.find_one({"RaffleName": raffle_name})
 

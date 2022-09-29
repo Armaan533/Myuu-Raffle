@@ -19,7 +19,7 @@ class Tickets(commands.Cog):
         member = "person to whom tickets will be given",
         tickets = "no of tickets which are supposed to be given"
     )
-    @app_commands.rename(raffle_name = "raffle name")
+    # @app_commands.rename(raffle_name = "raffle name")
     @commands.guild_only()
     async def add(self, ctx: commands.Context, raffle_name: Transform[str, d.ChoiceTransformer], member: discord.Member, tickets: int):
         raffleDoc = await db.raffles.find_one({"RaffleName": raffle_name})
@@ -77,7 +77,7 @@ class Tickets(commands.Cog):
         member = "person from whom tickets will be removed",
         tickets = "no of tickets which are supposed to be removed"
     )
-    @app_commands.rename(raffle_name = "raffle name")
+    # @app_commands.rename(raffle_name = "raffle name")
     async def remove(self, ctx: commands.Context, raffle_name: Transform[str, d.ChoiceTransformer], member: discord.Member, tickets: int):
         raffleDoc = await db.raffles.find_one({"RaffleName": raffle_name})
         
