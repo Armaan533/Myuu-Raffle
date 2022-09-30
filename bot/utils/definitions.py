@@ -8,18 +8,16 @@ class ChoiceTransformerError(app_commands.AppCommandError):
     pass
 
 class ChoiceTransformer(app_commands.Transformer):
-	def __init__(self, guild: discord.Guild):
-		self.guild = guild
-		self.options = db.raffles.find({"guild": self.guild.id})
 
 	async def transform(self, interaction: Interaction, value: str, /) -> str:
-		async for option in self.options:
+		options = db.raffles.find({"guild": self.guild.id})
+		async for option in options:
 			if value == option:
 				return value
-		raise ChoiceTransformerError(f'"{value}" is not a valid option.\nValid Options: {", ".join(self.options)}')
+		raise ChoiceTransformerError(f'"{value}" is not a valid option.\nValid Options: {", ".join(options)}')
 
 	async def autocomplete(self, interaction: Interaction, value: str, /) -> list[app_commands.Choice[str]]:
-		return [app_commands.Choice(name = option["RaffleName"], value = option["RaffleName"]) async for option in self.options]
+		return [app_commands.Choice(name = option["RaffleName"], value = option["RaffleName"]) async for option in db.raffles.find({"guild": interaction.guild_id})]
 
 
 
