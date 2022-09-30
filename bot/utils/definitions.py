@@ -14,7 +14,7 @@ class ChoiceTransformer(app_commands.Transformer):
 		async for option in options:
 			if value == option:
 				return value
-		raise ChoiceTransformerError(f'"{value}" is not a valid option.\nValid Options: {", ".join(options)}')
+		raise ChoiceTransformerError(f'"{value}" is not a valid option.')
 
 	async def autocomplete(self, interaction: Interaction, value: str, /) -> list[app_commands.Choice[str]]:
 		return [app_commands.Choice(name = option["RaffleName"], value = option["RaffleName"]) async for option in db.raffles.find({"guild": interaction.guild_id})]
