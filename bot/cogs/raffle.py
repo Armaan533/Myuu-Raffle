@@ -364,6 +364,7 @@ class Raffle(commands.Cog):
                     data.append({"Member": member, "tickets": doc["tickets"]})
                 else:
                     continue
+            print(data)
 
             if len(data) != 0:
                 formatter = d.Source(entries = data, name = raffle_name, per_page = 10)
