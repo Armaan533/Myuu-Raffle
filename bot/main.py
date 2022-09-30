@@ -1,10 +1,12 @@
-import discord, itertools, os, asyncio
+import discord, itertools, os, asyncio, logging
 from discord.ext import commands
 from typing import Optional, Literal
 import utils.definitions as d, utils.database as db, utils.help_definitions as hd
 from discord import app_commands
 
 intents = discord.Intents.all()
+
+logging.basicConfig(level = logging.INFO)
 
 defaultPrefix = "!"
 
