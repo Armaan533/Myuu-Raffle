@@ -355,7 +355,7 @@ class Raffle(commands.Cog):
         raffleDoc = await db.raffles.find_one({"RaffleName": raffle_name})
 
         if raffleDoc:
-            guild = db.raffles[str(ctx.guild.id)]
+            guild = db.dbase[str(ctx.guild.id)]
             data = []
 
             async for doc in guild.find({"Raffle": raffleDoc["_id"]}, {"tickets": 1}):
