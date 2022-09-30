@@ -55,7 +55,16 @@ class Raffle(commands.Cog):
 
             await msg.edit(embed = InfoEmbed)
 
-            infocheck = lambda message: message.author.id in [438057969251254293, ctx.author.id] and message.channel == ctx.channel
+            # infocheck = lambda message: message.author.id in [438057969251254293, ctx.author.id] and message.channel == ctx.channel and message.attachments[0].filename in ["mypkinfo.png","mypkinfo","boxpk.png","boxpk","unknown.png","unknown"]
+            # def infocheck(message: discord.Message):
+            #     if message.channel == ctx.channel:
+            #         if message.content.lower() == "stop" and message.author.id == ctx.author.id:
+            #             return True
+            #         elif len(message.attachments) > 1 and message.author.id == 438057969251254293:
+            #             message.attachments[0].filename in ["mypkinfo.png","mypkinfo","boxpk.png","boxpk","unknown.png","unknown"]
+
+            infocheck = lambda message: message.channel == ctx.channel and ((message.content.lower() == "stop" and message.author.id == ctx.author.id) or (len(message.attachments) > 1 and message.author.id == 438057969251254293 and message.attachments[0].filename in ["mypkinfo.png","mypkinfo","boxpk.png","boxpk","unknown.png","unknown"]))
+                
 
             try:
                 info: discord.Message = await self.client.wait_for("message", check = infocheck, timeout = 50)
@@ -70,8 +79,10 @@ class Raffle(commands.Cog):
                 await msg.edit(embed = discord.Embed(description = "Raffle Creation Process Stopped", color = 0xf08080), delete_after = 10)
 
             else:
-                infoAttachments = info.attachments
-                infoimg = await infoAttachments[0].read()
+                # infoAttachments = info.attachments
+                infoimg = await info.attachments[0].read()
+                # for attachment in info.attachments:
+
 
                 CostEmbed = discord.Embed(
                     description = f"Enter the ticket cost of the raffle ``{name.content}``",
