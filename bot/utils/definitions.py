@@ -10,7 +10,7 @@ class ChoiceTransformerError(app_commands.AppCommandError):
 class ChoiceTransformer(app_commands.Transformer):
 
 	async def transform(self, interaction: Interaction, value: str, /) -> str:
-		options = db.raffles.find({"guild": self.guild.id})
+		options = db.raffles.find({"guild": interaction.guild_id})
 		async for option in options:
 			if value == option:
 				return value
