@@ -1,4 +1,4 @@
-import discord
+import discord, traceback, sys
 from discord.app_commands import Transform
 from discord import app_commands
 from discord.ext import commands
@@ -69,6 +69,9 @@ class Tickets(commands.Cog):
                 description = "You don't have proper permissions to use this command\nPlease ask your admin to provide the role named ``Raffle Permissions`` created by bot",
                 color = 0xf08080
             ))
+        else:
+            print('Ignoring exception in command {}:'.format(ctx.command), file=sys.stderr)
+            traceback.print_exception(type(error), error, error.__traceback__, file=sys.stderr)
 
     
     @tickets.command(name = "remove", help = "For manually removing/deleting tickets from wallet of a user")
@@ -124,6 +127,17 @@ class Tickets(commands.Cog):
             noRaffleMatchEmbed.set_footer(text = "ProTip: Use ``/raffles`` command to check list of ongoing raffles")
 
             await ctx.reply(embed = noRaffleMatchEmbed)
+
+    @remove.error
+    async def remove_error(self, ctx: commands.Context, error):
+        if isinstance(error, commands.errors.MissingPermissions) or isinstance(error, app_commands.errors.MissingPermissions):
+            await ctx.reply(embed = discord.Embed(
+                description = "You don't have proper permissions to use this command\nPlease ask your admin to provide the role named ``Raffle Permissions`` created by bot",
+                color = 0xf08080
+            ))
+        else:
+            print('Ignoring exception in command {}:'.format(ctx.command), file=sys.stderr)
+            traceback.print_exception(type(error), error, error.__traceback__, file=sys.stderr)
 
 
 

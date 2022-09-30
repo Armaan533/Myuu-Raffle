@@ -1,4 +1,4 @@
-import io
+import io, traceback, sys
 import discord, asyncio, os
 from discord.ext import commands
 import utils.database as db, utils.definitions as d
@@ -170,6 +170,9 @@ class Raffle(commands.Cog):
                 description = "You don't have proper permissions to use this command\nPlease ask your admin to provide the role named ``Raffle Permissions`` created by bot",
                 color = 0xf08080
             ))
+        else:
+            print('Ignoring exception in command {}:'.format(ctx.command), file=sys.stderr)
+            traceback.print_exception(type(error), error, error.__traceback__, file=sys.stderr)
 
 
     
@@ -211,6 +214,9 @@ class Raffle(commands.Cog):
                 description = "You don't have proper permissions to use this command\nPlease ask your admin to provide the role named ``Raffle Permissions`` created by bot",
                 color = 0xf08080
             ))
+        else:
+            print('Ignoring exception in command {}:'.format(ctx.command), file=sys.stderr)
+            traceback.print_exception(type(error), error, error.__traceback__, file=sys.stderr)
 
 
     @raffle.command(name = "info", help = "For checking information about a raffle")
@@ -327,6 +333,9 @@ class Raffle(commands.Cog):
                 description = "You don't have proper permissions to use this command\nPlease ask your admin to provide the role named ``Raffle Permissions`` created by bot",
                 color = 0xf08080
             ))
+        else:
+            print('Ignoring exception in command {}:'.format(ctx.command), file=sys.stderr)
+            traceback.print_exception(type(error), error, error.__traceback__, file=sys.stderr)
 
     @raffle.command(name = "list", help = "For checking the ticket list of a raffle")
     @commands.guild_only()
@@ -568,5 +577,7 @@ class Raffle(commands.Cog):
                 description = "You don't have proper permissions to use this command\nPlease ask your admin to provide the role named ``Raffle Permissions`` created by bot",
                 color = 0xf08080
             ))
-
+        else:
+            print('Ignoring exception in command {}:'.format(ctx.command), file=sys.stderr)
+            traceback.print_exception(type(error), error, error.__traceback__, file=sys.stderr)
 
