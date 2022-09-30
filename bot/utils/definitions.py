@@ -47,13 +47,16 @@ class MenuPages(ui.View, menus.MenuPages):
 	async def interaction_check(self, interaction):
 		return interaction.user == self.ctx.author
 
-	@ui.button(label = "First Page", style = discord.ButtonStyle.gray)
+	@ui.button(label = "≪", style = discord.ButtonStyle.gray)
 	async def first_page(self, interaction: Interaction, button):
 		await self.show_page(0)
 
 	@ui.button(label = "Previous Page", style = discord.ButtonStyle.blurple)
 	async def before_page(self, interaction: Interaction, button):
-		await self.show_checked_page(self.current_page - 1)
+		if self.current_page == 0:
+			await interaction.followup.send_message("You can't go to previous page because it doesn't exists", ephemeral = True)
+		else:
+			await self.show_checked_page(self.current_page - 1)
 
 	@ui.button(emoji = "\U000023f9", style = discord.ButtonStyle.red)
 	async def stop_page(self, interaction: Interaction, button):
@@ -61,9 +64,12 @@ class MenuPages(ui.View, menus.MenuPages):
 
 	@ui.button(label = "Next Page", style = discord.ButtonStyle.blurple)
 	async def next_page(self, interaction: Interaction, button):
-		await self.show_checked_page(self.current_page + 1)
+		if self.current_page == self._source.get_max_pages() - 1:
+			await interaction.followup.send_message("You can't go to previous page because it doesn't exists", ephemeral = True)
+		else:
+			await self.show_checked_page(self.current_page + 1)
 
-	@ui.button(label = "Last Page", style = discord.ButtonStyle.gray)
+	@ui.button(label = "≫", style = discord.ButtonStyle.gray)
 	async def last_page(self, interaction: Interaction, button):
 		await self.show_page(self._source.get_max_pages() - 1)
 
@@ -80,7 +86,7 @@ class Source(menus.ListPageSource):
 			color = 0xf08080
 		)
 		for i in data:
-			embed.add_field(name = i["Member"], value = i["tickets"])
+			embed.add_field(name = i["Member"], value = i["tickets"], inline = False)
 
 		return embed
 
