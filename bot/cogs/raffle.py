@@ -55,7 +55,7 @@ class Raffle(commands.Cog):
 
             await msg.edit(embed = InfoEmbed)
 
-            infocheck = lambda message: message.author.id in [438057969251254293, ctx.author.id] and message.channel == ctx.channel and message.attachments[0].filename in ["mypkinfo.png","mypkinfo","boxpk.png","boxpk","unknown.png","unknown"]
+            infocheck = lambda message: message.author.id in [438057969251254293, ctx.author.id] and message.channel == ctx.channel
 
             try:
                 info: discord.Message = await self.client.wait_for("message", check = infocheck, timeout = 50)
@@ -441,7 +441,7 @@ class Raffle(commands.Cog):
 
                 await msg.edit(embed = InfoEmbed)
 
-                infocheck = lambda message: message.author.id in [438057969251254293, ctx.author.id] and message.channel == ctx.channel and message.attachments[0].filename in ["mypkinfo.png","mypkinfo","boxpk.png","boxpk","unknown.png","unknown"]
+                infocheck = lambda message: message.author.id in [438057969251254293, ctx.author.id] and message.channel == ctx.channel
 
                 try:
                     info: discord.Message = await self.client.wait_for("message", check = infocheck, timeout = 50)
