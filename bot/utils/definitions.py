@@ -12,7 +12,7 @@ class ChoiceTransformer(app_commands.Transformer):
 	async def transform(self, interaction: Interaction, value: str, /) -> str:
 		options = db.raffles.find({"guild": interaction.guild_id})
 		async for option in options:
-			if value == option:
+			if value == option["RaffleName"]:
 				return value
 		raise ChoiceTransformerError(f'"{value}" is not a valid option.')
 
