@@ -54,7 +54,7 @@ class MenuPages(ui.View, menus.MenuPages):
 	@ui.button(label = "Previous Page", style = discord.ButtonStyle.blurple)
 	async def before_page(self, interaction: Interaction, button):
 		if self.current_page == 0:
-			await interaction.followup.send_message("You can't go to previous page because it doesn't exists", ephemeral = True)
+			await interaction.response.send_message("You can't go to previous page because it doesn't exists", ephemeral = True)
 		else:
 			await self.show_checked_page(self.current_page - 1)
 
@@ -65,7 +65,7 @@ class MenuPages(ui.View, menus.MenuPages):
 	@ui.button(label = "Next Page", style = discord.ButtonStyle.blurple)
 	async def next_page(self, interaction: Interaction, button):
 		if self.current_page == self._source.get_max_pages() - 1:
-			await interaction.followup.send_message("You can't go to previous page because it doesn't exists", ephemeral = True)
+			await interaction.response.send_message("You can't go to previous page because it doesn't exists", ephemeral = True)
 		else:
 			await self.show_checked_page(self.current_page + 1)
 
