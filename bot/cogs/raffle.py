@@ -355,6 +355,7 @@ class Raffle(commands.Cog):
         raffleDoc = await db.raffles.find_one({"RaffleName": raffle_name})
 
         if raffleDoc:
+            await ctx.defer()
             guild = db.dbase[str(ctx.guild.id)]
             data = []
 
@@ -364,7 +365,6 @@ class Raffle(commands.Cog):
                     data.append({"Member": member, "tickets": doc["tickets"]})
                 else:
                     continue
-            print(data)
 
             if len(data) != 0:
                 formatter = d.Source(entries = data, name = raffle_name, per_page = 10)
