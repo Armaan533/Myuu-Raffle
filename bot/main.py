@@ -291,8 +291,8 @@ async def ping(ctx: commands.Context):
 @commands.has_permissions(administrator = True)
 @commands.guild_only()
 # @app_commands.rename(newPrefix = "new prefix")
-async def prefix(ctx: commands.Context, newPrefix: str):
-    if len(newPrefix) >= 5:
+async def prefix(ctx: commands.Context, newprefix: str):
+    if len(newprefix) >= 5:
         longPrefix = discord.Embed(
             title = "Prefix too long",
             description = "Please choose a shorter prefix!\nMaximum length of prefix is 4 characters.",
@@ -302,10 +302,10 @@ async def prefix(ctx: commands.Context, newPrefix: str):
     
     else:
         filterPrefGuild = {"_id": str(ctx.guild.id)}
-        prefixSet = {"$set":{"Prefix": newPrefix}}
+        prefixSet = {"$set":{"Prefix": newprefix}}
         await db.guildPref.update_one(filterPrefGuild, prefixSet)
         prefixSuccess = discord.Embed(title = "Prefix changed!",
-									  description = f"Prefix changed successfully to ``{newPrefix}``",
+									  description = f"Prefix changed successfully to ``{newprefix}``",
 									  color = 0xf08080)
         await ctx.send(embed = prefixSuccess)
 
