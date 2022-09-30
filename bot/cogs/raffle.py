@@ -351,6 +351,7 @@ class Raffle(commands.Cog):
     @raffle.command(name = "list", help = "For checking the ticket list of a raffle")
     @commands.guild_only()
     async def list(self, ctx: commands.Context, raffle_name: app_commands.Transform[str, d.ChoiceTransformer]):
+        await ctx.defer()
         raffleDoc = await db.raffles.find_one({"RaffleName": raffle_name})
 
         if raffleDoc:
