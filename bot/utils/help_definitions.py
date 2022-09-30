@@ -43,7 +43,7 @@ class GroupHelpPageSource(menus.ListPageSource):
 
         for command in commands:
             signature = f'{command.qualified_name} {command.signature}'
-            embed.add_field(name=signature, value=command.short_doc or 'No help given...', inline=False)
+            embed.add_field(name=signature, value=command.help or 'No help given...', inline=False)
 
         maximum = self.get_max_pages()
         if maximum > 1:

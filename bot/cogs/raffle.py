@@ -70,7 +70,8 @@ class Raffle(commands.Cog):
                 await msg.edit(embed = discord.Embed(description = "Raffle Creation Process Stopped", color = 0xf08080), delete_after = 10)
 
             else:
-                infoimg = await info.attachments[0].read()
+                infoAttachments = info.attachments
+                infoimg = await infoAttachments[0].read()
 
                 CostEmbed = discord.Embed(
                     description = f"Enter the ticket cost of the raffle ``{name.content}``",
@@ -169,8 +170,6 @@ class Raffle(commands.Cog):
                 description = "You don't have proper permissions to use this command\nPlease ask your admin to provide the role named ``Raffle Permissions`` created by bot",
                 color = 0xf08080
             ))
-        else:
-            await ctx.send(error)
 
 
     
