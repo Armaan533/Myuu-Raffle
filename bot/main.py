@@ -173,7 +173,7 @@ async def on_guild_remove(guild):
 
 
 
-@client.listen
+@client.listen("on_message")
 async def on_message(message: discord.Message):
     if message.guild:
 
@@ -189,7 +189,7 @@ async def on_message(message: discord.Message):
         else:
             guildDoc = None
         
-        if (message.content == f"<@!{client.user.id}>" or message.content == f"<@{client.user.id}>") and message.author != message.guild.me:
+        if (message.content == f"<@!{client.user.id}>" or message.content==f"<@{client.user.id}>") and message.author != message.guild.me:
 
             gPrefix = await db.guildPref.find_one({"_id": guildID}, {"_id": 0, "Prefix": 1})
             prefix = gPrefix["Prefix"]
