@@ -178,7 +178,7 @@ async def on_message(message: discord.Message):
     if message.guild:
 
         guildID = message.guild.id
-        guildCursor = await db.raffles.find({"guild": guildID})
+        guildCursor = db.raffles.find({"guild": guildID})
 
         # guildDocs = []
 
