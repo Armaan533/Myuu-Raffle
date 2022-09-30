@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-import asyncio
+import asyncio, traceback, sys
 from typing import TYPE_CHECKING, Any, Dict, Optional
 import discord
 from discord.ext import commands
@@ -125,10 +125,13 @@ class BotPages(discord.ui.View):
             await self.message.edit(view=None)
 
     async def on_error(self, interaction: discord.Interaction, error: Exception, item: discord.ui.Item) -> None:
-        if interaction.response.is_done():
-            await interaction.followup.send('An unknown error occurred, sorry', ephemeral=True)
-        else:
-            await interaction.response.send_message('An unknown error occurred, sorry', ephemeral=True)
+        # if interaction.response.is_done():
+        #     await interaction.followup.send('An unknown error occurred, sorry', ephemeral=True)
+        # else:
+        #     await interaction.response.send_message('An unknown error occurred, sorry', ephemeral=True)
+        print('Ignoring exception in command {}:'.format(self.ctx.command), file=sys.stderr)
+        traceback.print_exception(type(error), error, error.__traceback__, file=sys.stderr)
+
 
     async def start(self, *, content: Optional[str] = None) -> None:
         if self.check_embeds and not self.ctx.channel.permissions_for(self.ctx.me).embed_links:  # type: ignore
