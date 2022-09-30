@@ -191,7 +191,7 @@ async def on_message(message: discord.Message):
         
         if (message.content == f"<@!{client.user.id}>" or message.content==f"<@{client.user.id}>") and message.author != message.guild.me:
 
-            gPrefix = await db.guildPref.find_one({"_id": guildID}, {"_id": 0, "Prefix": 1})
+            gPrefix = await db.guildPref.find_one({"_id": str(guildID)}, {"_id": 0, "Prefix": 1})
             prefix = gPrefix["Prefix"]
 
             mentionEmbed = discord.Embed(
