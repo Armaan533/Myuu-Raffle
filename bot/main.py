@@ -11,8 +11,8 @@ logging.basicConfig(level = logging.INFO)
 defaultPrefix = "!"
 
 async def get_prefix(client: commands.Bot, message: discord.Message):
-    Gprefix = await db.guildPref.find_one( {"_id": str(message.guild.id)} , {"_id": 0, "Prefix": 1})["Prefix"]
-    return commands.when_mentioned_or(Gprefix)(client, message)
+    Gprefix = await db.guildPref.find_one( {"_id": str(message.guild.id)} , {"_id": 0, "Prefix": 1})
+    return commands.when_mentioned_or(Gprefix["Prefix"])(client, message)
 
 
 class Bot(commands.Bot):
@@ -191,11 +191,12 @@ async def on_message(message: discord.Message):
         
         if (message.content == f"<@!{client.user.id}>" or message.content == f"<@{client.user.id}>") and message.author != message.guild.me:
 
-            gPrefix = await db.guildPref.find_one({"_id": guildID}, {"_id": 0, "Prefix": 1})["Prefix"]
+            gPrefix = await db.guildPref.find_one({"_id": guildID}, {"_id": 0, "Prefix": 1})
+            prefix = gPrefix["Prefix"]
 
             mentionEmbed = discord.Embed(
                 title = "Hello There!! :wave: ",
-                description = f"My prefix is ``{gPrefix}``",
+                description = f"My prefix is ``{prefix}``",
                 color = 0xf08080
             )
             await message.reply(embed = mentionEmbed)

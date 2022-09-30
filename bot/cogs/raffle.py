@@ -283,7 +283,8 @@ class Raffle(commands.Cog):
                 await ctx.defer()
 
                 winnerId = d.random_chooser(userlist, ticketlist)
-                winnerTickets = await guild.find_one({"_id": winnerId}, {"_id": 0, "tickets": 1})["tickets"]
+                winnerDoc = await guild.find_one({"_id": winnerId}, {"_id": 0, "tickets": 1})
+                winnerTickets = winnerDoc["tickets"]
                 winner = discord.utils.get(ctx.guild.members, id = winnerId)
 
                 RollEmbed = discord.Embed(
