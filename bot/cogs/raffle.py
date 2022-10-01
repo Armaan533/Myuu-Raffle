@@ -70,10 +70,9 @@ class Raffle(commands.Cog):
                     if message.channel == ctx.channel:
                         if message.author == ctx.author:
                             if message.content.lower() == "stop" or len(message.attachments) > 1:
-                                return True
+                                return message.attachments[0].filename in ["mypkinfo.png","mypkinfo","boxpk.png","boxpk","unknown.png","unknown"]
                         elif message.author.id == 438057969251254293:
                             if len(message.attachments) >= 1:
-                                print("attachment identified")
                                 return message.attachments[0].filename in ["mypkinfo.png","mypkinfo","boxpk.png","boxpk","unknown.png","unknown"]
                         else:
                             return False
@@ -382,7 +381,7 @@ class Raffle(commands.Cog):
                 guild = db.dbase[str(ctx.guild.id)]
                 data = []
 
-                async for doc in guild.find({"Raffle": raffleDoc["_id"]}, {"tickets": 1}):
+                async for doc in guild.find({"Raffle": raffleDoc["_id"]}, {"tickets": 1}).sort("tickets"):
                     member = discord.utils.get(ctx.guild.members, id = doc["_id"])
                     if member:
                         data.append({"Member": member, "tickets": doc["tickets"]})

@@ -27,7 +27,7 @@ class Tickets(commands.Cog):
             raffleDoc = await db.raffles.find_one({"RaffleName": raffle_name})
             if raffleDoc:
 
-                if member.id != raffleDoc["bank"]:
+                if member.id != raffleDoc["bank"] and not member.bot:
                     guild = db.dbase[str(ctx.guild.id)]
                     raffleid = raffleDoc["_id"]
                     currentTotalTix = raffleDoc["Total Tickets"]
@@ -55,6 +55,14 @@ class Tickets(commands.Cog):
                         await ctx.reply(embed = ticketsAddedEmbed)
                     else:
                         await ctx.reply(f"Hold UP dude {ctx.author.mention}!! \nThe minimum number of tickets you can give is 1")
+                
+                elif member.bot:
+                    botTicketsAddEmbed = discord.Embed(
+                        description = "Dude! You can't give tickets to a bot",
+                        color = 0xf08080
+                    )
+                    await ctx.reply(embed = botTicketsAddEmbed)
+
                 else:
                     bankTicketsAddEmbed = discord.Embed(
                         description = "Dude! You can't give tickets to the bank",
@@ -112,8 +120,11 @@ class Tickets(commands.Cog):
                             
                             prevTix = buyerDoc["tickets"]
                             currentTix = prevTix - tickets
-                            await guild.find_one_and_update({"_id": member.id, "Raffle": raffleid},{"$set":{"tickets": currentTix}})
-
+                            if currentTix > 0:
+                                await guild.find_one_and_update({"_id": member.id, "Raffle": raffleid},{"$set":{"tickets": currentTix}})
+                            else:
+                                await guild.delete_one({"_id": member.id, "Raffle": raffleid})
+                            
                             await db.raffles.find_one_and_update({"_id": raffleid}, {"$set": {"Total Tickets": currentTotalTix - tickets}})
 
                             ticketsRemovedEmbed = discord.Embed(
