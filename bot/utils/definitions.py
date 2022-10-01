@@ -36,7 +36,7 @@ class MenuPages(ui.View, menus.MenuPages):
 	async def send_initial_message(self, ctx: commands.Context):
 		page = await self._source.get_page(0)
 		kwargs = await self._get_kwargs_from_page(page)
-		return await ctx.interaction.response.send_message(**kwargs)
+		return await ctx.interaction.followup.send_message(**kwargs)
 
 	async def start(self, ctx: commands.Context, *, channel = None, wait = False):
 		await self._source._prepare_once()
@@ -59,7 +59,7 @@ class MenuPages(ui.View, menus.MenuPages):
 	@ui.button(label = "Previous Page", style = discord.ButtonStyle.blurple)
 	async def before_page(self, interaction: Interaction, button):
 		if self.current_page == 0:
-			await interaction.response.send_message("You can't go to previous page because it doesn't exists", ephemeral = True)
+			await interaction.followup.send_message("You can't go to previous page because it doesn't exists", ephemeral = True)
 		else:
 			await self.show_checked_page(self.current_page - 1)
 
@@ -70,7 +70,7 @@ class MenuPages(ui.View, menus.MenuPages):
 	@ui.button(label = "Next Page", style = discord.ButtonStyle.blurple)
 	async def next_page(self, interaction: Interaction, button):
 		if self.current_page == self._source.get_max_pages() - 1:
-			await interaction.response.send_message("You can't go to previous page because it doesn't exists", ephemeral = True)
+			await interaction.followup.send_message("You can't go to previous page because it doesn't exists", ephemeral = True)
 		else:
 			await self.show_checked_page(self.current_page + 1)
 

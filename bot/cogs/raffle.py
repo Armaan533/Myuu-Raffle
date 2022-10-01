@@ -44,7 +44,7 @@ class Raffle(commands.Cog):
         await name.delete()
         
         if name.content.lower() == "stop" or name == None:
-            await msg.edit(embed = discord.Embed(description = "Raffle Creation Process Stopped", color = 0xf08080), delete_after = 10)
+            await msg.edit(embed = discord.Embed(description = "Raffle Creation Process Stopped", color = 0xf08080))
 
         else:
             InfoEmbed = discord.Embed(
@@ -76,7 +76,7 @@ class Raffle(commands.Cog):
             await info.delete()
 
             if info.content.lower() == "stop" or info == None:
-                await msg.edit(embed = discord.Embed(description = "Raffle Creation Process Stopped", color = 0xf08080), delete_after = 10)
+                await msg.edit(embed = discord.Embed(description = "Raffle Creation Process Stopped", color = 0xf08080))
 
             else:
                 # infoAttachments = info.attachments
@@ -104,7 +104,7 @@ class Raffle(commands.Cog):
                 await tixcost.delete()
 
                 if tixcost.content.lower() == "stop" or tixcost == None:
-                    await msg.edit(embed = discord.Embed(description = "Raffle Creation Process Stopped", color = 0xf08080), delete_after = 10)
+                    await msg.edit(embed = discord.Embed(description = "Raffle Creation Process Stopped", color = 0xf08080))
 
                 else:
 
@@ -128,7 +128,7 @@ class Raffle(commands.Cog):
                     await channelname.delete()
 
                     if channelname.content.lower() == "stop" or channelname == None:
-                        await msg.edit(embed = discord.Embed(description = "Raffle Creation Process Stopped", color = 0xf08080), delete_after = 10)
+                        await msg.edit(embed = discord.Embed(description = "Raffle Creation Process Stopped", color = 0xf08080))
 
                     else:
 
@@ -153,7 +153,7 @@ class Raffle(commands.Cog):
                         await bankname.delete()
 
                         if bankname.content.lower() == "stop" or bankname == None:
-                            await msg.edit(embed = discord.Embed(description = "Raffle Creation Process Stopped", color = 0xf08080), delete_after = 10)
+                            await msg.edit(embed = discord.Embed(description = "Raffle Creation Process Stopped", color = 0xf08080))
 
                         else:
 
@@ -434,7 +434,7 @@ class Raffle(commands.Cog):
                 await name.delete()
                 
                 if name.content.lower() == "stop" or name == None:
-                    await msg.edit(embed = discord.Embed(description = "Raffle Editing Process Stopped", color = 0xf08080), delete_after = 10)
+                    await msg.edit(embed = discord.Embed(description = "Raffle Editing Process Stopped", color = 0xf08080))
                 else:
                     await db.raffles.find_one_and_update({"_id":raffleDoc["_id"]},{"$set":{"RaffleName":name.content}})
                     
@@ -442,7 +442,7 @@ class Raffle(commands.Cog):
                         title = "Raffle edited",
                         description = "Raffle Name edited successfully!",
                         color = 0xf08080
-                    ), delete_after = 10)
+                    ))
             elif view.choice == "info":
                 InfoEmbed = discord.Embed(
                     description = "Do ```.mypkinfo <pokemon>``` or ```.boxpk <box> <position>``` or ```send the image containing info of the pokemon``` to select pokemon for raffle",
@@ -464,7 +464,7 @@ class Raffle(commands.Cog):
                 await info.delete()
 
                 if info.content.lower() == "stop" or info == None:
-                    await msg.edit(embed = discord.Embed(description = "Raffle Editing Process Stopped", color = 0xf08080), delete_after = 10)
+                    await msg.edit(embed = discord.Embed(description = "Raffle Editing Process Stopped", color = 0xf08080))
 
                 else:
                     infoimg = await info.attachments[0].read()
@@ -499,14 +499,13 @@ class Raffle(commands.Cog):
                 await tixcost.delete()
 
                 if tixcost.content.lower() == "stop" or tixcost == None:
-                    await msg.edit(embed = discord.Embed(description = "Raffle Editing Process Stopped", color = 0xf08080), delete_after = 10)
+                    await msg.edit(embed = discord.Embed(description = "Raffle Editing Process Stopped", color = 0xf08080))
                 else:
                     await db.raffles.find_one_and_update({"_id":raffleDoc["_id"]},{"$set":{"Ticket Cost": int(tixcost.content)}})
                     await msg.edit(embed = discord.Embed(
                         title = "Cost edited", 
                         description = "Ticket Cost edited successfully", 
-                        color = 0xf08080),
-                        delete_after = 10)
+                        color = 0xf08080))
 
             elif view.choice == "bank":
                 BankEmbed = discord.Embed(
@@ -528,15 +527,14 @@ class Raffle(commands.Cog):
                 await bankname.delete()
 
                 if bankname.content.lower() == "stop" or bankname == None:
-                    await msg.edit(embed = discord.Embed(description = "Raffle Editing Process Stopped", color = 0xf08080), delete_after = 10)
+                    await msg.edit(embed = discord.Embed(description = "Raffle Editing Process Stopped", color = 0xf08080))
                 else:
                     await db.raffles.find_one_and_update({"_id": raffleDoc["_id"]},{"$set": {"bank": int(bankname.content.lstrip("<@!").rstrip(">"))}})
                     
                     await msg.edit(embed = discord.Embed(
                         title = "Bank ID edited", 
                         description = "Bank ID edited successfully", 
-                        color = 0xf08080),
-                        delete_after = 10)
+                        color = 0xf08080))
             
             elif view.choice == "channel":
                 ChannelEmbed = discord.Embed(
@@ -559,17 +557,17 @@ class Raffle(commands.Cog):
                 await channelname.delete()
 
                 if channelname.content.lower() == "stop" or channelname == None:
-                    await msg.edit(embed = discord.Embed(description = "Raffle Editing Process Stopped", color = 0xf08080), delete_after = 10)
+                    await msg.edit(embed = discord.Embed(description = "Raffle Editing Process Stopped", color = 0xf08080))
                 else:
                     await db.raffles.find_one_and_update({"_id": raffleDoc["_id"]},{"$set": {"_id": int(channelname.content.lstrip("<#").rstrip(">"))}})
                     await msg.edit(embed = discord.Embed(
                         title = "Payment Channel edited",
                         description = "Payment Channel edited successfully!",
                         color = 0xf08080
-                    ), delete_after = 10)
+                    ))
 
             else:
-                await msg.edit(embed = discord.Embed(description = "Raffle Editing Process Stopped", color = 0xf08080), delete_after = 10)
+                await msg.edit(embed = discord.Embed(description = "Raffle Editing Process Stopped", color = 0xf08080))
 
         else:
             noRaffleEmbed = discord.Embed(
