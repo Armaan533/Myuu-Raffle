@@ -175,7 +175,8 @@ class Raffle(commands.Cog):
                                 "Ticket Cost": int(tixcost.content),
                                 "bank": int(bankname.content.lstrip("<@!").rstrip(">")),
                                 "guild": ctx.guild.id,
-                                "info": infoimg
+                                "info": infoimg,
+                                "Total Tickets": 0
                             }
 
                             await db.raffles.insert_one(raffledetails)
