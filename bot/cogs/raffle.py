@@ -131,7 +131,7 @@ class Raffle(commands.Cog):
                     channelcheck = lambda cmsg: cmsg.author == ctx.author and cmsg.channel == ctx.channel and ((cmsg.startswith("<#") and cmsg.endswith(">")) or cmsg.lower() == "stop")
                     
                     try:
-                        channelname: discord.Message = self.client.wait_for("message", check = authorcheck, timeout = 50)
+                        channelname: discord.Message = await self.client.wait_for("message", check = channelcheck, timeout = 50)
                     except asyncio.TimeoutError:
                         
                         channelname = None
@@ -464,7 +464,17 @@ class Raffle(commands.Cog):
 
                 await msg.edit(embed = InfoEmbed)
 
-                infocheck = lambda message: message.author.id in [438057969251254293, ctx.author.id] and message.channel == ctx.channel
+                def infocheck(message: discord.Message):
+                    if message.channel == ctx.channel:
+                        if message.author == ctx.author:
+                            if message.content.lower() == "stop" or len(message.attachments) > 1:
+                                return True
+                        elif message.author.id == 438057969251254293:
+                            if len(message.attachments) >= 1:
+                                print("attachment identified")
+                                return message.attachments[0].filename in ["mypkinfo.png","mypkinfo","boxpk.png","boxpk","unknown.png","unknown"]
+                        else:
+                            return False
 
                 try:
                     info: discord.Message = await self.client.wait_for("message", check = infocheck, timeout = 50)
@@ -560,7 +570,7 @@ class Raffle(commands.Cog):
                 channelcheck = lambda cmsg: cmsg.author == ctx.author and cmsg.channel == ctx.channel and ((cmsg.startswith("<#") and cmsg.endswith(">")) or cmsg.lower() == "stop")
                     
                 try:
-                    channelname: discord.Message = self.client.wait_for("message", check = authorcheck, timeout = 50)
+                    channelname: discord.Message = await self.client.wait_for("message", check = authorcheck, timeout = 50)
                 except asyncio.TimeoutError:
                         
                     channelname = None
