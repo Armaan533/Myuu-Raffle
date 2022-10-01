@@ -154,7 +154,7 @@ class Raffle(commands.Cog):
 
                         await msg.edit(embed = BankEmbed)
 
-                        bankcheck = lambda bmsg: bmsg.author == ctx.author and bmsg.channel == ctx.channel and ((bmsg.startswith("<@") and bmsg.endswith(">")) or (bmsg.startswith("<@!") and bmsg.endswith(">")) or bmsg.lower() == "stop")
+                        bankcheck = lambda bmsg: bmsg.author == ctx.author and bmsg.channel == ctx.channel and ((bmsg.content.startswith("<@") and bmsg.content.endswith(">")) or (bmsg.content.startswith("<@!") and bmsg.content.endswith(">")) or bmsg.lower() == "stop")
 
                         try:
                             bankname: discord.Message = await self.client.wait_for("message", check = bankcheck, timeout = 50)
@@ -538,7 +538,7 @@ class Raffle(commands.Cog):
 
                 await msg.edit(embed = BankEmbed)
 
-                bankcheck = lambda bmsg: bmsg.author == ctx.author and bmsg.channel == ctx.channel and ((bmsg.startswith("<@") and bmsg.endswith(">")) or (bmsg.startswith("<@!") and bmsg.endswith(">")) or bmsg.lower() == "stop")
+                bankcheck = lambda bmsg: bmsg.author == ctx.author and bmsg.channel == ctx.channel and ((bmsg.content.startswith("<@") and bmsg.content.endswith(">")) or (bmsg.startswith("<@!") and bmsg.content.endswith(">")) or bmsg.content.lower() == "stop")
 
                 try:
                     bankname: discord.Message = await self.client.wait_for("message", check = bankcheck, timeout = 50)
