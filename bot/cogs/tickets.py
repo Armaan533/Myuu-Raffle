@@ -23,44 +23,55 @@ class Tickets(commands.Cog):
     # @app_commands.rename(raffle_name = "raffle name")
     @commands.guild_only()
     async def add(self, ctx: commands.Context, raffle_name: Transform[str, d.ChoiceTransformer], member: discord.Member, tickets: int):
-        raffleDoc = await db.raffles.find_one({"RaffleName": raffle_name})
-        if raffleDoc:
-            guild = db.dbase[str(ctx.guild.id)]
-            raffleid = raffleDoc["_id"]
-            currentTotalTix = raffleDoc["Total Tickets"]
+        if ctx.interaction:
+            raffleDoc = await db.raffles.find_one({"RaffleName": raffle_name})
+            if raffleDoc:
 
-            buyerDoc = await guild.find_one({"_id": member.id, "Raffle": raffleid})
-            
-            if tickets > 0:
-                if buyerDoc:
-                    prevtix: int = buyerDoc["tickets"]
-                    currentTix = prevtix + tickets
-                    await guild.find_one_and_update({"_id": member.id, "Raffle": raffleid},{"$set":{"tickets": currentTix}})
+                if member.id != raffleDoc["bank"]:
+                    guild = db.dbase[str(ctx.guild.id)]
+                    raffleid = raffleDoc["_id"]
+                    currentTotalTix = raffleDoc["Total Tickets"]
 
+                    buyerDoc = await guild.find_one({"_id": member.id, "Raffle": raffleid})
+                    
+                    if tickets > 0:
+                        if buyerDoc:
+                            prevtix: int = buyerDoc["tickets"]
+                            currentTix = prevtix + tickets
+                            await guild.find_one_and_update({"_id": member.id, "Raffle": raffleid},{"$set":{"tickets": currentTix}})
+
+                        else:
+                            prevtix = 0
+                            currentTix = tickets
+                            ticketDoc = {"_id": member.id, "tickets": tickets}
+                            await guild.insert_one(ticketDoc)
+                        
+                        await db.raffles.find_one_and_update({"_id": raffleid}, {"$set": {"Total Tickets": currentTotalTix + tickets}})
+                        ticketsAddedEmbed = discord.Embed(
+                            title = "Tickets Added",
+                            description = f"{tickets} tickets added by {ctx.author.mention} in wallet of {member.mention}\nCurrent Tickets: ``{currentTix}``",
+                            color = 0xf08080
+                        )
+                        await ctx.reply(embed = ticketsAddedEmbed)
+                    else:
+                        await ctx.reply(f"Hold UP dude {ctx.author.mention}!! \nThe minimum number of tickets you can give is 1")
                 else:
-                    prevtix = 0
-                    currentTix = tickets
-                    ticketDoc = {"_id": member.id, "tickets": tickets}
-                    await guild.insert_one(ticketDoc)
-                
-                await db.raffles.find_one_and_update({"_id": raffleid}, {"$set": {"Total Tickets": currentTotalTix + tickets}})
-                ticketsAddedEmbed = discord.Embed(
-                    title = "Tickets Added",
-                    description = f"{tickets} tickets added by {ctx.author.mention} in wallet of {member.mention}\nCurrent Tickets: ``{currentTix}``",
+                    bankTicketsAddEmbed = discord.Embed(
+                        description = "Dude! You can't give tickets to the bank",
+                        color = 0xf08080
+                    )
+                    await ctx.reply(embed = bankTicketsAddEmbed)
+            else:
+                noRaffleMatchEmbed = discord.Embed(
+                    title = "Invalid Name",
+                    description = f"No raffle named ``{raffle_name}`` exists in this server",
                     color = 0xf08080
                 )
-                await ctx.reply(embed = ticketsAddedEmbed)
-            else:
-                await ctx.reply(f"Hold UP dude {ctx.author.mention}!! \nThe minimum number of tickets you can give is 1")
-        else:
-            noRaffleMatchEmbed = discord.Embed(
-                title = "Invalid Name",
-                description = f"No raffle named ``{raffle_name}`` exists in this server",
-                color = 0xf08080
-            )
-            noRaffleMatchEmbed.set_footer(text = "ProTip: Use ``/raffles`` command to check list of ongoing raffles")
+                noRaffleMatchEmbed.set_footer(text = "ProTip: Use ``/raffles`` command to check list of ongoing raffles")
 
-            await ctx.reply(embed = noRaffleMatchEmbed)
+                await ctx.reply(embed = noRaffleMatchEmbed)
+        else:
+            pass
 
     @add.error
     async def add_error(self, ctx: commands.Context, error):
@@ -83,50 +94,63 @@ class Tickets(commands.Cog):
     )
     # @app_commands.rename(raffle_name = "raffle name")
     async def remove(self, ctx: commands.Context, raffle_name: Transform[str, d.ChoiceTransformer], member: discord.Member, tickets: int):
-        raffleDoc = await db.raffles.find_one({"RaffleName": raffle_name})
-        
-        if raffleDoc:
-            guild = db.dbase[str(ctx.guild.id)]
-            raffleid = raffleDoc["_id"]
-            currentTotalTix = raffleDoc["Total Tickets"]
+        if ctx.interaction:
+            raffleDoc = await db.raffles.find_one({"RaffleName": raffle_name})
+            
+            if raffleDoc:
 
-            buyerDoc = await guild.find_one({"_id": member.id, "Raffle": raffleid})
+                if member.id != raffleDoc["bank"]:
 
-            if tickets > 0:
-                if buyerDoc["tickets"] >= tickets:
-                    
-                    prevTix = buyerDoc["tickets"]
-                    currentTix = prevTix - tickets
-                    await guild.find_one_and_update({"_id": member.id, "Raffle": raffleid},{"$set":{"tickets": currentTix}})
+                    guild = db.dbase[str(ctx.guild.id)]
+                    raffleid = raffleDoc["_id"]
+                    currentTotalTix = raffleDoc["Total Tickets"]
 
-                    await db.raffles.find_one_and_update({"_id": raffleid}, {"$set": {"Total Tickets": currentTotalTix - tickets}})
+                    buyerDoc = await guild.find_one({"_id": member.id, "Raffle": raffleid})
 
-                    ticketsRemovedEmbed = discord.Embed(
-                        title = "Tickets Removed",
-                        description = f"{tickets} tickets removed by {ctx.author.mention} from the wallet of {member.mention}\nCurrent Tickets: ``{currentTix}``",
-                        color = 0xf08080
-                    )
-                    await ctx.reply(embed = ticketsRemovedEmbed)
+                    if tickets > 0:
+                        if buyerDoc["tickets"] >= tickets:
+                            
+                            prevTix = buyerDoc["tickets"]
+                            currentTix = prevTix - tickets
+                            await guild.find_one_and_update({"_id": member.id, "Raffle": raffleid},{"$set":{"tickets": currentTix}})
+
+                            await db.raffles.find_one_and_update({"_id": raffleid}, {"$set": {"Total Tickets": currentTotalTix - tickets}})
+
+                            ticketsRemovedEmbed = discord.Embed(
+                                title = "Tickets Removed",
+                                description = f"{tickets} tickets removed by {ctx.author.mention} from the wallet of {member.mention}\nCurrent Tickets: ``{currentTix}``",
+                                color = 0xf08080
+                            )
+                            await ctx.reply(embed = ticketsRemovedEmbed)
+                        
+                        else:
+                            lessTicketsEmbed = discord.Embed(
+                                title = "Invalid Number of Tickets",
+                                description = f"You can't remove {tickets} tickets because {member.mention} doesn't even have that many tickets",
+                                color = 0xf08080
+                            )
+                            await ctx.reply(embed = lessTicketsEmbed)
+                    else:
+                        await ctx.reply(f"Hold UP dude {ctx.author.mention}!! \nThe minimum number of tickets you can remove is 1")
                 
                 else:
-                    lessTicketsEmbed = discord.Embed(
-                        title = "Invalid Number of Tickets",
-                        description = f"You can't remove {tickets} tickets because {member.mention} doesn't even have that many tickets",
+                    bankTicketsRemoveEmbed = discord.Embed(
+                        description = "Dude Hold Up!! You can't remove tickets from bank",
                         color = 0xf08080
                     )
-                    await ctx.reply(embed = lessTicketsEmbed)
+                    await ctx.reply(embed = bankTicketsRemoveEmbed)
+            
             else:
-                await ctx.reply(f"Hold UP dude {ctx.author.mention}!! \nThe minimum number of tickets you can remove is 1")
-        
-        else:
-            noRaffleMatchEmbed = discord.Embed(
-                title = "Invalid Name",
-                description = f"No raffle named ``{raffle_name}`` exists in this server",
-                color = 0xf08080
-            )
-            noRaffleMatchEmbed.set_footer(text = "ProTip: Use ``/raffles`` command to check list of ongoing raffles")
+                noRaffleMatchEmbed = discord.Embed(
+                    title = "Invalid Name",
+                    description = f"No raffle named ``{raffle_name}`` exists in this server",
+                    color = 0xf08080
+                )
+                noRaffleMatchEmbed.set_footer(text = "ProTip: Use ``/raffles`` command to check list of ongoing raffles")
 
-            await ctx.reply(embed = noRaffleMatchEmbed)
+                await ctx.reply(embed = noRaffleMatchEmbed)
+        else:
+            pass
 
     @remove.error
     async def remove_error(self, ctx: commands.Context, error):

@@ -25,167 +25,170 @@ class Raffle(commands.Cog):
     @commands.check_any(commands.has_role("Raffle Permissions"),commands.has_permissions(administrator = True))
     @commands.guild_only()
     async def create(self, ctx: commands.Context):
-        NameEmbed = discord.Embed(
-            description = "Enter a suitable name for the raffle!",
-            color = 0xf08080
-        )
-        NameEmbed.set_footer(text = "Send 'stop' to stop the creation of raffle")
-
-        msg = await ctx.reply(embed = NameEmbed)
-        authorcheck = lambda a: a.author == ctx.author and a.channel == ctx.channel
-
-        try:
-            name: discord.Message = await self.client.wait_for("message", check = authorcheck, timeout = 50)
-        except asyncio.TimeoutError:
-            
-            name = None
-            return
-
-        await name.delete()
-        
-        if name.content.lower() == "stop" or name == None:
-            await msg.edit(embed = discord.Embed(description = "Raffle Creation Process Stopped", color = 0xf08080))
-
-        else:
-            InfoEmbed = discord.Embed(
-                description = "Do ```.mypkinfo <pokemon>``` or ```.boxpk <box> <position>``` or ```send the image containing info of the pokemon``` to select pokemon for raffle",
+        if ctx.interaction:
+            NameEmbed = discord.Embed(
+                description = "Enter a suitable name for the raffle!",
                 color = 0xf08080
             )
-            InfoEmbed.set_footer(text = "Send 'stop' to stop the creation of raffle")
+            NameEmbed.set_footer(text = "Send 'stop' to stop the creation of raffle")
 
-            await msg.edit(embed = InfoEmbed)
-
-            # infocheck = lambda message: message.author.id in [438057969251254293, ctx.author.id] and message.channel == ctx.channel and message.attachments[0].filename in ["mypkinfo.png","mypkinfo","boxpk.png","boxpk","unknown.png","unknown"]
-            # def infocheck(message: discord.Message):
-            #     if message.channel == ctx.channel:
-            #         if message.content.lower() == "stop" and message.author.id == ctx.author.id:
-            #             return True
-            #         elif len(message.attachments) > 1 and message.author.id == 438057969251254293:
-            #             message.attachments[0].filename in ["mypkinfo.png","mypkinfo","boxpk.png","boxpk","unknown.png","unknown"]
-
-            # infocheck = lambda message: message.channel == ctx.channel and ((message.content.lower() == "stop" and message.author.id == ctx.author.id) or (len(message.attachments) > 1 and message.author.id == 438057969251254293 ))
-            
-            def infocheck(message: discord.Message):
-                if message.channel == ctx.channel:
-                    if message.author == ctx.author:
-                        if message.content.lower() == "stop" or len(message.attachments) > 1:
-                            return True
-                    elif message.author.id == 438057969251254293:
-                        if len(message.attachments) >= 1:
-                            print("attachment identified")
-                            return message.attachments[0].filename in ["mypkinfo.png","mypkinfo","boxpk.png","boxpk","unknown.png","unknown"]
-                    else:
-                        return False
-                
+            msg = await ctx.reply(embed = NameEmbed)
+            authorcheck = lambda a: a.author == ctx.author and a.channel == ctx.channel
 
             try:
-                info: discord.Message = await self.client.wait_for("message", check = infocheck, timeout = 50)
+                name: discord.Message = await self.client.wait_for("message", check = authorcheck, timeout = 50)
             except asyncio.TimeoutError:
                 
-                info = None
+                name = None
                 return
-            
-            await info.delete()
 
-            if info.content.lower() == "stop" or info == None:
+            await name.delete()
+            
+            if name.content.lower() == "stop" or name == None:
                 await msg.edit(embed = discord.Embed(description = "Raffle Creation Process Stopped", color = 0xf08080))
 
             else:
-                # infoAttachments = info.attachments
-                infoimg = await info.attachments[0].read()
-                # for attachment in info.attachments:
-
-
-                CostEmbed = discord.Embed(
-                    description = f"Enter the ticket cost of the raffle ``{name.content}``",
+                InfoEmbed = discord.Embed(
+                    description = "Do ```.mypkinfo <pokemon>``` or ```.boxpk <box> <position>``` or ```send the image containing info of the pokemon``` to select pokemon for raffle",
                     color = 0xf08080
                 )
-                CostEmbed.set_footer(text = "Send 'stop' to stop the creation of raffle")
+                InfoEmbed.set_footer(text = "Send 'stop' to stop the creation of raffle")
 
-                await msg.edit(embed = CostEmbed)
+                await msg.edit(embed = InfoEmbed)
+
+                # infocheck = lambda message: message.author.id in [438057969251254293, ctx.author.id] and message.channel == ctx.channel and message.attachments[0].filename in ["mypkinfo.png","mypkinfo","boxpk.png","boxpk","unknown.png","unknown"]
+                # def infocheck(message: discord.Message):
+                #     if message.channel == ctx.channel:
+                #         if message.content.lower() == "stop" and message.author.id == ctx.author.id:
+                #             return True
+                #         elif len(message.attachments) > 1 and message.author.id == 438057969251254293:
+                #             message.attachments[0].filename in ["mypkinfo.png","mypkinfo","boxpk.png","boxpk","unknown.png","unknown"]
+
+                # infocheck = lambda message: message.channel == ctx.channel and ((message.content.lower() == "stop" and message.author.id == ctx.author.id) or (len(message.attachments) > 1 and message.author.id == 438057969251254293 ))
                 
-                tixcheck = lambda a: a.author.id == ctx.author.id and a.channel == ctx.channel and (a.content.isnumeric() or a.content.lower() == "stop")
+                def infocheck(message: discord.Message):
+                    if message.channel == ctx.channel:
+                        if message.author == ctx.author:
+                            if message.content.lower() == "stop" or len(message.attachments) > 1:
+                                return True
+                        elif message.author.id == 438057969251254293:
+                            if len(message.attachments) >= 1:
+                                print("attachment identified")
+                                return message.attachments[0].filename in ["mypkinfo.png","mypkinfo","boxpk.png","boxpk","unknown.png","unknown"]
+                        else:
+                            return False
+                    
 
                 try:
-                    tixcost: discord.Message = await self.client.wait_for("message", check = tixcheck, timeout = 50)
+                    info: discord.Message = await self.client.wait_for("message", check = infocheck, timeout = 50)
                 except asyncio.TimeoutError:
                     
-                    tixcost = None
+                    info = None
                     return
+                
+                await info.delete()
 
-                await tixcost.delete()
-
-                if tixcost.content.lower() == "stop" or tixcost == None:
+                if info.content.lower() == "stop" or info == None:
                     await msg.edit(embed = discord.Embed(description = "Raffle Creation Process Stopped", color = 0xf08080))
 
                 else:
+                    # infoAttachments = info.attachments
+                    infoimg = await info.attachments[0].read()
+                    # for attachment in info.attachments:
 
-                    ChannelEmbed = discord.Embed(
-                        description = f"Mention the channel where payment is supposed to be done\nFor example: {ctx.channel.mention}",
+
+                    CostEmbed = discord.Embed(
+                        description = f"Enter the ticket cost of the raffle ``{name.content}``",
                         color = 0xf08080
                     )
-                    ChannelEmbed.set_footer(text = "Send 'stop' to stop the creation of raffle")
+                    CostEmbed.set_footer(text = "Send 'stop' to stop the creation of raffle")
 
-                    await msg.edit(embed = ChannelEmbed)
-
-                    channelcheck = lambda cmsg: cmsg.author == ctx.author and cmsg.channel == ctx.channel and ((cmsg.content.startswith("<#") and cmsg.content.endswith(">")) or cmsg.content.lower() == "stop")
+                    await msg.edit(embed = CostEmbed)
                     
+                    tixcheck = lambda a: a.author.id == ctx.author.id and a.channel == ctx.channel and (a.content.isnumeric() or a.content.lower() == "stop")
+
                     try:
-                        channelname: discord.Message = await self.client.wait_for("message", check = channelcheck, timeout = 50)
+                        tixcost: discord.Message = await self.client.wait_for("message", check = tixcheck, timeout = 50)
                     except asyncio.TimeoutError:
                         
-                        channelname = None
+                        tixcost = None
                         return
 
-                    await channelname.delete()
+                    await tixcost.delete()
 
-                    if channelname.content.lower() == "stop" or channelname == None:
+                    if tixcost.content.lower() == "stop" or tixcost == None:
                         await msg.edit(embed = discord.Embed(description = "Raffle Creation Process Stopped", color = 0xf08080))
 
                     else:
 
-                        channelid = channelname.content.lstrip("<#").rstrip(">")
-
-                        BankEmbed = discord.Embed(
-                            description = f"Mention the user where the <:PKC:1019594363183038554> raffle money needs to be stored\nFor example: {ctx.author.mention}",
+                        ChannelEmbed = discord.Embed(
+                            description = f"Mention the channel where payment is supposed to be done\nFor example: {ctx.channel.mention}",
                             color = 0xf08080
                         )
-                        BankEmbed.set_footer(text = "Send 'stop' to stop the creation of raffle")
+                        ChannelEmbed.set_footer(text = "Send 'stop' to stop the creation of raffle")
 
-                        await msg.edit(embed = BankEmbed)
+                        await msg.edit(embed = ChannelEmbed)
 
-                        bankcheck = lambda bmsg: bmsg.author == ctx.author and bmsg.channel == ctx.channel and ((bmsg.content.startswith("<@") and bmsg.content.endswith(">")) or (bmsg.content.startswith("<@!") and bmsg.content.endswith(">")) or bmsg.lower() == "stop")
-
+                        channelcheck = lambda cmsg: cmsg.author == ctx.author and cmsg.channel == ctx.channel and ((cmsg.content.startswith("<#") and cmsg.content.endswith(">")) or cmsg.content.lower() == "stop")
+                        
                         try:
-                            bankname: discord.Message = await self.client.wait_for("message", check = bankcheck, timeout = 50)
+                            channelname: discord.Message = await self.client.wait_for("message", check = channelcheck, timeout = 50)
                         except asyncio.TimeoutError:
-                            bankname = None
+                            
+                            channelname = None
                             return
 
-                        await bankname.delete()
+                        await channelname.delete()
 
-                        if bankname.content.lower() == "stop" or bankname == None:
+                        if channelname.content.lower() == "stop" or channelname == None:
                             await msg.edit(embed = discord.Embed(description = "Raffle Creation Process Stopped", color = 0xf08080))
 
                         else:
 
-                            raffledetails = {
-                                "_id": int(channelid),
-                                "RaffleName": name.content,
-                                "Ticket Cost": int(tixcost.content),
-                                "bank": int(bankname.content.lstrip("<@!").rstrip(">")),
-                                "guild": ctx.guild.id,
-                                "info": infoimg,
-                                "Total Tickets": 0
-                            }
+                            channelid = channelname.content.lstrip("<#").rstrip(">")
 
-                            await db.raffles.insert_one(raffledetails)
-
-                            await msg.edit(embed = discord.Embed(
-                                title = "Raffle Created!",
-                                description = f"Raffle named ``{name.content}`` for channel <#{channelid}> created successfully!!",
+                            BankEmbed = discord.Embed(
+                                description = f"Mention the user where the <:PKC:1019594363183038554> raffle money needs to be stored\nFor example: {ctx.author.mention}",
                                 color = 0xf08080
-                            ))
+                            )
+                            BankEmbed.set_footer(text = "Send 'stop' to stop the creation of raffle")
+
+                            await msg.edit(embed = BankEmbed)
+
+                            bankcheck = lambda bmsg: bmsg.author == ctx.author and bmsg.channel == ctx.channel and ((bmsg.content.startswith("<@") and bmsg.content.endswith(">")) or (bmsg.content.startswith("<@!") and bmsg.content.endswith(">")) or bmsg.lower() == "stop")
+
+                            try:
+                                bankname: discord.Message = await self.client.wait_for("message", check = bankcheck, timeout = 50)
+                            except asyncio.TimeoutError:
+                                bankname = None
+                                return
+
+                            await bankname.delete()
+
+                            if bankname.content.lower() == "stop" or bankname == None:
+                                await msg.edit(embed = discord.Embed(description = "Raffle Creation Process Stopped", color = 0xf08080))
+
+                            else:
+
+                                raffledetails = {
+                                    "_id": int(channelid),
+                                    "RaffleName": name.content,
+                                    "Ticket Cost": int(tixcost.content),
+                                    "bank": int(bankname.content.lstrip("<@!").rstrip(">")),
+                                    "guild": ctx.guild.id,
+                                    "info": infoimg,
+                                    "Total Tickets": 0
+                                }
+
+                                await db.raffles.insert_one(raffledetails)
+
+                                await msg.edit(embed = discord.Embed(
+                                    title = "Raffle Created!",
+                                    description = f"Raffle named ``{name.content}`` for channel <#{channelid}> created successfully!!",
+                                    color = 0xf08080
+                                ))
+        else:
+            pass
             
     @create.error
     async def create_error(self, ctx: commands.Context, error):
@@ -206,30 +209,33 @@ class Raffle(commands.Cog):
     @commands.guild_only()
     # @app_commands.rename(raffle_name = "raffle name")
     async def delete(self, ctx: commands.Context, raffle_name: app_commands.Transform[str, d.ChoiceTransformer]):
-        raffledoc = await db.raffles.find_one({"RaffleName": raffle_name})
-        if raffledoc:
-            guild = db.dbase[str(ctx.guild.id)]
-            raffle = raffledoc["_id"]
+        if ctx.interaction:
+            raffledoc = await db.raffles.find_one({"RaffleName": raffle_name})
+            if raffledoc:
+                guild = db.dbase[str(ctx.guild.id)]
+                raffle = raffledoc["_id"]
 
-            await guild.delete_many({"Raffle": raffle})
-            await db.raffles.delete_one({"_id": raffle})
+                await guild.delete_many({"Raffle": raffle})
+                await db.raffles.delete_one({"_id": raffle})
 
-            raffleDeletedEmbed = discord.Embed(
-                description = f"Raffle named ``{raffle_name}`` deleted successfully",
-                color = 0xf08080
-            )
+                raffleDeletedEmbed = discord.Embed(
+                    description = f"Raffle named ``{raffle_name}`` deleted successfully",
+                    color = 0xf08080
+                )
 
-            await ctx.reply(embed = raffleDeletedEmbed)
+                await ctx.reply(embed = raffleDeletedEmbed)
 
+            else:
+                noRaffleMatchEmbed = discord.Embed(
+                    title = "Invalid Name",
+                    description = f"No raffle named ``{raffle_name}`` exists in this server",
+                    color = 0xf08080
+                )
+                noRaffleMatchEmbed.set_footer(text = "ProTip: Use ``/raffles`` command to check list of ongoing raffles")
+
+                await ctx.reply(embed = noRaffleMatchEmbed)
         else:
-            noRaffleMatchEmbed = discord.Embed(
-                title = "Invalid Name",
-                description = f"No raffle named ``{raffle_name}`` exists in this server",
-                color = 0xf08080
-            )
-            noRaffleMatchEmbed.set_footer(text = "ProTip: Use ``/raffles`` command to check list of ongoing raffles")
-
-            await ctx.reply(embed = noRaffleMatchEmbed)
+            pass
 
     @delete.error
     async def delete_error(self, ctx: commands.Context, error):
@@ -247,45 +253,48 @@ class Raffle(commands.Cog):
     @commands.guild_only()
     # @app_commands.rename(raffle_name = "raffle name")
     async def info(self, ctx: commands.Context, raffle_name: app_commands.Transform[str, d.ChoiceTransformer]):
-        raffledoc = await db.raffles.find_one({"RaffleName": raffle_name})
-        if raffledoc:
-            await ctx.defer()
-            guild = db.dbase[str(ctx.guild.id)]
-            bank = discord.utils.get(ctx.guild.members, id = raffledoc["bank"])
-            channel = raffledoc["_id"]
-            raffleName = raffledoc["RaffleName"]
-            totalTickets = raffledoc["Total Tickets"]
-            ticketCost = raffledoc["Ticket Cost"]
+        if ctx.interaction:
+            raffledoc = await db.raffles.find_one({"RaffleName": raffle_name})
+            if raffledoc:
+                await ctx.defer()
+                guild = db.dbase[str(ctx.guild.id)]
+                bank = discord.utils.get(ctx.guild.members, id = raffledoc["bank"])
+                channel = raffledoc["_id"]
+                raffleName = raffledoc["RaffleName"]
+                totalTickets = raffledoc["Total Tickets"]
+                ticketCost = raffledoc["Ticket Cost"]
 
-            infoEmbed = discord.Embed(
-                title = "Raffle Info",
-                color = 0xf08080
-            )
-            infoEmbed.add_field(name = "Raffle Name", value = raffleName)
-            infoEmbed.add_field(name = "Ticket Cost", value = ticketCost)
-            infoEmbed.add_field(name = "Bank of Raffle", value = bank.mention)
-            infoEmbed.add_field(name = "Payment Channel", value = f"<#{channel}>")
-            infoEmbed.add_field(name = "Total Tickets Sold", value = f"{totalTickets} tickets")
+                infoEmbed = discord.Embed(
+                    title = "Raffle Info",
+                    color = 0xf08080
+                )
+                infoEmbed.add_field(name = "Raffle Name", value = raffleName)
+                infoEmbed.add_field(name = "Ticket Cost", value = ticketCost)
+                infoEmbed.add_field(name = "Bank of Raffle", value = bank.mention)
+                infoEmbed.add_field(name = "Payment Channel", value = f"<#{channel}>")
+                infoEmbed.add_field(name = "Total Tickets Sold", value = f"{totalTickets} tickets")
 
-            if f"info{raffleName}.png" not in os.listdir(path = "/app/bot/assets/"):
+                if f"info{raffleName}.png" not in os.listdir(path = "/app/bot/assets/"):
+                    
+                    aboutimg = Image.open(io.BytesIO(raffledoc["info"]))
+                    aboutimg.save(f"bot/assets/info{raffleName}.png", format = "png")
+
+                Imgfile = discord.File(f"bot/assets/info{raffleName}.png", filename = f"info{raffleName}.png")
+                infoEmbed.set_image(url = f"attachment://info{raffleName}.png")
                 
-                aboutimg = Image.open(io.BytesIO(raffledoc["info"]))
-                aboutimg.save(f"bot/assets/info{raffleName}.png", format = "png")
+                await ctx.reply(file = Imgfile, embed = infoEmbed)
 
-            Imgfile = discord.File(f"bot/assets/info{raffleName}.png", filename = f"info{raffleName}.png")
-            infoEmbed.set_image(url = f"attachment://info{raffleName}.png")
-            
-            await ctx.reply(file = Imgfile, embed = infoEmbed)
+            else:
+                noRaffleMatchEmbed = discord.Embed(
+                    title = "Invalid Name",
+                    description = f"No raffle named ``{raffle_name}`` exists in this server",
+                    color = 0xf08080
+                )
+                noRaffleMatchEmbed.set_footer(text = "ProTip: Use ``/raffles`` command to check list of ongoing raffles")
 
+                await ctx.reply(embed = noRaffleMatchEmbed)
         else:
-            noRaffleMatchEmbed = discord.Embed(
-                title = "Invalid Name",
-                description = f"No raffle named ``{raffle_name}`` exists in this server",
-                color = 0xf08080
-            )
-            noRaffleMatchEmbed.set_footer(text = "ProTip: Use ``/raffles`` command to check list of ongoing raffles")
-
-            await ctx.reply(embed = noRaffleMatchEmbed)
+            pass
 
 
 
@@ -294,59 +303,62 @@ class Raffle(commands.Cog):
     @commands.guild_only()
     # @app_commands.rename(raffle_name = "raffle name")
     async def roll(self, ctx: commands.Context, raffle_name = app_commands.Transform[str, d.ChoiceTransformer]):
-        raffleDoc = await db.raffles.find_one({"RaffleName": raffle_name})
+        if ctx.interaction:
+            raffleDoc = await db.raffles.find_one({"RaffleName": raffle_name})
 
-        if raffleDoc:
-            guild = db.dbase[str(ctx.guild.id)]     
+            if raffleDoc:
+                guild = db.dbase[str(ctx.guild.id)]     
 
-            userlist = []
-            ticketlist = []
+                userlist = []
+                ticketlist = []
 
-            async for doc in guild.find({"Raffle": raffleDoc["_id"]}, {"tickets": 1}):
-                userlist.append(doc["_id"])
-                ticketlist.append(doc["tickets"])
+                async for doc in guild.find({"Raffle": raffleDoc["_id"]}, {"tickets": 1}):
+                    userlist.append(doc["_id"])
+                    ticketlist.append(doc["tickets"])
 
-            if len(userlist) != 0 and len(ticketlist) != 0:
-                await ctx.defer()
+                if len(userlist) != 0 and len(ticketlist) != 0:
+                    await ctx.defer()
 
-                winnerId = d.random_chooser(userlist, ticketlist)
-                winnerDoc = await guild.find_one({"_id": winnerId}, {"_id": 0, "tickets": 1})
-                winnerTickets = winnerDoc["tickets"]
-                winner = discord.utils.get(ctx.guild.members, id = winnerId)
+                    winnerId = d.random_chooser(userlist, ticketlist)
+                    winnerDoc = await guild.find_one({"_id": winnerId}, {"_id": 0, "tickets": 1})
+                    winnerTickets = winnerDoc["tickets"]
+                    winner = discord.utils.get(ctx.guild.members, id = winnerId)
 
-                RollEmbed = discord.Embed(
-                    title = "Congratulations",
-                    color = 0xf08080
-                )
-                RollEmbed.add_field(name = "Raffle Name", value = raffle_name)
-                RollEmbed.add_field(name = "Winner", value = winner.mention)
-                RollEmbed.add_field(name = "Total Tickets", value = raffleDoc["Total Tickets"], inline = True)
-                RollEmbed.add_field(name = "Winner's Tickets", value = winnerTickets, inline = True)
+                    RollEmbed = discord.Embed(
+                        title = "Congratulations",
+                        color = 0xf08080
+                    )
+                    RollEmbed.add_field(name = "Raffle Name", value = raffle_name)
+                    RollEmbed.add_field(name = "Winner", value = winner.mention)
+                    RollEmbed.add_field(name = "Total Tickets", value = raffleDoc["Total Tickets"], inline = True)
+                    RollEmbed.add_field(name = "Winner's Tickets", value = winnerTickets, inline = True)
 
-                PopperFile = discord.File("bot/assets/party_popper.gif", filename = "party_popper.gif")
-                RollEmbed.set_thumbnail(url = "attachment://party_popper.gif")
+                    PopperFile = discord.File("bot/assets/party_popper.gif", filename = "party_popper.gif")
+                    RollEmbed.set_thumbnail(url = "attachment://party_popper.gif")
 
-                await ctx.reply(content = f"||<@{winnerId}>||", embed = RollEmbed, file = PopperFile)
+                    await ctx.reply(content = f"||<@{winnerId}>||", embed = RollEmbed, file = PopperFile)
 
+                else:
+
+                    noBuyers = discord.Embed(
+                        title = "No Buyers yet",
+                        description = "No one bought any tickets yet <:F_:852865419090067476>",
+                        color = 0xf08080
+                    )
+                    await ctx.reply(embed = noBuyers)
+            
             else:
 
-                noBuyers = discord.Embed(
-                    title = "No Buyers yet",
-                    description = "No one bought any tickets yet <:F_:852865419090067476>",
+                noRaffleEmbed = discord.Embed(
+                    title = "Invalid Name",
+                    description = f"No Raffle named ``{raffle_name}`` exists in this server",
                     color = 0xf08080
                 )
-                await ctx.reply(embed = noBuyers)
-        
+                noRaffleEmbed.set_footer(text = "ProTip: Use ``/raffles`` command to check list of ongoing raffles")
+
+                await ctx.reply(embed = noRaffleEmbed)
         else:
-
-            noRaffleEmbed = discord.Embed(
-                title = "Invalid Name",
-                description = f"No Raffle named ``{raffle_name}`` exists in this server",
-                color = 0xf08080
-            )
-            noRaffleEmbed.set_footer(text = "ProTip: Use ``/raffles`` command to check list of ongoing raffles")
-
-            await ctx.reply(embed = noRaffleEmbed)
+            pass
 
     @roll.error
     async def roll_error(self, ctx: commands.Context, error):
@@ -362,43 +374,46 @@ class Raffle(commands.Cog):
     @raffle.command(name = "list", help = "For checking the ticket list of a raffle")
     @commands.guild_only()
     async def list(self, ctx: commands.Context, raffle_name: app_commands.Transform[str, d.ChoiceTransformer]):
-        await ctx.defer()
-        raffleDoc = await db.raffles.find_one({"RaffleName": raffle_name})
+        if ctx.interaction:
+            await ctx.defer()
+            raffleDoc = await db.raffles.find_one({"RaffleName": raffle_name})
 
-        if raffleDoc:
-            guild = db.dbase[str(ctx.guild.id)]
-            data = []
+            if raffleDoc:
+                guild = db.dbase[str(ctx.guild.id)]
+                data = []
 
-            async for doc in guild.find({"Raffle": raffleDoc["_id"]}, {"tickets": 1}):
-                member = discord.utils.get(ctx.guild.members, id = doc["_id"])
-                if member:
-                    data.append({"Member": member, "tickets": doc["tickets"]})
+                async for doc in guild.find({"Raffle": raffleDoc["_id"]}, {"tickets": 1}):
+                    member = discord.utils.get(ctx.guild.members, id = doc["_id"])
+                    if member:
+                        data.append({"Member": member, "tickets": doc["tickets"]})
+                    else:
+                        continue
+
+                if len(data) != 0:
+                    formatter = d.Source(entries = data, name = raffle_name, per_page = 10)
+                    menu = d.MenuPages(formatter)
+                    await menu.start(ctx)
+
                 else:
-                    continue
-
-            if len(data) != 0:
-                formatter = d.Source(entries = data, name = raffle_name, per_page = 10)
-                menu = d.MenuPages(formatter)
-                await menu.start(ctx)
+                    noBuyers = discord.Embed(
+                        title = "No Buyers yet",
+                        description = "No one bought any tickets yet <:F_:852865419090067476>",
+                        color = 0xf08080
+                    )
+                    await ctx.reply(embed = noBuyers)
 
             else:
-                noBuyers = discord.Embed(
-                    title = "No Buyers yet",
-                    description = "No one bought any tickets yet <:F_:852865419090067476>",
+
+                noRaffleEmbed = discord.Embed(
+                    title = "Invalid Name",
+                    description = f"No Raffle named ``{raffle_name}`` exists in this server",
                     color = 0xf08080
                 )
-                await ctx.reply(embed = noBuyers)
+                noRaffleEmbed.set_footer(text = "ProTip: Use ``/raffles`` command to check list of ongoing raffles")
 
+                await ctx.reply(embed = noRaffleEmbed)
         else:
-
-            noRaffleEmbed = discord.Embed(
-                title = "Invalid Name",
-                description = f"No Raffle named ``{raffle_name}`` exists in this server",
-                color = 0xf08080
-            )
-            noRaffleEmbed.set_footer(text = "ProTip: Use ``/raffles`` command to check list of ongoing raffles")
-
-            await ctx.reply(embed = noRaffleEmbed)
+            pass
 
 
     @raffle.command(name = "edit", help = "For editing the information about the raffle")
@@ -406,199 +421,202 @@ class Raffle(commands.Cog):
     @commands.guild_only()
     # @app_commands.rename(raffle_name = "raffle name")
     async def edit(self, ctx: commands.Context, raffle_name: app_commands.Transform[str, d.ChoiceTransformer]):
-        raffleDoc = await db.raffles.find_one({"RaffleName": raffle_name})
+        if ctx.interaction:
+            raffleDoc = await db.raffles.find_one({"RaffleName": raffle_name})
 
-        if raffleDoc:
-            editEmbed = discord.Embed(
-                title = f"Edit Raffle {raffle_name}",
-                description = """Edit:-
-                    Raffle Name- \U0001f1f3
-                    Pokemon Info- \U0001f1ee
-                    Ticket Cost- \U0001f1f9
-                    Bank- \U0001f1e7
-                    Payment Channel- \U0001f1f5
-                    Stop Editing- \U000023f9""",
-                color = 0xf08080
-            )
-            view = d.EditChoice()
-
-            msg = await ctx.reply(embed = editEmbed, view = view)
-            await view.wait()
-
-            if view.choice == "name":
-                NameEmbed = discord.Embed(
-                    description = "Enter a suitable name for the raffle!",
+            if raffleDoc:
+                editEmbed = discord.Embed(
+                    title = f"Edit Raffle {raffle_name}",
+                    description = """Edit:-
+                        Raffle Name- \U0001f1f3
+                        Pokemon Info- \U0001f1ee
+                        Ticket Cost- \U0001f1f9
+                        Bank- \U0001f1e7
+                        Payment Channel- \U0001f1f5
+                        Stop Editing- \U000023f9""",
                     color = 0xf08080
                 )
-                NameEmbed.set_footer(text = "Send 'stop' to stop the editing of raffle")
+                view = d.EditChoice()
 
-                await msg.edit(embed = NameEmbed)
-                authorcheck = lambda a: a.author == ctx.author and a.channel == ctx.channel
+                msg = await ctx.reply(embed = editEmbed, view = view)
+                await view.wait()
 
-                try:
-                    name: discord.Message = await self.client.wait_for("message", check = authorcheck, timeout = 50)
-                except asyncio.TimeoutError:
-                    
-                    name = None
-                    return
-
-                await name.delete()
-                
-                if name.content.lower() == "stop" or name == None:
-                    await msg.edit(embed = discord.Embed(description = "Raffle Editing Process Stopped", color = 0xf08080))
-                else:
-                    await db.raffles.find_one_and_update({"_id":raffleDoc["_id"]},{"$set":{"RaffleName":name.content}})
-                    
-                    await msg.edit(embed = discord.Embed(
-                        title = "Raffle edited",
-                        description = "Raffle Name edited successfully!",
-                        color = 0xf08080
-                    ))
-            elif view.choice == "info":
-                InfoEmbed = discord.Embed(
-                    description = "Do ```.mypkinfo <pokemon>``` or ```.boxpk <box> <position>``` or ```send the image containing info of the pokemon``` to select pokemon for raffle",
-                    color = 0xf08080
-                )
-                InfoEmbed.set_footer(text = "Send 'stop' to stop the editing of raffle")
-
-                await msg.edit(embed = InfoEmbed)
-
-                def infocheck(message: discord.Message):
-                    if message.channel == ctx.channel:
-                        if message.author == ctx.author:
-                            if message.content.lower() == "stop" or len(message.attachments) > 1:
-                                return True
-                        elif message.author.id == 438057969251254293:
-                            if len(message.attachments) >= 1:
-                                print("attachment identified")
-                                return message.attachments[0].filename in ["mypkinfo.png","mypkinfo","boxpk.png","boxpk","unknown.png","unknown"]
-                        else:
-                            return False
-
-                try:
-                    info: discord.Message = await self.client.wait_for("message", check = infocheck, timeout = 50)
-                except asyncio.TimeoutError:
-                    
-                    info = None
-                    return
-                
-                await info.delete()
-
-                if info.content.lower() == "stop" or info == None:
-                    await msg.edit(embed = discord.Embed(description = "Raffle Editing Process Stopped", color = 0xf08080))
-
-                else:
-                    infoimg = await info.attachments[0].read()
-                    await db.raffles.find_one_and_update({"_id": raffleDoc["_id"]}, {"$set": {"info": infoimg}})
-
-                    await msg.edit(embed = discord.Embed(
-                        title = "About Raffle edited",
-                        description = "About Raffle edited successfully!",
-                        color = 0xf08080
-                        ),delate_after = 10)
-                    
-
-            elif view.choice == "ticket":
-
-                CostEmbed = discord.Embed(
-                    description = f"Enter the ticket cost of the raffle ``{raffle_name}``",
-                    color = 0xf08080
-                )
-                CostEmbed.set_footer(text = "Send 'stop' to stop the editing of raffle")
-
-                await msg.edit(embed = CostEmbed)
-                
-                tixcheck = lambda a: a.author.id == ctx.author.id and a.channel == ctx.channel and (a.content.isnumeric() or a.content.lower() == "stop")
-
-                try:
-                    tixcost: discord.Message = await self.client.wait_for("message", check = tixcheck, timeout = 50)
-                except asyncio.TimeoutError:
-                    
-                    tixcost = None
-                    return
-
-                await tixcost.delete()
-
-                if tixcost.content.lower() == "stop" or tixcost == None:
-                    await msg.edit(embed = discord.Embed(description = "Raffle Editing Process Stopped", color = 0xf08080))
-                else:
-                    await db.raffles.find_one_and_update({"_id":raffleDoc["_id"]},{"$set":{"Ticket Cost": int(tixcost.content)}})
-                    await msg.edit(embed = discord.Embed(
-                        title = "Cost edited", 
-                        description = "Ticket Cost edited successfully", 
-                        color = 0xf08080))
-
-            elif view.choice == "bank":
-                BankEmbed = discord.Embed(
-                    description = f"Mention the user where the <:PKC:1019594363183038554> raffle money needs to be stored\nFor example: {ctx.author.mention}",
-                    color = 0xf08080
-                )
-                BankEmbed.set_footer(text = "Send 'stop' to stop the editing of raffle")
-
-                await msg.edit(embed = BankEmbed)
-
-                bankcheck = lambda bmsg: bmsg.author == ctx.author and bmsg.channel == ctx.channel and ((bmsg.content.startswith("<@") and bmsg.content.endswith(">")) or (bmsg.startswith("<@!") and bmsg.content.endswith(">")) or bmsg.content.lower() == "stop")
-
-                try:
-                    bankname: discord.Message = await self.client.wait_for("message", check = bankcheck, timeout = 50)
-                except asyncio.TimeoutError:
-                    bankname = None
-                    return
-
-                await bankname.delete()
-
-                if bankname.content.lower() == "stop" or bankname == None:
-                    await msg.edit(embed = discord.Embed(description = "Raffle Editing Process Stopped", color = 0xf08080))
-                else:
-                    await db.raffles.find_one_and_update({"_id": raffleDoc["_id"]},{"$set": {"bank": int(bankname.content.lstrip("<@!").rstrip(">"))}})
-                    
-                    await msg.edit(embed = discord.Embed(
-                        title = "Bank ID edited", 
-                        description = "Bank ID edited successfully", 
-                        color = 0xf08080))
-            
-            elif view.choice == "channel":
-                ChannelEmbed = discord.Embed(
-                        description = f"Mention the channel where payment is supposed to be done\nFor example: {ctx.channel.mention}",
+                if view.choice == "name":
+                    NameEmbed = discord.Embed(
+                        description = "Enter a suitable name for the raffle!",
                         color = 0xf08080
                     )
-                ChannelEmbed.set_footer(text = "Send 'stop' to stop the editing of raffle")
+                    NameEmbed.set_footer(text = "Send 'stop' to stop the editing of raffle")
 
-                await msg.edit(embed = ChannelEmbed)
+                    await msg.edit(embed = NameEmbed)
+                    authorcheck = lambda a: a.author == ctx.author and a.channel == ctx.channel
 
-                channelcheck = lambda cmsg: cmsg.author == ctx.author and cmsg.channel == ctx.channel and ((cmsg.content.startswith("<#") and cmsg.content.endswith(">")) or cmsg.content.lower() == "stop")
-                    
-                try:
-                    channelname: discord.Message = await self.client.wait_for("message", check = authorcheck, timeout = 50)
-                except asyncio.TimeoutError:
+                    try:
+                        name: discord.Message = await self.client.wait_for("message", check = authorcheck, timeout = 50)
+                    except asyncio.TimeoutError:
                         
-                    channelname = None
-                    return
+                        name = None
+                        return
 
-                await channelname.delete()
-
-                if channelname.content.lower() == "stop" or channelname == None:
-                    await msg.edit(embed = discord.Embed(description = "Raffle Editing Process Stopped", color = 0xf08080))
-                else:
-                    await db.raffles.find_one_and_update({"_id": raffleDoc["_id"]},{"$set": {"_id": int(channelname.content.lstrip("<#").rstrip(">"))}})
-                    await msg.edit(embed = discord.Embed(
-                        title = "Payment Channel edited",
-                        description = "Payment Channel edited successfully!",
+                    await name.delete()
+                    
+                    if name.content.lower() == "stop" or name == None:
+                        await msg.edit(embed = discord.Embed(description = "Raffle Editing Process Stopped", color = 0xf08080))
+                    else:
+                        await db.raffles.find_one_and_update({"_id":raffleDoc["_id"]},{"$set":{"RaffleName":name.content}})
+                        
+                        await msg.edit(embed = discord.Embed(
+                            title = "Raffle edited",
+                            description = "Raffle Name edited successfully!",
+                            color = 0xf08080
+                        ))
+                elif view.choice == "info":
+                    InfoEmbed = discord.Embed(
+                        description = "Do ```.mypkinfo <pokemon>``` or ```.boxpk <box> <position>``` or ```send the image containing info of the pokemon``` to select pokemon for raffle",
                         color = 0xf08080
-                    ))
+                    )
+                    InfoEmbed.set_footer(text = "Send 'stop' to stop the editing of raffle")
+
+                    await msg.edit(embed = InfoEmbed)
+
+                    def infocheck(message: discord.Message):
+                        if message.channel == ctx.channel:
+                            if message.author == ctx.author:
+                                if message.content.lower() == "stop" or len(message.attachments) > 1:
+                                    return True
+                            elif message.author.id == 438057969251254293:
+                                if len(message.attachments) >= 1:
+                                    print("attachment identified")
+                                    return message.attachments[0].filename in ["mypkinfo.png","mypkinfo","boxpk.png","boxpk","unknown.png","unknown"]
+                            else:
+                                return False
+
+                    try:
+                        info: discord.Message = await self.client.wait_for("message", check = infocheck, timeout = 50)
+                    except asyncio.TimeoutError:
+                        
+                        info = None
+                        return
+                    
+                    await info.delete()
+
+                    if info.content.lower() == "stop" or info == None:
+                        await msg.edit(embed = discord.Embed(description = "Raffle Editing Process Stopped", color = 0xf08080))
+
+                    else:
+                        infoimg = await info.attachments[0].read()
+                        await db.raffles.find_one_and_update({"_id": raffleDoc["_id"]}, {"$set": {"info": infoimg}})
+
+                        await msg.edit(embed = discord.Embed(
+                            title = "About Raffle edited",
+                            description = "About Raffle edited successfully!",
+                            color = 0xf08080
+                            ),delate_after = 10)
+                        
+
+                elif view.choice == "ticket":
+
+                    CostEmbed = discord.Embed(
+                        description = f"Enter the ticket cost of the raffle ``{raffle_name}``",
+                        color = 0xf08080
+                    )
+                    CostEmbed.set_footer(text = "Send 'stop' to stop the editing of raffle")
+
+                    await msg.edit(embed = CostEmbed)
+                    
+                    tixcheck = lambda a: a.author.id == ctx.author.id and a.channel == ctx.channel and (a.content.isnumeric() or a.content.lower() == "stop")
+
+                    try:
+                        tixcost: discord.Message = await self.client.wait_for("message", check = tixcheck, timeout = 50)
+                    except asyncio.TimeoutError:
+                        
+                        tixcost = None
+                        return
+
+                    await tixcost.delete()
+
+                    if tixcost.content.lower() == "stop" or tixcost == None:
+                        await msg.edit(embed = discord.Embed(description = "Raffle Editing Process Stopped", color = 0xf08080))
+                    else:
+                        await db.raffles.find_one_and_update({"_id":raffleDoc["_id"]},{"$set":{"Ticket Cost": int(tixcost.content)}})
+                        await msg.edit(embed = discord.Embed(
+                            title = "Cost edited", 
+                            description = "Ticket Cost edited successfully", 
+                            color = 0xf08080))
+
+                elif view.choice == "bank":
+                    BankEmbed = discord.Embed(
+                        description = f"Mention the user where the <:PKC:1019594363183038554> raffle money needs to be stored\nFor example: {ctx.author.mention}",
+                        color = 0xf08080
+                    )
+                    BankEmbed.set_footer(text = "Send 'stop' to stop the editing of raffle")
+
+                    await msg.edit(embed = BankEmbed)
+
+                    bankcheck = lambda bmsg: bmsg.author == ctx.author and bmsg.channel == ctx.channel and ((bmsg.content.startswith("<@") and bmsg.content.endswith(">")) or (bmsg.startswith("<@!") and bmsg.content.endswith(">")) or bmsg.content.lower() == "stop")
+
+                    try:
+                        bankname: discord.Message = await self.client.wait_for("message", check = bankcheck, timeout = 50)
+                    except asyncio.TimeoutError:
+                        bankname = None
+                        return
+
+                    await bankname.delete()
+
+                    if bankname.content.lower() == "stop" or bankname == None:
+                        await msg.edit(embed = discord.Embed(description = "Raffle Editing Process Stopped", color = 0xf08080))
+                    else:
+                        await db.raffles.find_one_and_update({"_id": raffleDoc["_id"]},{"$set": {"bank": int(bankname.content.lstrip("<@!").rstrip(">"))}})
+                        
+                        await msg.edit(embed = discord.Embed(
+                            title = "Bank ID edited", 
+                            description = "Bank ID edited successfully", 
+                            color = 0xf08080))
+                
+                elif view.choice == "channel":
+                    ChannelEmbed = discord.Embed(
+                            description = f"Mention the channel where payment is supposed to be done\nFor example: {ctx.channel.mention}",
+                            color = 0xf08080
+                        )
+                    ChannelEmbed.set_footer(text = "Send 'stop' to stop the editing of raffle")
+
+                    await msg.edit(embed = ChannelEmbed)
+
+                    channelcheck = lambda cmsg: cmsg.author == ctx.author and cmsg.channel == ctx.channel and ((cmsg.content.startswith("<#") and cmsg.content.endswith(">")) or cmsg.content.lower() == "stop")
+                        
+                    try:
+                        channelname: discord.Message = await self.client.wait_for("message", check = authorcheck, timeout = 50)
+                    except asyncio.TimeoutError:
+                            
+                        channelname = None
+                        return
+
+                    await channelname.delete()
+
+                    if channelname.content.lower() == "stop" or channelname == None:
+                        await msg.edit(embed = discord.Embed(description = "Raffle Editing Process Stopped", color = 0xf08080))
+                    else:
+                        await db.raffles.find_one_and_update({"_id": raffleDoc["_id"]},{"$set": {"_id": int(channelname.content.lstrip("<#").rstrip(">"))}})
+                        await msg.edit(embed = discord.Embed(
+                            title = "Payment Channel edited",
+                            description = "Payment Channel edited successfully!",
+                            color = 0xf08080
+                        ))
+
+                else:
+                    await msg.edit(embed = discord.Embed(description = "Raffle Editing Process Stopped", color = 0xf08080))
 
             else:
-                await msg.edit(embed = discord.Embed(description = "Raffle Editing Process Stopped", color = 0xf08080))
+                noRaffleEmbed = discord.Embed(
+                    title = "Invalid Name",
+                    description = f"No Raffle named ``{raffle_name}`` exists in this server",
+                    color = 0xf08080
+                )
+                noRaffleEmbed.set_footer(text = "ProTip: Use ``/raffles`` command to check list of ongoing raffles")
 
+                await ctx.reply(embed = noRaffleEmbed)
         else:
-            noRaffleEmbed = discord.Embed(
-                title = "Invalid Name",
-                description = f"No Raffle named ``{raffle_name}`` exists in this server",
-                color = 0xf08080
-            )
-            noRaffleEmbed.set_footer(text = "ProTip: Use ``/raffles`` command to check list of ongoing raffles")
-
-            await ctx.reply(embed = noRaffleEmbed)
+            pass
 
     @edit.error
     async def edit_error(self, ctx: commands.Context, error):
