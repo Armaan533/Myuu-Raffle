@@ -128,7 +128,7 @@ class Raffle(commands.Cog):
 
                     await msg.edit(embed = ChannelEmbed)
 
-                    channelcheck = lambda cmsg: cmsg.author == ctx.author and cmsg.channel == ctx.channel and ((cmsg.startswith("<#") and cmsg.endswith(">")) or cmsg.lower() == "stop")
+                    channelcheck = lambda cmsg: cmsg.author == ctx.author and cmsg.channel == ctx.channel and ((cmsg.content.startswith("<#") and cmsg.content.endswith(">")) or cmsg.content.lower() == "stop")
                     
                     try:
                         channelname: discord.Message = await self.client.wait_for("message", check = channelcheck, timeout = 50)
@@ -567,7 +567,7 @@ class Raffle(commands.Cog):
 
                 await msg.edit(embed = ChannelEmbed)
 
-                channelcheck = lambda cmsg: cmsg.author == ctx.author and cmsg.channel == ctx.channel and ((cmsg.startswith("<#") and cmsg.endswith(">")) or cmsg.lower() == "stop")
+                channelcheck = lambda cmsg: cmsg.author == ctx.author and cmsg.channel == ctx.channel and ((cmsg.content.startswith("<#") and cmsg.content.endswith(">")) or cmsg.content.lower() == "stop")
                     
                 try:
                     channelname: discord.Message = await self.client.wait_for("message", check = authorcheck, timeout = 50)
