@@ -270,12 +270,10 @@ class Raffle(commands.Cog):
             if f"info{raffleName}.png" not in os.listdir(path = "/app/bot/assets/"):
                 
                 aboutimg = Image.open(io.BytesIO(raffledoc["info"]))
-                buffer = io.BytesIO()
                 aboutimg.save(f"bot/assets/info{raffleName}.png", format = "png")
 
-            else:
-                Imgfile = discord.File(f"bot/assets/info{raffleName}.png", filename = f"info{raffleName}.png")
-                infoEmbed.set_image(url = f"attachment://info{raffleName}.png")
+            Imgfile = discord.File(f"bot/assets/info{raffleName}.png", filename = f"info{raffleName}.png")
+            infoEmbed.set_image(url = f"attachment://info{raffleName}.png")
             
             await ctx.reply(file = Imgfile, embed = infoEmbed)
 
