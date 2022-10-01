@@ -63,7 +63,14 @@ class Raffle(commands.Cog):
             #         elif len(message.attachments) > 1 and message.author.id == 438057969251254293:
             #             message.attachments[0].filename in ["mypkinfo.png","mypkinfo","boxpk.png","boxpk","unknown.png","unknown"]
 
-            infocheck = lambda message: message.channel == ctx.channel and ((message.content.lower() == "stop" and message.author.id == ctx.author.id) or (len(message.attachments) > 1 and message.author.id == 438057969251254293 and message.attachments[0].filename in ["mypkinfo.png","mypkinfo","boxpk.png","boxpk","unknown.png","unknown"]))
+            # infocheck = lambda message: message.channel == ctx.channel and ((message.content.lower() == "stop" and message.author.id == ctx.author.id) or (len(message.attachments) > 1 and message.author.id == 438057969251254293 ))
+            
+            def infocheck(message: discord.Message):
+                if message.channel == ctx.channel:
+                    if message.author == ctx.author:
+                        message.content.lower() == "stop" or len(message.attachments) > 1
+                    elif message.author.id == 438057969251254293:
+                        len(message.attachments) > 1
                 
 
             try:

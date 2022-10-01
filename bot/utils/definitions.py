@@ -36,7 +36,7 @@ class MenuPages(ui.View, menus.MenuPages):
 	async def send_initial_message(self, ctx: commands.Context):
 		page = await self._source.get_page(0)
 		kwargs = await self._get_kwargs_from_page(page)
-		return await ctx.interaction.followup.send_message(**kwargs)
+		return await ctx.interaction.followup.send(**kwargs)
 
 	async def start(self, ctx: commands.Context, *, channel = None, wait = False):
 		await self._source._prepare_once()
