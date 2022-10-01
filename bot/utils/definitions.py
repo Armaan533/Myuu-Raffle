@@ -33,10 +33,15 @@ class MenuPages(ui.View, menus.MenuPages):
 		self.ctx: commands.Context = None
 		self.message: discord.Message = None
 
+	async def send_initial_message(self, ctx: commands.Context):
+		page = await self._source.get_page(0)
+		kwargs = await self._get_kwargs_from_page(page)
+		return await ctx.interaction.response.send_message(**kwargs)
+
 	async def start(self, ctx: commands.Context, *, channel = None, wait = False):
 		await self._source._prepare_once()
 		self.ctx = ctx
-		self.message = await self.send_initial_message(ctx, ctx.channel)
+		self.message = await self.send_initial_message(ctx)
 
 	async def _get_kwargs_from_page(self, page):
 		value = await super()._get_kwargs_from_page(page)
