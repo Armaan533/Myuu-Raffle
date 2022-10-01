@@ -67,13 +67,13 @@ class Raffle(commands.Cog):
             
             def infocheck(message: discord.Message):
                 if message.channel == ctx.channel:
-                    print("channel verified")
                     if message.author == ctx.author:
                         if message.content.lower() == "stop" or len(message.attachments) > 1:
                             return True
                     elif message.author.id == 438057969251254293:
-                        if len(message.attachments) > 1:
-                            return True
+                        if len(message.attachments) >= 1:
+                            print("attachment identified")
+                            return message.attachments[0].filename in ["mypkinfo.png","mypkinfo","boxpk.png","boxpk","unknown.png","unknown"]
                     else:
                         return False
                 
