@@ -43,7 +43,7 @@ class Tickets(commands.Cog):
                         else:
                             prevtix = 0
                             currentTix = tickets
-                            ticketDoc = {"_id": member.id, "tickets": tickets}
+                            ticketDoc = {"_id": member.id, "tickets": tickets, "Raffle": raffleid}
                             await guild.insert_one(ticketDoc)
                         
                         await db.raffles.find_one_and_update({"_id": raffleid}, {"$set": {"Total Tickets": currentTotalTix + tickets}})
