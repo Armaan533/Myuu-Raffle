@@ -69,9 +69,13 @@ class Raffle(commands.Cog):
                 if message.channel == ctx.channel:
                     print("channel verified")
                     if message.author == ctx.author:
-                        return message.content.lower() == "stop" or len(message.attachments) > 1
+                        if message.content.lower() == "stop" or len(message.attachments) > 1:
+                            return True
                     elif message.author.id == 438057969251254293:
-                        return len(message.attachments) > 1
+                        if len(message.attachments) > 1:
+                            return True
+                    else:
+                        return False
                 
 
             try:
