@@ -9,7 +9,11 @@ class Tickets(commands.Cog):
     def __init__(self, client) -> None:
         self.client = client
 
-    @commands.hybrid_group(name = "tickets")
+    @property
+    def display_emoji(self) -> discord.PartialEmoji:
+        return discord.PartialEmoji(name = "\U0001f39f")
+
+    @commands.hybrid_group(name = "tickets", description = "")
     async def tickets(self, ctx: commands.Context):
         pass
 
@@ -83,7 +87,7 @@ class Tickets(commands.Cog):
 
     @add.error
     async def add_error(self, ctx: commands.Context, error):
-        if isinstance(error, commands.errors.MissingPermissions) or isinstance(error, app_commands.errors.MissingPermissions):
+        if isinstance(error, commands.errors.CheckAnyFailure):
             await ctx.reply(embed = discord.Embed(
                 description = "You don't have proper permissions to use this command\nPlease ask your admin to provide the role named ``Raffle Permissions`` created by bot",
                 color = 0xf08080
@@ -165,7 +169,7 @@ class Tickets(commands.Cog):
 
     @remove.error
     async def remove_error(self, ctx: commands.Context, error):
-        if isinstance(error, commands.errors.MissingPermissions) or isinstance(error, app_commands.errors.MissingPermissions):
+        if isinstance(error, commands.errors.CheckAnyFailure):
             await ctx.reply(embed = discord.Embed(
                 description = "You don't have proper permissions to use this command\nPlease ask your admin to provide the role named ``Raffle Permissions`` created by bot",
                 color = 0xf08080

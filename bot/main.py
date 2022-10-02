@@ -273,7 +273,7 @@ async def on_message(message: discord.Message):
 
 
 
-@client.command(aliases = ["pong"])
+@client.hybrid_command(name = "ping", help = "For checking the latency of the bot")
 async def ping(ctx: commands.Context):
     pingEmbed = discord.Embed(
         description = f"Pong! Bot Latensy: ``{round(client.latency * 1000)}ms``",

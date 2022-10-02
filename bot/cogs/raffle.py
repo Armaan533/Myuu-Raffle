@@ -12,13 +12,24 @@ async def setup(client: commands.Bot):
 
 
 
-class Raffle(commands.Cog):
+class Raffle(commands.Cog, name = "Raffle Commands"):
     def __init__(self, client: commands.Bot):
         self.client = client
 
     @property
     def display_emoji(self) -> discord.PartialEmoji:
-        return discord.PartialEmoji(name='<:buizel:1025754191592951929> ')
+        return discord.PartialEmoji.from_str("<:buizel:1025754191592951929>")
+
+    # @commands.hybrid_command(name = "raffles", help = "For checking all the ongoing raffles in the server")
+    # @commands.guild_only()
+    # async def raffles(self, ctx: commands.Context):
+    #     allRaffles = db.raffles.find({"guild": ctx.guild.id})
+    #     raffleList = []
+    #     async for raffle in allRaffles:
+    #         raffleList.append(raffle)
+
+    #     if len(raffleList) == 0:
+
 
     @commands.hybrid_group()
     @commands.guild_only()
@@ -195,7 +206,7 @@ class Raffle(commands.Cog):
             
     @create.error
     async def create_error(self, ctx: commands.Context, error):
-        if isinstance(error, commands.errors.MissingPermissions) or isinstance(error, app_commands.errors.MissingPermissions):
+        if isinstance(error, commands.errors.CheckAnyFailure):
             await ctx.reply(embed = discord.Embed(
                 description = "You don't have proper permissions to use this command\nPlease ask your admin to provide the role named ``Raffle Permissions`` created by bot",
                 color = 0xf08080
@@ -242,7 +253,7 @@ class Raffle(commands.Cog):
 
     @delete.error
     async def delete_error(self, ctx: commands.Context, error):
-        if isinstance(error, commands.errors.MissingPermissions) or isinstance(error, app_commands.errors.MissingPermissions):
+        if isinstance(error, commands.errors.CheckAnyFailure):
             await ctx.reply(embed = discord.Embed(
                 description = "You don't have proper permissions to use this command\nPlease ask your admin to provide the role named ``Raffle Permissions`` created by bot",
                 color = 0xf08080
@@ -254,7 +265,6 @@ class Raffle(commands.Cog):
 
     @raffle.command(name = "info", help = "For checking information about a raffle")
     @commands.guild_only()
-    # @app_commands.rename(raffle_name = "raffle name")
     async def info(self, ctx: commands.Context, raffle_name: app_commands.Transform[str, d.ChoiceTransformer]):
         if ctx.interaction:
             raffledoc = await db.raffles.find_one({"RaffleName": raffle_name})
@@ -304,7 +314,6 @@ class Raffle(commands.Cog):
     @raffle.command(name = "roll", help = "For determining the winner(s) of the mentioned raffle")
     @commands.check_any(commands.has_role("Raffle Permissions"),commands.has_permissions(administrator = True))
     @commands.guild_only()
-    # @app_commands.rename(raffle_name = "raffle name")
     async def roll(self, ctx: commands.Context, raffle_name = app_commands.Transform[str, d.ChoiceTransformer]):
         if ctx.interaction:
             raffleDoc = await db.raffles.find_one({"RaffleName": raffle_name})
@@ -365,7 +374,7 @@ class Raffle(commands.Cog):
 
     @roll.error
     async def roll_error(self, ctx: commands.Context, error):
-        if isinstance(error, commands.errors.MissingPermissions) or isinstance(error, app_commands.errors.MissingPermissions):
+        if isinstance(error, commands.errors.CheckAnyFailure):
             await ctx.reply(embed = discord.Embed(
                 description = "You don't have proper permissions to use this command\nPlease ask your admin to provide the role named ``Raffle Permissions`` created by bot",
                 color = 0xf08080
@@ -422,7 +431,6 @@ class Raffle(commands.Cog):
     @raffle.command(name = "edit", help = "For editing the information about the raffle")
     @commands.check_any(commands.has_role("Raffle Permissions"),commands.has_permissions(administrator = True))
     @commands.guild_only()
-    # @app_commands.rename(raffle_name = "raffle name")
     async def edit(self, ctx: commands.Context, raffle_name: app_commands.Transform[str, d.ChoiceTransformer]):
         if ctx.interaction:
             raffleDoc = await db.raffles.find_one({"RaffleName": raffle_name})
@@ -623,7 +631,7 @@ class Raffle(commands.Cog):
 
     @edit.error
     async def edit_error(self, ctx: commands.Context, error):
-        if isinstance(error, commands.errors.MissingPermissions) or isinstance(error, app_commands.errors.MissingPermissions):
+        if isinstance(error, commands.errors.CheckAnyFailure):
             await ctx.reply(embed = discord.Embed(
                 description = "You don't have proper permissions to use this command\nPlease ask your admin to provide the role named ``Raffle Permissions`` created by bot",
                 color = 0xf08080
