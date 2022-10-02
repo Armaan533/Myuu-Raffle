@@ -16,6 +16,10 @@ class Raffle(commands.Cog):
     def __init__(self, client: commands.Bot):
         self.client = client
 
+    @property
+    def display_emoji(self) -> discord.PartialEmoji:
+        return discord.PartialEmoji(name='<:buizel:1025754191592951929> ')
+
     @commands.hybrid_group()
     @commands.guild_only()
     async def raffle(self, ctx: commands.Context):
@@ -381,7 +385,7 @@ class Raffle(commands.Cog):
                 guild = db.dbase[str(ctx.guild.id)]
                 data = []
 
-                async for doc in guild.find({"Raffle": raffleDoc["_id"]}, {"tickets": 1}).sort("tickets"):
+                async for doc in guild.find({"Raffle": raffleDoc["_id"]}, {"tickets": 1}).sort("tickets", -1):
                     member = discord.utils.get(ctx.guild.members, id = doc["_id"])
                     if member:
                         data.append({"Member": member, "tickets": doc["tickets"]})

@@ -327,6 +327,17 @@ async def prefix_error(ctx: commands.Context, error: commands.errors):
         )
         await ctx.reply(embed = missingArgEmbed)
 
+@client.hybrid_command(name = "invite", help = "For inviting me!!")
+@commands.guild_only()
+async def invite(ctx: commands.Context):
+    invlink = "https://discord.com/api/oauth2/authorize?client_id=945301514946244629&permissions=2416307264&scope=bot%20applications.commands"
+
+    inviteEmbed = discord.Embed(
+        title = "Invite ME!!",
+        description = f"Click [here]({invlink}) to invite me!!",
+        color = 0xf08080
+    )
+    await ctx.reply(embed = inviteEmbed)
 
 @client.command()
 @commands.is_owner()
