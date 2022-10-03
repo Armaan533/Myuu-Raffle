@@ -106,7 +106,8 @@ class Source(menus.ListPageSource):
 				color = 0xf08080
 			)
 			for i in data:
-				embed.add_field(name = i, value = "", inline = False)
+				id = i["_id"]
+				embed.add_field(name = i["RaffleName"], value = f"ID: {id}", inline = False)
 
 		return embed
 
