@@ -67,7 +67,7 @@ class MenuPages(ui.View, menus.MenuPages):
 
 	@ui.button(emoji = "\U000023f9", style = discord.ButtonStyle.red)
 	async def stop_page(self, interaction: Interaction, button):
-		await interaction.response.defer()
+		await interaction.response.edit_message(embed = None, view = None)
 		self.stop()
 
 	@ui.button(label = "Next Page", style = discord.ButtonStyle.blurple)

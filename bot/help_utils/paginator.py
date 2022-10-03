@@ -202,7 +202,5 @@ class BotPages(discord.ui.View):
 
     @discord.ui.button(label='Quit', style=discord.ButtonStyle.red)
     async def stop_pages(self, interaction: discord.Interaction, button: discord.ui.Button):
-        """stops the pagination session."""
-        await interaction.response.defer()
-        await interaction.delete_original_message()
+        await interaction.response.edit_message(embed = None, view = None)
         self.stop()
