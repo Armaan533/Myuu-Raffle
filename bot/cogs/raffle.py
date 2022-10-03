@@ -23,6 +23,7 @@ class Raffle(commands.Cog, name = "Raffle Commands"):
     @commands.hybrid_command(name = "raffles", help = "For checking all the ongoing raffles in the server")
     @commands.guild_only()
     async def raffles(self, ctx: commands.Context):
+        await ctx.defer()
         allRaffles = db.raffles.find({"guild": ctx.guild.id})
         raffleList = []
         async for raffle in allRaffles:
