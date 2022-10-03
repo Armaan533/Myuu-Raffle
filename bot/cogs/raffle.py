@@ -20,15 +20,25 @@ class Raffle(commands.Cog, name = "Raffle Commands"):
     def display_emoji(self) -> discord.PartialEmoji:
         return discord.PartialEmoji.from_str("<:buizel:1025754191592951929>")
 
-    # @commands.hybrid_command(name = "raffles", help = "For checking all the ongoing raffles in the server")
-    # @commands.guild_only()
-    # async def raffles(self, ctx: commands.Context):
-    #     allRaffles = db.raffles.find({"guild": ctx.guild.id})
-    #     raffleList = []
-    #     async for raffle in allRaffles:
-    #         raffleList.append(raffle)
+    @commands.hybrid_command(name = "raffles", help = "For checking all the ongoing raffles in the server")
+    @commands.guild_only()
+    async def raffles(self, ctx: commands.Context):
+        allRaffles = db.raffles.find({"guild": ctx.guild.id})
+        raffleList = []
+        async for raffle in allRaffles:
+            raffleList.append(raffle)
 
-    #     if len(raffleList) == 0:
+        if len(raffleList) == 0:
+            rafflesEmbed = discord.Embed(
+                description = "No raffles going on in this server <:F_:852865419090067476>",
+                color = 0xf08080
+            )
+            await ctx.reply(embed = rafflesEmbed)
+        else:
+            formatter = d.Source(entries = raffleList, title = None, sourceType = "raffles_list", per_page = 10)
+            menu = d.MenuPages(formatter)
+            await menu.start(ctx)
+
 
 
     @commands.hybrid_group()

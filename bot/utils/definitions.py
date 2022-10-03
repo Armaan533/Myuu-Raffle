@@ -55,43 +55,58 @@ class MenuPages(ui.View, menus.MenuPages):
 	@ui.button(label = "≪", style = discord.ButtonStyle.gray)
 	async def first_page(self, interaction: Interaction, button):
 		await self.show_page(0)
+		await interaction.response.defer()
 
 	@ui.button(label = "Previous Page", style = discord.ButtonStyle.blurple)
 	async def before_page(self, interaction: Interaction, button):
 		if self.current_page == 0:
-			await interaction.followup.send_message("You can't go to previous page because it doesn't exists", ephemeral = True)
+			await interaction.response.send_message("You can't go to previous page because it doesn't exists", ephemeral = True)
 		else:
 			await self.show_checked_page(self.current_page - 1)
+			await interaction.response.defer()
 
 	@ui.button(emoji = "\U000023f9", style = discord.ButtonStyle.red)
 	async def stop_page(self, interaction: Interaction, button):
+		await interaction.response.defer()
 		self.stop()
 
 	@ui.button(label = "Next Page", style = discord.ButtonStyle.blurple)
 	async def next_page(self, interaction: Interaction, button):
 		if self.current_page == self._source.get_max_pages() - 1:
-			await interaction.followup.send_message("You can't go to previous page because it doesn't exists", ephemeral = True)
+			await interaction.response.send_message("You can't go to previous page because it doesn't exists", ephemeral = True)
 		else:
 			await self.show_checked_page(self.current_page + 1)
+			await interaction.response.defer()
 
 	@ui.button(label = "≫", style = discord.ButtonStyle.gray)
 	async def last_page(self, interaction: Interaction, button):
 		await self.show_page(self._source.get_max_pages() - 1)
+		await interaction.response.defer()
 
 class Source(menus.ListPageSource):
-	def __init__(self, entries, name,*, per_page):
-		self.name = name
+	def __init__(self, entries, title, sourceType ,*, per_page):
+		self.title = title
+		self.sourceType = sourceType
 		super().__init__(entries, per_page=per_page)
 		
 
 	async def format_page(self, menu, data):
-		embed = discord.Embed(
-			title = self.name,
-			description = "Ticket List",
-			color = 0xf08080
-		)
-		for i in data:
-			embed.add_field(name = i["Member"], value = i["tickets"], inline = False)
+		if self.sourceType == "ticket_list":
+			embed = discord.Embed(
+				title = self.title,
+				description = "Ticket List",
+				color = 0xf08080
+			)
+			for i in data:
+				embed.add_field(name = i["Member"], value = i["tickets"], inline = False)
+		
+		elif self.sourceType == "raffles_list":
+			embed = discord.Embed(
+				title = "Ongoing Raffles in this Server",
+				color = 0xf08080
+			)
+			for i in data:
+				embed.add_field(name = i, value = "", inline = False)
 
 		return embed
 
