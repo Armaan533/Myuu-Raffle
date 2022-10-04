@@ -202,5 +202,5 @@ class BotPages(discord.ui.View):
 
     @discord.ui.button(label='Quit', style=discord.ButtonStyle.red)
     async def stop_pages(self, interaction: discord.Interaction, button: discord.ui.Button):
-        await interaction.response.edit_message(embed = None, view = None)
+        await interaction.message.delete()
         self.stop()
