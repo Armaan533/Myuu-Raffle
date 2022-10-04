@@ -413,7 +413,7 @@ class Raffle(commands.Cog, name = "Raffle Commands"):
                         continue
 
                 if len(data) != 0:
-                    formatter = d.Source(entries = data, title = raffle_name, per_page = 10)
+                    formatter = d.Source(entries = data, title = raffle_name, sourceType = "ticket_list", per_page = 10)
                     menu = d.MenuPages(formatter)
                     await menu.start(ctx)
 
