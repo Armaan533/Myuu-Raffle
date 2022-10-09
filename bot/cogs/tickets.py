@@ -36,21 +36,21 @@ class Tickets(commands.Cog):
                     raffleid = raffleDoc["_id"]
                     currentTotalTix = raffleDoc["Total Tickets"]
 
-                    buyerDoc = await guild.find_one({"_id": member.id, "Raffle": raffleid})
+                    buyerDoc = await guild.find_one({"id": member.id, "Raffle": raffleid})
                     
                     if tickets > 0:
                         if buyerDoc:
                             prevtix: int = buyerDoc["tickets"]
                             currentTix = prevtix + tickets
-                            await guild.find_one_and_update({"_id": member.id, "Raffle": raffleid},{"$set":{"tickets": currentTix}})
+                            await guild.find_one_and_update({"id": member.id, "Raffle": raffleid},{"$set":{"tickets": currentTix}})
 
                         else:
                             prevtix = 0
                             currentTix = tickets
-                            ticketDoc = {"_id": member.id, "tickets": tickets, "Raffle": raffleid}
+                            ticketDoc = {"id": member.id, "tickets": tickets, "Raffle": raffleid}
                             await guild.insert_one(ticketDoc)
                         
-                        await db.raffles.find_one_and_update({"_id": raffleid}, {"$set": {"Total Tickets": currentTotalTix + tickets}})
+                        await db.raffles.find_one_and_update({"id": raffleid}, {"$set": {"Total Tickets": currentTotalTix + tickets}})
                         ticketsAddedEmbed = discord.Embed(
                             title = "Tickets Added",
                             description = f"{tickets} tickets added by {ctx.author.mention} in wallet of {member.mention}\nCurrent Tickets: ``{currentTix}``",
@@ -117,7 +117,7 @@ class Tickets(commands.Cog):
                     raffleid = raffleDoc["_id"]
                     currentTotalTix = raffleDoc["Total Tickets"]
 
-                    buyerDoc = await guild.find_one({"_id": member.id, "Raffle": raffleid})
+                    buyerDoc = await guild.find_one({"id": member.id, "Raffle": raffleid})
 
                     if tickets > 0:
                         if buyerDoc["tickets"] >= tickets:
@@ -125,11 +125,11 @@ class Tickets(commands.Cog):
                             prevTix = buyerDoc["tickets"]
                             currentTix = prevTix - tickets
                             if currentTix > 0:
-                                await guild.find_one_and_update({"_id": member.id, "Raffle": raffleid},{"$set":{"tickets": currentTix}})
+                                await guild.find_one_and_update({"id": member.id, "Raffle": raffleid},{"$set":{"tickets": currentTix}})
                             else:
-                                await guild.delete_one({"_id": member.id, "Raffle": raffleid})
+                                await guild.delete_one({"id": member.id, "Raffle": raffleid})
                             
-                            await db.raffles.find_one_and_update({"_id": raffleid}, {"$set": {"Total Tickets": currentTotalTix - tickets}})
+                            await db.raffles.find_one_and_update({"id": raffleid}, {"$set": {"Total Tickets": currentTotalTix - tickets}})
 
                             ticketsRemovedEmbed = discord.Embed(
                                 title = "Tickets Removed",

@@ -223,7 +223,7 @@ async def on_message(message: discord.Message):
                         buyerid = int(splitList[9][2:-2])
 
                         if tickets > 0:
-                            buyerdoc = await guild.find_one({"_id": buyerid, "Raffle": message.channel.id})
+                            buyerdoc = await guild.find_one({"id": buyerid, "Raffle": message.channel.id})
                             if buyerdoc:
                                 prevtix: int = buyerdoc["tickets"]
                                 currentTix = prevtix + tickets

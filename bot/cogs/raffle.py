@@ -336,14 +336,14 @@ class Raffle(commands.Cog, name = "Raffle Commands"):
                 ticketlist = []
 
                 async for doc in guild.find({"Raffle": raffleDoc["_id"]}, {"tickets": 1}):
-                    userlist.append(doc["_id"])
+                    userlist.append(doc["id"])
                     ticketlist.append(doc["tickets"])
 
                 if len(userlist) != 0 and len(ticketlist) != 0:
                     await ctx.defer()
 
                     winnerId = d.random_chooser(userlist, ticketlist)
-                    winnerDoc = await guild.find_one({"_id": winnerId}, {"_id": 0, "tickets": 1})
+                    winnerDoc = await guild.find_one({"id": winnerId}, {"_id": 0, "tickets": 1})
                     winnerTickets = winnerDoc["tickets"]
                     winner = discord.utils.get(ctx.guild.members, id = winnerId)
 
@@ -406,7 +406,7 @@ class Raffle(commands.Cog, name = "Raffle Commands"):
                 data = []
 
                 async for doc in guild.find({"Raffle": raffleDoc["_id"]}, {"tickets": 1}).sort("tickets", -1):
-                    member = discord.utils.get(ctx.guild.members, id = doc["_id"])
+                    member = discord.utils.get(ctx.guild.members, id = doc["id"])
                     if member:
                         data.append({"Member": member, "tickets": doc["tickets"]})
                     else:
