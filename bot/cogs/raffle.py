@@ -405,7 +405,7 @@ class Raffle(commands.Cog, name = "Raffle Commands"):
                 guild = db.dbase[str(ctx.guild.id)]
                 data = []
 
-                async for doc in guild.find({"Raffle": raffleDoc["_id"]}, {"_id": 0 ,"id": 1 ,"tickets": 1}).sort("tickets", -1):
+                async for doc in guild.find({"Raffle": raffleDoc["_id"]}, {"id": 1 ,"tickets": 1}).sort("tickets", -1):
                     member = discord.utils.get(ctx.guild.members, id = doc["id"])
                     if member:
                         data.append({"Member": member, "tickets": doc["tickets"]})
