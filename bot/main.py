@@ -227,12 +227,12 @@ async def on_message(message: discord.Message):
                             if buyerdoc:
                                 prevtix: int = buyerdoc["tickets"]
                                 currentTix = prevtix + tickets
-                                await guild.find_one_and_update({"_id":buyerid},{"$set":{"tickets": currentTix}})
+                                await guild.find_one_and_update({"id":buyerid},{"$set":{"tickets": currentTix}})
                             
                             else:
                                 prevtix = 0
                                 currentTix = tickets
-                                ticketDoc = {"_id": buyerid, "tickets": tickets, "Raffle": message.channel.id}
+                                ticketDoc = {"id": buyerid, "tickets": tickets, "Raffle": message.channel.id}
                                 await guild.insert_one(ticketDoc)
                             
                             await db.raffles.find_one_and_update({"_id": message.channel.id}, {"$set": {"Total Tickets": currentTotalTix + tickets}})

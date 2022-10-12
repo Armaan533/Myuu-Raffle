@@ -50,7 +50,7 @@ class Tickets(commands.Cog):
                             ticketDoc = {"id": member.id, "tickets": tickets, "Raffle": raffleid}
                             await guild.insert_one(ticketDoc)
                         
-                        await db.raffles.find_one_and_update({"id": raffleid}, {"$set": {"Total Tickets": currentTotalTix + tickets}})
+                        await db.raffles.find_one_and_update({"_id": raffleid}, {"$set": {"Total Tickets": currentTotalTix + tickets}})
                         ticketsAddedEmbed = discord.Embed(
                             title = "Tickets Added",
                             description = f"{tickets} tickets added by {ctx.author.mention} in wallet of {member.mention}\nCurrent Tickets: ``{currentTix}``",
