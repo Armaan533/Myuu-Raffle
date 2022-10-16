@@ -335,7 +335,7 @@ class Raffle(commands.Cog, name = "Raffle Commands"):
                 userlist = []
                 ticketlist = []
 
-                async for doc in guild.find({"Raffle": raffleDoc["_id"]}, {"tickets": 1}):
+                async for doc in guild.find({"Raffle": raffleDoc["_id"]}, {"id": 1, "tickets": 1}):
                     userlist.append(doc["id"])
                     ticketlist.append(doc["tickets"])
 
@@ -618,7 +618,13 @@ class Raffle(commands.Cog, name = "Raffle Commands"):
                     if channelname.content.lower() == "stop" or channelname == None:
                         await msg.edit(embed = discord.Embed(description = "Raffle Editing Process Stopped", color = 0xf08080))
                     else:
-                        await db.raffles.find_one_and_update({"_id": raffleDoc["_id"]},{"$set": {"_id": int(channelname.content.lstrip("<#").rstrip(">"))}})
+                        channel = int(channelname.content.lstrip("<#").rstrip(">"))
+                        await db.raffles.find_one_and_update({"_id": raffleDoc["_id"]},{"$set": {"_id": channel}})
+                        guild = db.dbase[str(ctx.guild.id)]
+                        
+                        async for doc in guild.find({"Raffle": raffleDoc["_id"]}):
+                            guild.update_one(doc, {"$set":{"Raffle": channel}})
+
                         await msg.edit(embed = discord.Embed(
                             title = "Payment Channel edited",
                             description = "Payment Channel edited successfully!",
