@@ -620,7 +620,10 @@ class Raffle(commands.Cog, name = "Raffle Commands"):
                         await msg.edit(embed = discord.Embed(description = "Raffle Editing Process Stopped", color = 0xf08080))
                     else:
                         channel = int(channelname.content.lstrip("<#").rstrip(">"))
-                        await db.raffles.find_one_and_update({"_id": raffleDoc["_id"]},{"$set": {"_id": channel}})
+                        # await db.raffles.find_one_and_update({"_id": raffleDoc["_id"]},{"$set": {"_id": channel}})
+                        await db.raffles.delete_one(raffleDoc)
+                        raffleDoc["_id"] = channel
+                        await db.raffles.insert_one(raffleDoc)
                         guild = db.dbase[str(ctx.guild.id)]
                         
                         async for doc in guild.find({"Raffle": raffleDoc["_id"]}):
