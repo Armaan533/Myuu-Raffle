@@ -462,6 +462,7 @@ class Raffle(commands.Cog, name = "Raffle Commands"):
 
                 msg = await ctx.reply(embed = editEmbed, view = view)
                 await view.wait()
+                authorcheck = lambda a: a.author == ctx.author and a.channel == ctx.channel
 
                 if view.choice == "name":
                     NameEmbed = discord.Embed(
@@ -471,7 +472,7 @@ class Raffle(commands.Cog, name = "Raffle Commands"):
                     NameEmbed.set_footer(text = "Send 'stop' to stop the editing of raffle")
 
                     await msg.edit(embed = NameEmbed)
-                    authorcheck = lambda a: a.author == ctx.author and a.channel == ctx.channel
+                    
 
                     try:
                         name: discord.Message = await self.client.wait_for("message", check = authorcheck, timeout = 50)
