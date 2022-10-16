@@ -122,30 +122,35 @@ class EditChoice(ui.View):
 	async def name_choice(self, interaction: Interaction, button):
 		await interaction.response.defer(thinking = False)
 		self.choice = "name"
+		self.clear_items()
 		self.stop()
 
 	@ui.button(emoji = "\U0001f1ee", style = discord.ButtonStyle.blurple)
 	async def info_choice(self, interaction: Interaction, button):
 		await interaction.response.defer(thinking = False)
 		self.choice = "info"
+		self.clear_items()
 		self.stop()
 
 	@ui.button(emoji = "\U0001f1f9", style = discord.ButtonStyle.blurple)
 	async def ticket_choice(self, interaction: Interaction, button):
 		await interaction.response.defer(thinking = False)
 		self.choice = "ticket"
+		self.clear_items()
 		self.stop()
 
 	@ui.button(emoji = "\U0001f1e7", style = discord.ButtonStyle.blurple)
 	async def bank_choice(self, interaction: Interaction, button):
 		await interaction.response.defer(thinking = False)
 		self.choice = "bank"
+		self.clear_items()
 		self.stop()
 
 	@ui.button(emoji = "\U0001f1f5", style = discord.ButtonStyle.blurple)
 	async def channel_choice(self, interaction: Interaction, button):
 		await interaction.response.defer(thinking = False)
 		self.choice = "channel"
+		self.clear_items()
 		self.stop()
 
 	@ui.button(emoji = "\U000023f9", style = discord.ButtonStyle.blurple)
