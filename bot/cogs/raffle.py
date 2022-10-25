@@ -75,7 +75,7 @@ class Raffle(commands.Cog, name = "Raffle Commands"):
 
             else:
                 InfoEmbed = discord.Embed(
-                    description = "Do ```.mypkinfo <pokemon>``` or ```.boxpk <box> <position>``` or ```send the image containing info of the pokemon``` to select pokemon for raffle",
+                    description = "Do ```/mypkinfo <pokemon>``` or ```/box pk <position> <box number>``` or ```send the image containing info of the pokemon``` to select pokemon for raffle\n**Warning!! This needs textual commands in myuu to be turned off**",
                     color = 0xf08080
                 )
                 InfoEmbed.set_footer(text = "Send 'stop' to stop the creation of raffle")
@@ -96,10 +96,10 @@ class Raffle(commands.Cog, name = "Raffle Commands"):
                     if message.channel == ctx.channel:
                         if message.author == ctx.author:
                             if message.content.lower() == "stop" or len(message.attachments) > 1:
-                                return message.attachments[0].filename in ["mypkinfo.png","mypkinfo","boxpk.png","boxpk","unknown.png","unknown"]
+                                return message.attachments[0].filename in ["mypkinfo.png","mypkinfo","boxpokemon.png","boxpokemon","unknown.png","unknown"]
                         elif message.author.id == 438057969251254293:
                             if len(message.attachments) >= 1:
-                                return message.attachments[0].filename in ["mypkinfo.png","mypkinfo","boxpk.png","boxpk","unknown.png","unknown"]
+                                return message.attachments[0].filename in ["mypkinfo.png","mypkinfo","boxpokemon.png","boxpokemon","unknown.png","unknown"]
                         else:
                             return False
                     
@@ -495,7 +495,7 @@ class Raffle(commands.Cog, name = "Raffle Commands"):
                         ))
                 elif view.choice == "info":
                     InfoEmbed = discord.Embed(
-                        description = "Do ```.mypkinfo <pokemon>``` or ```.boxpk <box> <position>``` or ```send the image containing info of the pokemon``` to select pokemon for raffle",
+                        description = "Do ```/mypkinfo <pokemon>``` or ```/box pk <position> <box number>``` or ```send the image containing info of the pokemon``` to select pokemon for raffle\n**Warning!! This needs textual commands in myuu to be turned off**",
                         color = 0xf08080
                     )
                     InfoEmbed.set_footer(text = "Send 'stop' to stop the editing of raffle")
@@ -510,7 +510,7 @@ class Raffle(commands.Cog, name = "Raffle Commands"):
                             elif message.author.id == 438057969251254293:
                                 if len(message.attachments) >= 1:
                                     print("attachment identified")
-                                    return message.attachments[0].filename in ["mypkinfo.png","mypkinfo","boxpk.png","boxpk","unknown.png","unknown"]
+                                    return message.attachments[0].filename in ["mypkinfo.png","mypkinfo","boxpokemon.png","boxpokemon","unknown.png","unknown"]
                             else:
                                 return False
 
