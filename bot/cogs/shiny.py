@@ -12,7 +12,7 @@ class Shiny(commands.Cog):
         self.client = client
 
     @app_commands.guilds(965285949447753769)
-    @app_commands.command(name = "save", description = "For saving shinies and other useful pokemons. Warning: This command is only for one person per channel")
+    @app_commands.command(name = "save", description = "For saving shinies and other useful pokemons. Warning: This command is only for 1 person per channel")
     @app_commands.guild_only()
     @app_commands.describe(
         pokemon_type = "Type of the pokemon you want to save",
