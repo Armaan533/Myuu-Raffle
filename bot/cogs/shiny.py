@@ -79,4 +79,5 @@ class Shiny(commands.Cog):
 
                 if message.author.id == 438057969251254293 and len(message.embeds) > 0:
 
-                    print(message.embeds[0].author.name)
+                    nameList = message.embeds[0].author.name.split()
+                    print(nameList)
