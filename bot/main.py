@@ -402,6 +402,11 @@ async def sync(ctx: commands.Context, guilds: commands.Greedy[discord.Object], s
 
     await ctx.send(f"Synced the tree to {ret}/{len(guilds)}.")
 
+@client.command()
+@commands.is_owner()
+async def read(ctx: commands.Context):
+    msg = await discord.PartialMessage(channel = ctx.channel, id = ctx.message.reference.message_id).fetch()
+    await ctx.send(msg.embeds[0].author.name.split())
 
 
 
