@@ -73,7 +73,7 @@ class Shiny(commands.Cog):
         if message.guild:
 
             guild = db.savior_dbase[str(message.guild.id)]
-            channel = guild.find_one({"_id": message.channel.id})
+            channel = await guild.find_one({"_id": message.channel.id})
 
             if channel:
 
