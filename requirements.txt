@@ -5,3 +5,4 @@ git+https://github.com/Rapptz/discord-ext-menus
 multidict==6.0.2
 pillow==9.1.1
 motor==3.0.0
+parsedatetime==2.6
