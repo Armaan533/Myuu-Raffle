@@ -1,4 +1,5 @@
 import discord, itertools, os, asyncio, logging
+import bot_env_vars as bev
 from discord.ext import commands
 from typing import Optional, Literal
 import utils.definitions as d, utils.database as db, utils.help_definitions as hd
@@ -416,7 +417,7 @@ async def read(ctx: commands.Context):
 
 
 async def start():
-	await client.start(os.environ.get('token'))
+	await client.start(bev.token)
 	
 
 asyncio.run(start())
