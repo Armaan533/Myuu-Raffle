@@ -406,7 +406,11 @@ async def sync(ctx: commands.Context, guilds: commands.Greedy[discord.Object], s
 @commands.is_owner()
 async def read(ctx: commands.Context):
     msg = await discord.PartialMessage(channel = ctx.channel, id = ctx.message.reference.message_id).fetch()
-    await ctx.send(msg.embeds[0].author.name.split())
+    if "★" in msg.embeds[0].author.name.split()[-2]:
+        await ctx.send("Shiny")
+    else:
+        await ctx.send("Normal")
+    # await ctx.send(msg.embeds[0].author.name.split())
 
 
 
