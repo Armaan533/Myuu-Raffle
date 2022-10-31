@@ -251,6 +251,7 @@ async def on_message(message: discord.Message):
                             ticketEmbed.add_field(name = "PKC sent", value = f"{pkc}<:PKC:1019594363183038554>")
 
                             await message.reply(embed = ticketEmbed)
+                            print("This is mogenius")
                         else:
                             await message.channel.send(f"Hold UP dude <@{buyerid}>!! Ticket Cost is {tixcost}<:PKC:1019594363183038554>")
 
