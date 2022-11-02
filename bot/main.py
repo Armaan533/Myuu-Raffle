@@ -418,6 +418,17 @@ async def read(ctx: commands.Context, poke: str = None):
     else:
         await ctx.send("No")
 
+@client.command()
+@commands.is_owner()
+async def servercount(ctx: commands.Context):
+    servers = ctx.bot.guilds
+    serverCountEmbed = discord.Embed(
+        description = f"This bot is in {len(servers)} servers",
+        color = 0xf08080
+    )
+
+    await ctx.send(embed = serverCountEmbed, delete_after = 20)
+
 
 
 
