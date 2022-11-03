@@ -429,7 +429,18 @@ async def servercount(ctx: commands.Context):
 
     await ctx.send(embed = serverCountEmbed, delete_after = 20)
 
+@client.command()
+@commands.is_owner()
+async def announce(ctx: commands.Context):
+    msgEmbed = discord.Embed(
+        title = "Important Announcement",
+        description = "Hey All :wave: ,\nBot will be offline tomorrow (almost whole day) due to some major changes\nSo please cooperate with me\nRegards\nDeveloper",
+        color = 0xf08080
+    )
 
+    async for doc in db.raffles.find():
+        channel = client.get_channel(id = doc["_id"])
+        await channel.send(embed = msgEmbed)
 
 
 async def start():
