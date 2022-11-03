@@ -439,7 +439,7 @@ async def announce(ctx: commands.Context):
     )
 
     async for doc in db.raffles.find():
-        channel = client.get_channel(id = doc["_id"])
+        channel = client.get_channel(doc["_id"])
         await channel.send(embed = msgEmbed)
     
     await ctx.send("done")
