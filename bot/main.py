@@ -434,7 +434,7 @@ async def servercount(ctx: commands.Context):
 async def announce(ctx: commands.Context):
     msgEmbed = discord.Embed(
         title = "Important Announcement",
-        description = "Hey All :wave: ,\nBot will be offline tomorrow (almost whole day) due to some major changes\nSo please cooperate with me\nRegards\nDeveloper",
+        description = "Hey All :wave: ,\nBot is back online :confetti_ball:\nNow you guys can continue raffling\nIf any problem arises dm me!!\nDiscord ID- Armaan#3872\nRegards\nDeveloper",
         color = 0xf08080
     )
 
