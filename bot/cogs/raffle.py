@@ -118,8 +118,13 @@ class Raffle(commands.Cog, name = "Raffle Commands"):
 
                 else:
                     # infoAttachments = info.attachments
-                    infoimg = await info.attachments[0].read()
+                    # infoimg = await info.attachments[0].read()
                     # for attachment in info.attachments:
+
+                    infoimgFile = await info.attachments[0].to_file()
+                    channel = self.client.get_channel(1037968491246006282)
+                    imgfilemsg = await channel.send(file = infoimgFile)
+                    infoimgurl = imgfilemsg.attachments[0].url
 
 
                     CostEmbed = discord.Embed(
@@ -201,7 +206,7 @@ class Raffle(commands.Cog, name = "Raffle Commands"):
                                     "Ticket Cost": int(tixcost.content),
                                     "bank": int(bankname.content.lstrip("<@!").rstrip(">")),
                                     "guild": ctx.guild.id,
-                                    "info": infoimg,
+                                    "info": infoimgurl,
                                     "Total Tickets": 0
                                 }
 
@@ -298,15 +303,15 @@ class Raffle(commands.Cog, name = "Raffle Commands"):
                 infoEmbed.add_field(name = "Payment Channel", value = f"<#{channel}>")
                 infoEmbed.add_field(name = "Total Tickets Sold", value = f"{totalTickets} tickets")
 
-                if f"info{raffleName}.png" not in os.listdir(path = "/app/bot/assets/"):
+                # if f"info{raffleName}.png" not in os.listdir(path = "/app/bot/assets/"):
                     
-                    aboutimg = Image.open(io.BytesIO(raffledoc["info"]))
-                    aboutimg.save(f"bot/assets/info{raffleName}.png", format = "png")
+                #     aboutimg = Image.open(io.BytesIO(raffledoc["info"]))
+                #     aboutimg.save(f"bot/assets/info{raffleName}.png", format = "png")
 
-                Imgfile = discord.File(f"bot/assets/info{raffleName}.png", filename = f"info{raffleName}.png")
-                infoEmbed.set_image(url = f"attachment://info{raffleName}.png")
+                # Imgfile = discord.File(f"bot/assets/info{raffleName}.png", filename = f"info{raffleName}.png")
+                infoEmbed.set_image(url = raffledoc["info"])
                 
-                await ctx.reply(file = Imgfile, embed = infoEmbed)
+                await ctx.reply(embed = infoEmbed)
 
             else:
                 noRaffleMatchEmbed = discord.Embed(
@@ -527,8 +532,10 @@ class Raffle(commands.Cog, name = "Raffle Commands"):
                         await msg.edit(embed = discord.Embed(description = "Raffle Editing Process Stopped", color = 0xf08080))
 
                     else:
-                        infoimg = await info.attachments[0].read()
-                        await db.raffles.find_one_and_update({"_id": raffleDoc["_id"]}, {"$set": {"info": infoimg}})
+                        infoimgFile = await info.attachments[0].to_file()
+                        channel = self.client.get_channel(1037968491246006282)
+                        infoimgmsg = await channel.send(file = infoimgFile)
+                        await db.raffles.find_one_and_update({"_id": raffleDoc["_id"]}, {"$set": {"info": infoimgmsg.attachments[0].url}})
 
                         await msg.edit(embed = discord.Embed(
                             title = "About Raffle edited",
