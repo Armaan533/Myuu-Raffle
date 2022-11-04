@@ -308,7 +308,7 @@ class Raffle(commands.Cog, name = "Raffle Commands"):
                 #     aboutimg = Image.open(io.BytesIO(raffledoc["info"]))
                 #     aboutimg.save(f"bot/assets/info{raffleName}.png", format = "png")
 
-                # Imgfile = discord.File(f"bot/assets/info{raffleName}.png", filename = f"info{raffleName}.png")
+                # Imgfile = discord.File(raffledoc["info"], filename = f"info{raffleName}.png")
                 infoEmbed.set_image(url = raffledoc["info"])
                 
                 await ctx.reply(embed = infoEmbed)
