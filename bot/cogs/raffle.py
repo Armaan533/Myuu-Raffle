@@ -330,7 +330,7 @@ class Raffle(commands.Cog, name = "Raffle Commands"):
     @raffle.command(name = "roll", help = "For determining the winner(s) of the mentioned raffle")
     @commands.check_any(commands.has_role("Raffle Permissions"),commands.has_permissions(administrator = True))
     @commands.guild_only()
-    async def roll(self, ctx: commands.Context, raffle_name = app_commands.Transform[str, d.ChoiceTransformer]):
+    async def roll(self, ctx: commands.Context, raffle_name: app_commands.Transform[str, d.ChoiceTransformer]):
         if ctx.interaction:
             raffleDoc = await db.raffles.find_one({"RaffleName": raffle_name})
 
