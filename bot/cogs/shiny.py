@@ -70,16 +70,17 @@ class Shiny(commands.Cog):
     @commands.command()
     @commands.is_owner()
     async def interaction_check(self, ctx: commands.Context):
-        try:
-            referMsg = ctx.message.to_reference()
-        except HTTPException:
+        referMsg = ctx.message.reference()
+        
+        if referMsg is None:
             await ctx.reply("No reference found")
-            return
-        interact = referMsg.cached_message.interaction
-        if interact:
-            await ctx.send(interact.user.mention)
+        
         else:
-            await ctx.send("No interaction")
+            interact = referMsg.cached_message.interaction
+            if interact:
+                await ctx.send(interact.user.mention)
+            else:
+                await ctx.send("No interaction")
 
     @commands.Cog.listener()
     async def on_message(self, message: discord.Message):
