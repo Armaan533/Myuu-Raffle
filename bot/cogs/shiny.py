@@ -70,7 +70,7 @@ class Shiny(commands.Cog):
     @commands.command()
     @commands.is_owner()
     async def interaction_check(self, ctx: commands.Context):
-        referMsg = ctx.message.reference()
+        referMsg = ctx.message.reference
         
         if referMsg is None:
             await ctx.reply("No reference found")
