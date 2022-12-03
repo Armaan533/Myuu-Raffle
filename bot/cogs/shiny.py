@@ -76,11 +76,14 @@ class Shiny(commands.Cog):
             await ctx.reply("No reference found")
         
         else:
-            interact = referMsg.cached_message.interaction
-            if interact:
-                await ctx.send(interact.user.mention)
+            if referMsg.cached_message:
+                interact = referMsg.cached_message.interaction
+                if interact:
+                    await ctx.send(interact.user.mention)
+                else:
+                    await ctx.send("No interaction")
             else:
-                await ctx.send("No interaction")
+                await ctx.send("Message not found")
 
     @commands.Cog.listener()
     async def on_message(self, message: discord.Message):
