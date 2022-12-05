@@ -429,14 +429,20 @@ async def servercount(ctx: commands.Context):
 
     await ctx.send(embed = serverCountEmbed, delete_after = 20)
 
-@client.command()
+@commands.hybrid_command(name = "announce")
 @commands.is_owner()
-async def announce(ctx: commands.Context):
+async def announce(ctx: commands.Context, title: str, description: str):
     msgEmbed = discord.Embed(
-        title = "Important Announcement",
-        description = "Hey All :wave: ,\nBot is back online :confetti_ball:\nNow you guys can continue raffling\nIf any problem arises dm me!!\nDiscord ID- Armaan#3872\nRegards\nDeveloper",
+        title = title,
+        description = description,
         color = 0xf08080
     )
+    
+    # msgEmbed = discord.Embed(
+    #     title = "Important Announcement",
+    #     description = "Hey All :wave: ,\nBot is back online :confetti_ball:\nNow you guys can continue raffling\nIf any problem arises dm me!!\nDiscord ID- Armaan#3872\nRegards\nDeveloper",
+    #     color = 0xf08080
+    # )
 
     async for doc in db.raffles.find():
         channel = client.get_channel(doc["_id"])

@@ -157,3 +157,15 @@ class EditChoice(ui.View):
 	async def stop_choice(self, interaction: Interaction, button):
 		await interaction.response.defer()
 		self.stop()
+
+def interaction_user(msg: discord.Message):
+	referMsg = msg.reference
+
+	while True:
+		if referMsg.cached_message.reference:
+			referMsg = referMsg.cached_message.reference
+		else:
+			break
+	
+	interaction_user = referMsg.cached_message.interaction.user
+	return interaction_user

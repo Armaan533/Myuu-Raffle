@@ -67,34 +67,19 @@ class Shiny(commands.Cog):
 
     #         await interaction.response.send_message(embed = savingEmbed)
     
-    @commands.command()
-    @commands.is_owner()
-    async def interaction_check(self, ctx: commands.Context):
-        referMsg = ctx.message.reference
-        
-        if referMsg is None:
-            await ctx.reply("No reference found")
-        
-        else:
-            # if referMsg.cached_message:
-            #     interact = referMsg.cached_message.interaction
-            #     if interact:
-            #         await ctx.send(interact.user.mention)
-            #     else:
-            #         await ctx.send("No interaction")
-            # else:
-            #     await ctx.send("Message not found")
-            while True:
-                if referMsg.cached_message.reference:
-                    referMsg = referMsg.cached_message.reference
-                else:
-                    break
-            
-            interaction_user = referMsg.cached_message.interaction.user
-            await ctx.send(interaction_user.mention)
 
     @commands.Cog.listener()
     async def on_message(self, message: discord.Message):
         if message.guild:
-            pass
-            # await user.timeout(datetime.timedelta(seconds = 10))
+            if len(message.embeds) > 0 and message.author.id == 438057969251254293:
+                route = message.embeds[0].author.name.split()
+                if "★" in route[-2]:
+                    user = d.interaction_user(message)
+
+                await user.timeout(datetime.timedelta(seconds = 10))
+                shinyEmbed = discord.Embed(
+                    title = f"Shiny {route[-1]} Found",
+                    description = f"{user.display_name} just found a shiny {route[-1]}!",
+                    color = 0xf08080
+                )
+                await message.channel.send(embed = shinyEmbed)
