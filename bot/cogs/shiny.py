@@ -72,14 +72,28 @@ class Shiny(commands.Cog):
     async def on_message(self, message: discord.Message):
         if message.guild:
             if len(message.embeds) > 0 and message.author.id == 438057969251254293:
+                
                 route = message.embeds[0].author.name.split()
                 if "★" in route[-2]:
-                    user = d.interaction_user(message)
+                    user, msgID = d.interaction(message)
+                    if db.shinies.find_one({"msgID": msgID}):
+                        pass
+                
+                    else:
 
-                await user.timeout(datetime.timedelta(seconds = 10))
-                shinyEmbed = discord.Embed(
-                    title = f"Shiny {route[-1]} Found",
-                    description = f"{user.display_name} just found a shiny {route[-1]}!",
-                    color = 0xf08080
-                )
-                await message.channel.send(embed = shinyEmbed)
+                        await user.timeout(datetime.timedelta(seconds = 10))
+                        shinyEmbed = discord.Embed(
+                            title = f"Shiny {route[-1]} Found",
+                            description = f"{user.display_name} just found a shiny {route[-1]}!",
+                            color = 0xf08080
+                        )
+                        await message.channel.send(embed = shinyEmbed)
+
+                        shinyDetails = {
+                            "Shiny Name": route[-1],
+                            "User": user.display_name+"#"+user.discriminator,
+                            "msgID": msgID,
+                            "guildID": message.guild.id
+                        }
+
+                        await db.shinies.insert_one(shinyDetails)

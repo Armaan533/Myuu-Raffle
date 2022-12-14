@@ -12,6 +12,8 @@ raffles: motor.motor_asyncio.AsyncIOMotorCollection = dbase["Raffles"]
 
 savior_dbase: motor.motor_asyncio.AsyncIOMotorDatabase = connector["Savior_Database"]
 
+shinies: motor.motor_asyncio.AsyncIOMotorCollection = savior_dbase["shinies"]
+
 
 # async def do_find_one(collection: motor.motor_asyncio.AsyncIOMotorCollection, filter: dict):
 #     document = await collection.

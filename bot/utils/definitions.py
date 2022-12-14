@@ -158,7 +158,7 @@ class EditChoice(ui.View):
 		await interaction.response.defer()
 		self.stop()
 
-def interaction_user(msg: discord.Message):
+def interaction(msg: discord.Message):
 	referMsg = msg.reference
 
 	while True:
@@ -168,4 +168,4 @@ def interaction_user(msg: discord.Message):
 			break
 	
 	interaction_user = referMsg.cached_message.interaction.user
-	return interaction_user
+	return interaction_user, referMsg.message_id
