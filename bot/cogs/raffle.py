@@ -240,7 +240,7 @@ class Raffle(commands.Cog, name = "Raffle Commands"):
     # @app_commands.rename(raffle_name = "raffle name")
     async def delete(self, ctx: commands.Context, raffle_name: app_commands.Transform[str, d.ChoiceTransformer]):
         if ctx.interaction:
-            raffledoc = await db.raffles.find_one({"RaffleName": raffle_name})
+            raffledoc = await db.raffles.find_one({"RaffleName": raffle_name, "guild": ctx.guild.id})
             if raffledoc:
                 guild = db.dbase[str(ctx.guild.id)]
                 raffle = raffledoc["_id"]
