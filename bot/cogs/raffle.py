@@ -404,7 +404,7 @@ class Raffle(commands.Cog, name = "Raffle Commands"):
     async def list(self, ctx: commands.Context, raffle_name: app_commands.Transform[str, d.ChoiceTransformer]):
         if ctx.interaction:
             await ctx.defer()
-            raffleDoc = await db.raffles.find_one({"RaffleName": raffle_name})
+            raffleDoc = await db.raffles.find_one({"RaffleName": raffle_name, "guild": ctx.guild.id})
 
             if raffleDoc:
                 guild = db.dbase[str(ctx.guild.id)]
@@ -449,7 +449,7 @@ class Raffle(commands.Cog, name = "Raffle Commands"):
     @commands.guild_only()
     async def edit(self, ctx: commands.Context, raffle_name: app_commands.Transform[str, d.ChoiceTransformer]):
         if ctx.interaction:
-            raffleDoc = await db.raffles.find_one({"RaffleName": raffle_name})
+            raffleDoc = await db.raffles.find_one({"RaffleName": raffle_name, "guild": ctx.guild.id})
 
             if raffleDoc:
                 editEmbed = discord.Embed(
