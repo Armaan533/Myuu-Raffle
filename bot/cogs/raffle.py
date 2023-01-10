@@ -283,7 +283,7 @@ class Raffle(commands.Cog, name = "Raffle Commands"):
     @commands.guild_only()
     async def info(self, ctx: commands.Context, raffle_name: app_commands.Transform[str, d.ChoiceTransformer]):
         if ctx.interaction:
-            raffledoc = await db.raffles.find_one({"RaffleName": raffle_name})
+            raffledoc = await db.raffles.find_one({"RaffleName": raffle_name, "guild": ctx.guild.id})
             if raffledoc:
                 await ctx.defer()
                 guild = db.dbase[str(ctx.guild.id)]
@@ -332,7 +332,7 @@ class Raffle(commands.Cog, name = "Raffle Commands"):
     @commands.guild_only()
     async def roll(self, ctx: commands.Context, raffle_name: app_commands.Transform[str, d.ChoiceTransformer]):
         if ctx.interaction:
-            raffleDoc = await db.raffles.find_one({"RaffleName": raffle_name})
+            raffleDoc = await db.raffles.find_one({"RaffleName": raffle_name, "guild": ctx.guild.id})
 
             if raffleDoc:
                 guild = db.dbase[str(ctx.guild.id)]     
