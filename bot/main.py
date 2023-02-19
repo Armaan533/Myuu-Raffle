@@ -1,4 +1,4 @@
-import discord, itertools, os, asyncio, logging
+import discord, itertools, os, asyncio, logging, sys, traceback
 import bot_env_vars as bev
 from discord.ext import commands
 from typing import Optional, Literal
@@ -275,7 +275,11 @@ async def on_command_error(
         for permission in missingPerms:
             permsEmbed.add_field(name = f"``{permission}``", inline = False)
 
-    await ctx.send(embed = permsEmbed)
+        await ctx.send(embed = permsEmbed)
+
+    else:
+        print('Ignoring exception in command {}:'.format(ctx.command), file=sys.stderr)
+        traceback.print_exception(type(error), error, error.__traceback__, file=sys.stderr)
 
 
 
