@@ -262,9 +262,9 @@ async def on_message(message: discord.Message):
 @client.event
 async def on_command_error(
     ctx: commands.Context,
-    error: discord.app_commands.AppCommandError
+    error: commands.errors
 ):
-    if isinstance(error, discord.app_commands.BotMissingPermissions):
+    if isinstance(error, commands.errors.BotMissingPermissions):
         missingPerms = error.missing_permissions
         permsEmbed = discord.Embed(
             title = ":warning:Permissions Missing:warning:",
