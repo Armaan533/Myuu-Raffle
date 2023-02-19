@@ -49,6 +49,7 @@ class Raffle(commands.Cog, name = "Raffle Commands"):
 
     @raffle.command(name = "create", help = "For creating a raffle")
     @commands.check_any(commands.has_role("Raffle Permissions"),commands.has_permissions(administrator = True))
+    @commands.bot_has_permissions(manage_messages = True)
     @commands.guild_only()
     async def create(self, ctx: commands.Context):
         if ctx.interaction:
@@ -237,7 +238,6 @@ class Raffle(commands.Cog, name = "Raffle Commands"):
     @raffle.command(name = "delete", help = "For deleting a raffle")
     @commands.check_any(commands.has_role("Raffle Permissions"),commands.has_permissions(administrator = True))
     @commands.guild_only()
-    # @app_commands.rename(raffle_name = "raffle name")
     async def delete(self, ctx: commands.Context, raffle_name: app_commands.Transform[str, d.ChoiceTransformer]):
         if ctx.interaction:
             raffledoc = await db.raffles.find_one({"RaffleName": raffle_name, "guild": ctx.guild.id})
@@ -446,6 +446,7 @@ class Raffle(commands.Cog, name = "Raffle Commands"):
 
     @raffle.command(name = "edit", help = "For editing the information about the raffle")
     @commands.check_any(commands.has_role("Raffle Permissions"),commands.has_permissions(administrator = True))
+    @commands.bot_has_permissions(manage_messages = True)
     @commands.guild_only()
     async def edit(self, ctx: commands.Context, raffle_name: app_commands.Transform[str, d.ChoiceTransformer]):
         if ctx.interaction:

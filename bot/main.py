@@ -255,8 +255,25 @@ async def on_message(message: discord.Message):
                             await message.channel.send(f"Hold UP dude <@{buyerid}>!! Ticket Cost is {tixcost}<:PKC:1019594363183038554>")
 
 
+"""----------------------------------------- Error Handlers Here -----------------------------------------"""
 
+@client.tree.error
+async def on_app_command_error(
+    interaction: discord.Interaction,
+    error: discord.app_commands.AppCommandError
+):
+    if isinstance(error, discord.app_commands.BotMissingPermissions):
+        missingPerms = error.missing_permissions
+        permsEmbed = discord.Embed(
+            title = ":warning:Permissions Missing:warning:",
+            description = "It seems server admin has not assigned the permissions required to use this command\nPlease contact admins to fix this!\nPermissions needed:",
+            color= 0xf08080
+        )
 
+        for permission in missingPerms:
+            permsEmbed.add_field(name = f"``{permission}``", inline = False)
+
+    await interaction.response.send_message(embed = permsEmbed)
 
 
 
@@ -331,7 +348,7 @@ async def prefix_error(ctx: commands.Context, error: commands.errors):
 @client.hybrid_command(name = "invite", help = "For inviting me!!")
 @commands.guild_only()
 async def invite(ctx: commands.Context):
-    invlink = "https://discord.com/api/oauth2/authorize?client_id=945301514946244629&permissions=2416307264&scope=bot%20applications.commands"
+    invlink = "https://discord.com/api/oauth2/authorize?client_id=945301514946244629&permissions=1099780140032&scope=bot%20applications.commands"
 
     inviteEmbed = discord.Embed(
         title = "Invite ME!!",
