@@ -273,7 +273,7 @@ async def on_command_error(
         )
 
         for permission in missingPerms:
-            permsEmbed.add_field(name = f"``{permission}``", inline = False)
+            permsEmbed.add_field(name = " ", value = f"``{permission}``", inline = False)
 
         await ctx.send(embed = permsEmbed)
 
