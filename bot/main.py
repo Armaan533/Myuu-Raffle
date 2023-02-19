@@ -258,9 +258,10 @@ async def on_message(message: discord.Message):
 
 """----------------------------------------- Error Handlers Here -----------------------------------------"""
 
-@client.tree.error
-async def on_app_command_error(
-    interaction: discord.Interaction,
+
+@client.event
+async def on_command_error(
+    ctx: commands.Context,
     error: discord.app_commands.AppCommandError
 ):
     if isinstance(error, discord.app_commands.BotMissingPermissions):
@@ -274,7 +275,7 @@ async def on_app_command_error(
         for permission in missingPerms:
             permsEmbed.add_field(name = f"``{permission}``", inline = False)
 
-    await interaction.response.send_message(embed = permsEmbed)
+    await ctx.send(embed = permsEmbed)
 
 
 
