@@ -29,6 +29,7 @@ class Bot(commands.Bot):
     async def setup_hook(self) -> None:
         await self.load_extension("cogs.raffle")
         await self.load_extension("cogs.tickets")
+        await self.load_extension("cogs.shiny")
 
 client = Bot()
 
