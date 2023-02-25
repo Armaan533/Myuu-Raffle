@@ -71,7 +71,7 @@ class Shiny(commands.Cog):
     @commands.Cog.listener()
     async def on_message(self, message: discord.Message):
         if message.guild:
-            if len(message.embeds) > 0 and message.author.id == 438057969251254293:
+            if len(message.embeds) > 0 and message.author.id == 438057969251254293 and message.attachments[0].filename in ["battle.png", "battle"]:
                 
                 route = message.embeds[0].author.name.split()
                 if "★" in route[-2]:
